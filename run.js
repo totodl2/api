@@ -12,7 +12,7 @@ function help() {
 
   /* eslint-disable-next-line */
   console.log(` 
-  Usage : node run.js <command> <...>
+  Usage : node run.js <command> <...> [--exit]
   Commands : ${Object.keys(commands).join(', ')}`);
   process.exit(1);
 }
@@ -35,5 +35,7 @@ command()
     process.exit(1);
   })
   .finally(() => {
-    process.exit(0);
+    if (argv.includes('--exit')) {
+      process.exit(0);
+    }
   });
