@@ -12,7 +12,7 @@ function help() {
 
   /* eslint-disable-next-line */
   console.log(` 
-  Usage : node run.js <command> <...> [--exit]
+  Usage : node run.js <command> <...>
   Commands : ${Object.keys(commands).join(', ')}`);
   process.exit(1);
 }
@@ -29,13 +29,7 @@ if (!fs.existsSync(commandFile)) {
 
 /* eslint-disable-next-line */
 const command = require(commandFile);
-command()
-  .catch(e => {
-    console.log(e); // eslint-disable-line
-    process.exit(1);
-  })
-  .finally(() => {
-    if (argv.includes('--exit')) {
-      process.exit(0);
-    }
-  });
+command().catch(e => {
+  console.log(e); // eslint-disable-line
+  process.exit(1);
+});
