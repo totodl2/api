@@ -129,9 +129,9 @@ module.exports = (sequelize, DataTypes) => {
         field: 'activityDate',
         allowNull: true,
       },
-      trackersJson: {
-        type: DataTypes.TEXT,
-        field: 'trackersJson',
+      trackers: {
+        type: DataTypes.JSON,
+        field: 'trackers',
         allowNull: true,
       },
       createdAt: {

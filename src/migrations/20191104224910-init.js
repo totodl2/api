@@ -65,6 +65,49 @@ module.exports = {
     );
 
     await queryInterface.createTable(
+      'RefreshTokens',
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          field: 'id',
+          allowNull: false,
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        userId: {
+          type: DataTypes.INTEGER,
+          field: 'userId',
+          allowNull: false,
+          references: {
+            model: 'Users',
+            key: 'id',
+          },
+          onUpdate: 'NO ACTION',
+          onDelete: 'CASCADE',
+        },
+        token: {
+          type: DataTypes.STRING(255),
+          field: 'token',
+          allowNull: false,
+        },
+        updatedAt: {
+          type: DataTypes.DATE,
+          field: 'updatedAt',
+          allowNull: false,
+        },
+        createdAt: {
+          type: DataTypes.DATE,
+          field: 'createdAt',
+          allowNull: false,
+        },
+      },
+      {
+        charset: 'utf8',
+        collate: 'utf8_general_ci',
+      },
+    );
+
+    await queryInterface.createTable(
       'UploadingTorrents',
       {
         reference: {
@@ -241,9 +284,9 @@ module.exports = {
           field: 'activityDate',
           allowNull: true,
         },
-        trackersJson: {
-          type: DataTypes.TEXT,
-          field: 'trackersJson',
+        trackers: {
+          type: DataTypes.JSON,
+          field: 'trackers',
           allowNull: true,
         },
         createdAt: {
@@ -382,6 +425,9 @@ module.exports = {
     });
     await queryInterface.addIndex('Torrents', ['hostId'], {
       name: 'Torrents_hostId_idx',
+    });
+    await queryInterface.addIndex('RefreshTokens', ['userId'], {
+      name: 'RefreshTokens_userId_idx',
     });
   },
   down: async queryInterface => {
