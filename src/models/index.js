@@ -6,15 +6,15 @@ const basename = path.basename(module.filename);
 const db = {};
 
 const sequelize = new Sequelize(
-  process.env.DATABASE,
+  process.env.DATABASE_NAME,
   process.env.DATABASE_USER,
   process.env.DATABASE_PASSWORD,
   {
     dialect: process.env.DATABASE_DIALECT || 'postgres',
     logging: !!parseInt(process.env.DATABASE_LOGGING || 0, 10),
     host: process.env.DATABASE_HOST,
-    port: process.env.DATABASE_PORT,
-    storage: process.env.DATABASE_STORAGE || ':memory:',
+    port: process.env.DATABASE_PORT || 5432,
+    storage: process.env.DATABASE_STORAGE,
     define: {
       charset: 'utf8',
       collate: 'utf8_general_ci',

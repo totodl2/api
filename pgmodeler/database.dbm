@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.1" last-position="0,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<database name="totodl" encoding="UTF8" lc-collate="en_US.utf8" lc-ctype="en_US.utf8" is-template="false" allow-conns="true">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="SequelizeMeta">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="38" y="67"/>
+	<column name="name" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<constraint name="SequelizeMeta_pkey" type="pk-constr" table="public.&quot;SequelizeMeta&quot;">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Torrents">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="462.83" y="61"/>
+	<column name="hash" not-null="true">
+		<type name="character varying" length="40"/>
+	</column>
+	<column name="name">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="eta">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="status" not-null="true" default-value="0">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="error">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="errorString">
+		<type name="character varying" length="1024"/>
+	</column>
+	<column name="downloadDir">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="isFinished" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="isStalled" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="desiredAvailable">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="leftUntilDone">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="sizeWhenDone">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="totalSize">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="magnetLink">
+		<type name="character varying" length="2048"/>
+	</column>
+	<column name="uploadedEver">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="seedRatioLimit">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="seedRatioMode" default-value="0">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="uploadRatio">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="peersConnected">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="peersSendingToUs">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="peersGettingFromUs">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="rateDownload">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="rateUpload">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="activityDate">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="trackersJson">
+		<type name="text" length="0"/>
+	</column>
+	<column name="userId">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="hostId" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="createdAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="updatedAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<constraint name="Torrents_pkey" type="pk-constr" table="public.&quot;Torrents&quot;">
+		<columns names="hash" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Files">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="948.046" y="47"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="torrentHash" not-null="true">
+		<type name="character varying" length="40"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="5120"/>
+	</column>
+	<column name="basename">
+		<type name="character varying" length="1024"/>
+	</column>
+	<column name="directory">
+		<type name="character varying" length="4096"/>
+	</column>
+	<column name="extension">
+		<type name="character varying" length="128"/>
+	</column>
+	<column name="bytesCompleted" not-null="true" default-value="0">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="length" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="priority" not-null="true" default-value="1">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="position" not-null="true" default-value="0">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="wanted" not-null="true" default-value="true">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="createdAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="updatedAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<constraint name="Files_pkey" type="pk-constr" table="public.&quot;Files&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="Users_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="Users">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="38.2624" y="155"/>
+	<column name="id" not-null="true" sequence="public.&quot;Users_id_seq&quot;">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="nickname" not-null="true">
+		<type name="character varying" length="32"/>
+	</column>
+	<column name="email" not-null="true">
+		<type name="character varying" length="64"/>
+	</column>
+	<column name="password" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="roles" not-null="true" default-value="0">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="uploadRatio" not-null="true" default-value="1">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="diskSpace" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="diskUsage" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="createdAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="updatedAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<constraint name="Users_pkey" type="pk-constr" table="public.&quot;Users&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="Torrents_userId_idx" table="public.&quot;Torrents&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="&quot;userId&quot;"/>
+		</idxelement>
+</index>
+
+<table name="UploadingTorrents">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="39" y="381"/>
+	<column name="reference" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="userId" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="UploadingTorrents_pkey" type="pk-constr" table="public.&quot;UploadingTorrents&quot;">
+		<columns names="reference" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="UploadingTorrents_userId_idx" table="public.&quot;UploadingTorrents&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="&quot;userId&quot;"/>
+		</idxelement>
+</index>
+
+<table name="Hosts">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="42" y="521"/>
+	<column name="id" not-null="true" sequence="public.&quot;Hosts_id_seq&quot;">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<constraint name="Hosts_pkey" type="pk-constr" table="public.&quot;Hosts&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="Hosts_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<index name="Hosts_name_idx" table="public.&quot;Hosts&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="name"/>
+		</idxelement>
+</index>
+
+<index name="Torrents_hostId_idx" table="public.&quot;Torrents&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="&quot;hostId&quot;"/>
+		</idxelement>
+</index>
+
+<constraint name="Torrents_userId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="SET NULL" ref-table="public.&quot;Users&quot;" table="public.&quot;Torrents&quot;">
+	<columns names="userId" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="Torrents_hostId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Hosts&quot;" table="public.&quot;Torrents&quot;">
+	<columns names="hostId" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="Files_torrentHash_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Torrents&quot;" table="public.&quot;Files&quot;">
+	<columns names="torrentHash" ref-type="src-columns"/>
+	<columns names="hash" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="UploadingTorrents_userId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Users&quot;" table="public.&quot;UploadingTorrents&quot;">
+	<columns names="userId" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="&quot;rel_Files_Torrents&quot;" type="relfk"
+	 custom-color="#18cff5"
+	 src-table="public.&quot;Files&quot;"
+	 dst-table="public.&quot;Torrents&quot;" reference-fk="Files_torrentHash_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Torrents_Users&quot;" type="relfk"
+	 src-table="public.&quot;Torrents&quot;"
+	 dst-table="public.&quot;Users&quot;" reference-fk="Torrents_userId_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_UploadingTorrents_Users&quot;" type="relfk"
+	 src-table="public.&quot;UploadingTorrents&quot;"
+	 dst-table="public.&quot;Users&quot;" reference-fk="UploadingTorrents_userId_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Torrents_Hosts&quot;" type="relfk"
+	 src-table="public.&quot;Torrents&quot;"
+	 dst-table="public.&quot;Hosts&quot;" reference-fk="Torrents_hostId_fkey"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
