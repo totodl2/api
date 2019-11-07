@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     {%- include "../partials/columns.nunj.html" -%}
     {% include '../partials/extra-attributes.nunj.html' -%}
   }, {
-    schema: '{{ c.schema or table.schema.name }}',
+    schema: process.env.DATABASE_DIALECT === 'postgres' ? '{{ c.schema or table.schema.name }}' : '',
     tableName: '{{ c.tableName or table.name }}',
     timestamps: {{ c.timestamps or 'false' }}
     {%- if c.comment or table.comment -%}

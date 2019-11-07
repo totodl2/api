@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      schema: 'public',
+      schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',
       tableName: 'Users',
       timestamps: true,
     },

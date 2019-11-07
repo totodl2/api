@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         field: 'token',
         allowNull: false,
       },
+      lastUsedAt: {
+        type: DataTypes.DATE,
+        field: 'lastUsedAt',
+        allowNull: true,
+      },
       updatedAt: {
         type: DataTypes.DATE,
         field: 'updatedAt',
@@ -39,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      schema: 'public',
+      schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',
       tableName: 'RefreshTokens',
       timestamps: true,
     },

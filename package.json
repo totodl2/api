@@ -34,13 +34,19 @@
     "pg-generator": "^4.8.2",
     "pre-commit": "^1.2.2",
     "prettier": "^1.18.2",
-    "sequelize-auto": "^0.4.29"
+    "sequelize-auto": "^0.4.29",
+    "sqlite3": "^4.1.0"
   },
   "dependencies": {
+    "@hapi/joi": "^16.1.7",
+    "bcrypt": "^3.0.6",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "lodash.get": "^4.4.2",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.2",

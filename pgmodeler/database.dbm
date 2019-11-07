@@ -307,6 +307,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="token" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
+	<column name="lastUsedAt">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
 	<column name="updatedAt" not-null="true">
 		<type name="timestamp with time zone" length="0" with-timezone="true"/>
 	</column>

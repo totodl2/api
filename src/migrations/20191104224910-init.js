@@ -90,6 +90,11 @@ module.exports = {
           field: 'token',
           allowNull: false,
         },
+        lastUsedAt: {
+          type: DataTypes.DATE,
+          field: 'lastUsedAt',
+          allowNull: true,
+        },
         updatedAt: {
           type: DataTypes.DATE,
           field: 'updatedAt',
