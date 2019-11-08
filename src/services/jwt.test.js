@@ -10,12 +10,16 @@ describe('JwtService', () => {
 
   it('should decode and verify', () => {
     const jwt = JwtService.create(jwtData);
-    const data = JwtService.verifyAndDecode(jwt);
+    const data = JwtService.verify(jwt);
     expect(data.id).toBe(jwtData.id);
     expect(data.roles).toBe(jwtData.roles);
   });
 
+  it('should not throw at obsolete jwt', () => {
+    JwtService.verify(obsoleteJwt, { ignoreExpiration: true });
+  });
+
   it('should throw at obsolete jwt', () => {
-    expect(() => JwtService.verifyAndDecode(obsoleteJwt)).toThrow();
+    expect(() => JwtService.verify(obsoleteJwt)).toThrow();
   });
 });

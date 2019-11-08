@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
-const EXPIRATION = '7200';
-const MAX_AGE = '7300';
+const EXPIRATION = 7200;
+const MAX_AGE = 7300;
 const ALGO = 'HS512';
 
 module.exports = {
@@ -14,9 +14,10 @@ module.exports = {
       process.env.JWT_SECRET,
       { expiresIn: EXPIRATION, algorithm: ALGO },
     ),
-  verifyAndDecode: token =>
+  verify: (token, opt = {}) =>
     jwt.verify(token, process.env.JWT_SECRET, {
       algorithms: ALGO,
-      maxAge: MAX_AGE,
+      maxAge: opt.ignoreExpiration ? undefined : MAX_AGE,
+      ...opt,
     }),
 };

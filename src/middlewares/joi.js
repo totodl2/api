@@ -10,10 +10,9 @@ module.exports = (schema, dataPath = 'request.body') => async (ctx, next) => {
   }
 
   ctx.status = 422;
-  ctx.body = result.error.details.map(({ message, path, ...r }) => ({
+  ctx.body = result.error.details.map(({ message, path }) => ({
     message,
     path,
-    r,
   }));
 
   return null;

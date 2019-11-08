@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         field: 'token',
         allowNull: false,
       },
+      ip: {
+        type: DataTypes.STRING(255),
+        field: 'ip',
+        allowNull: false,
+      },
       lastUsedAt: {
         type: DataTypes.DATE,
         field: 'lastUsedAt',

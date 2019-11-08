@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(64),
         field: 'email',
         allowNull: false,
+        unique: true,
       },
       password: {
         type: DataTypes.STRING(255),
@@ -42,11 +43,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BIGINT,
         field: 'diskSpace',
         allowNull: false,
+        defaultValue: 0,
       },
       diskUsage: {
         type: DataTypes.BIGINT,
         field: 'diskUsage',
         allowNull: false,
+        defaultValue: 0,
       },
       createdAt: {
         type: DataTypes.DATE,

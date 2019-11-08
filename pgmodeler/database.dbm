@@ -55,10 +55,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="uploadRatio" not-null="true" default-value="1">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="diskSpace" not-null="true">
+	<column name="diskSpace" not-null="true" default-value="0">
 		<type name="bigint" length="0"/>
 	</column>
-	<column name="diskUsage" not-null="true">
+	<column name="diskUsage" not-null="true" default-value="0">
 		<type name="bigint" length="0"/>
 	</column>
 	<column name="createdAt" not-null="true">
@@ -70,12 +70,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="Users_pkey" type="pk-constr" table="public.&quot;Users&quot;">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
+	<constraint name="Users_email_key" type="uq-constr" table="public.&quot;Users&quot;">
+		<columns names="email" ref-type="src-columns"/>
+	</constraint>
 </table>
 
 <table name="UploadingTorrents">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="49.0462" y="537"/>
+	<position x="47.0462" y="550"/>
 	<column name="reference" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
@@ -305,6 +308,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer" length="0"/>
 	</column>
 	<column name="token" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="ip" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
 	<column name="lastUsedAt">

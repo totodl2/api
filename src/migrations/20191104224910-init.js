@@ -19,6 +19,7 @@ module.exports = {
           type: DataTypes.STRING(64),
           field: 'email',
           allowNull: false,
+          unique: true,
         },
         password: {
           type: DataTypes.STRING(255),
@@ -41,11 +42,13 @@ module.exports = {
           type: DataTypes.BIGINT,
           field: 'diskSpace',
           allowNull: false,
+          defaultValue: 0,
         },
         diskUsage: {
           type: DataTypes.BIGINT,
           field: 'diskUsage',
           allowNull: false,
+          defaultValue: 0,
         },
         createdAt: {
           type: DataTypes.DATE,
@@ -88,6 +91,11 @@ module.exports = {
         token: {
           type: DataTypes.STRING(255),
           field: 'token',
+          allowNull: false,
+        },
+        ip: {
+          type: DataTypes.STRING(255),
+          field: 'ip',
           allowNull: false,
         },
         lastUsedAt: {

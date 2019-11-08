@@ -7,4 +7,7 @@ module.exports = Joi.object({
   password: Joi.string()
     .min(6)
     .required(),
+  nickname: Joi.string()
+    .alphanum()
+    .required(),
 });
