@@ -1,4 +1,5 @@
 const get = require('lodash.get');
+const HttpError = require('../errors/httpError');
 
 module.exports = (schema, dataPath = 'request.body') => async (ctx, next) => {
   const result = schema
@@ -9,11 +10,12 @@ module.exports = (schema, dataPath = 'request.body') => async (ctx, next) => {
     return next();
   }
 
-  ctx.status = 422;
-  ctx.body = result.error.details.map(({ message, path }) => ({
-    message,
-    path,
-  }));
-
-  return null;
+  throw new HttpError(
+    422,
+    'Cannot validate submitted data',
+    result.error.details.map(({ message, path }) => ({
+      message,
+      path,
+    })),
+  );
 };

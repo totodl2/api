@@ -1,3 +1,5 @@
+const HttpError = require('../errors/httpError');
+
 module.exports = async (ctx, next) => {
   try {
     await next();
@@ -7,10 +9,13 @@ module.exports = async (ctx, next) => {
     }
 
     // sequelize validation handler
-    ctx.status = 422;
-    ctx.body = err.errors.map(({ message, path }) => ({
-      message,
-      path: [path],
-    }));
+    throw new HttpError(
+      422,
+      'Cannot validate submitted data',
+      err.errors.map(({ message, path }) => ({
+        message,
+        path: [path],
+      })),
+    );
   }
 };

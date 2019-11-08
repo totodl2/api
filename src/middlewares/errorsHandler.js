@@ -6,10 +6,15 @@ module.exports = async (ctx, next) => {
     await next();
   } catch (err) {
     const isDev = process.env.NODE_ENV !== 'production';
-    ctx.status = err.status || 500;
+    const code = err.status || 500;
+    ctx.status = code;
     ctx.body = {
-      message:
-        isDev || err instanceof HttpError ? err.message : 'Unknown error',
+      code,
+      name:
+        (isDev || err instanceof HttpError ? err.name : null) ||
+        'Unknown error',
+      message: err.message,
+      errors: err.errors,
     };
     ctx.app.emit('error', err, ctx);
   }

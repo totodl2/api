@@ -39,7 +39,7 @@ router.post(
       const user = await User.authenticate(email, password);
       ctx.body = await prepareLoggedUser(user.dataValues, ctx.request.ip);
     } catch (e) {
-      throw new HttpError('Invalid login or password', 401);
+      throw new HttpError(401, 'Invalid login or password');
     }
   },
 );

@@ -28,7 +28,7 @@ router.post(
       );
       ctx.body = { token: newToken };
     } catch (e) {
-      throw new HttpError('Cannot renew this token', 401);
+      throw new HttpError(401, 'Cannot renew this token');
     }
   },
 );
