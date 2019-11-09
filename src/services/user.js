@@ -7,7 +7,7 @@ module.exports = {
     User.create({
       ...data,
       email: email.toLowerCase(),
-      roles: Roles.ROLE_USER,
+      roles: Roles.ROLE_LEECHER,
       password: await PasswordsService.hash(password),
     }),
   authenticate: async (email, password) => {

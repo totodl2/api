@@ -123,9 +123,9 @@ module.exports = {
     await queryInterface.createTable(
       'UploadingTorrents',
       {
-        reference: {
+        hash: {
           type: DataTypes.STRING(255),
-          field: 'reference',
+          field: 'hash',
           allowNull: false,
           primaryKey: true,
         },
@@ -160,7 +160,39 @@ module.exports = {
         name: {
           type: DataTypes.STRING(255),
           field: 'name',
+          allowNull: true,
+        },
+        transmissionServiceUrl: {
+          type: DataTypes.STRING(255),
+          field: 'transmissionServiceUrl',
+          allowNull: true,
+        },
+        cdnUrl: {
+          type: DataTypes.STRING(255),
+          field: 'cdnUrl',
+          allowNull: true,
+        },
+        spaceAvailable: {
+          type: DataTypes.BIGINT,
+          field: 'spaceAvailable',
           allowNull: false,
+          defaultValue: 0,
+        },
+        spaceReserved: {
+          type: DataTypes.BIGINT,
+          field: 'spaceReserved',
+          allowNull: false,
+          defaultValue: 0,
+        },
+        unavailabilityDetectedAt: {
+          type: DataTypes.DATE,
+          field: 'unavailabilityDetectedAt',
+          allowNull: true,
+        },
+        lastUploadAt: {
+          type: DataTypes.DATE,
+          field: 'lastUploadAt',
+          allowNull: true,
         },
       },
       {
@@ -410,6 +442,17 @@ module.exports = {
           allowNull: false,
           defaultValue: true,
         },
+        hostId: {
+          type: DataTypes.INTEGER,
+          field: 'hostId',
+          allowNull: false,
+          references: {
+            model: 'Hosts',
+            key: 'id',
+          },
+          onUpdate: 'NO ACTION',
+          onDelete: 'CASCADE',
+        },
         createdAt: {
           type: DataTypes.DATE,
           field: 'createdAt',
@@ -432,9 +475,6 @@ module.exports = {
     });
     await queryInterface.addIndex('UploadingTorrents', ['userId'], {
       name: 'UploadingTorrents_userId_idx',
-    });
-    await queryInterface.addIndex('Hosts', ['name'], {
-      name: 'Hosts_name_idx',
     });
     await queryInterface.addIndex('Torrents', ['hostId'], {
       name: 'Torrents_hostId_idx',

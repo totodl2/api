@@ -3,7 +3,7 @@ const HttpError = require('../errors/httpError');
 const Jwt = require('../services/jwt');
 const User = require('../services/user');
 
-module.exports = ({ role, fetchUser = true } = {}) => async (ctx, next) => {
+module.exports = ({ role, fetchUser } = {}) => async (ctx, next) => {
   const bearerToken = ctx.headers['x-authorization'];
   if (!bearerToken) {
     throw new HttpError(403);
@@ -29,5 +29,5 @@ module.exports = ({ role, fetchUser = true } = {}) => async (ctx, next) => {
     ctx.state.user = await User.getById(ctx.state.jwt.id);
   }
 
-  next();
+  return next();
 };

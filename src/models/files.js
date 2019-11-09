@@ -70,6 +70,17 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: true,
       },
+      hostId: {
+        type: DataTypes.INTEGER,
+        field: 'hostId',
+        allowNull: false,
+        references: {
+          model: 'Hosts',
+          key: 'id',
+        },
+        onUpdate: 'NO ACTION',
+        onDelete: 'CASCADE',
+      },
       createdAt: {
         type: DataTypes.DATE,
         field: 'createdAt',
@@ -92,10 +103,18 @@ module.exports = (sequelize, DataTypes) => {
     delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
 
     const { Torrent } = models;
+    const { Host } = models;
 
     File.belongsTo(Torrent, {
       as: 'RelatedTorrenthash',
       foreignKey: 'torrentHash',
+      onDelete: 'CASCADE',
+      onUpdate: 'NO ACTION',
+    });
+
+    File.belongsTo(Host, {
+      as: 'Host',
+      foreignKey: 'hostId',
       onDelete: 'CASCADE',
       onUpdate: 'NO ACTION',
     });

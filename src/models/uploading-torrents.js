@@ -4,9 +4,9 @@ module.exports = (sequelize, DataTypes) => {
   const UploadingTorrent = sequelize.define(
     'UploadingTorrent',
     {
-      reference: {
+      hash: {
         type: DataTypes.STRING(255),
-        field: 'reference',
+        field: 'hash',
         allowNull: false,
         primaryKey: true,
       },

@@ -30,7 +30,7 @@ describe('UserService', () => {
     expect(UserService.authenticate('jean@jean.com', 'a')).rejects.toThrow();
   });
 
-  it.only('Should authenticate user', async () => {
+  it('Should authenticate user', async () => {
     const userData = {
       nickname: 'John',
       email: 'john-deux@doe.com',

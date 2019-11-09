@@ -79,14 +79,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="47.0462" y="550"/>
-	<column name="reference" not-null="true">
+	<column name="hash" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
 	<column name="userId" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
 	<constraint name="UploadingTorrents_pkey" type="pk-constr" table="public.&quot;UploadingTorrents&quot;">
-		<columns names="reference" ref-type="src-columns"/>
+		<columns names="hash" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -101,12 +101,30 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Hosts">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="50.8761" y="672"/>
+	<position x="43.8761" y="684"/>
 	<column name="id" not-null="true" sequence="public.&quot;Hosts_id_seq&quot;">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="name" not-null="true">
+	<column name="name">
 		<type name="character varying" length="255"/>
+	</column>
+	<column name="transmissionServiceUrl">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="cdnUrl">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="spaceAvailable" not-null="true" default-value="0">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="spaceReserved" not-null="true" default-value="0">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="unavailabilityDetectedAt">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="lastUploadAt">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
 	</column>
 	<constraint name="Hosts_pkey" type="pk-constr" table="public.&quot;Hosts&quot;">
 		<columns names="id" ref-type="src-columns"/>
@@ -212,7 +230,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Files">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1012" y="39.0631"/>
+	<position x="444" y="631.063"/>
 	<column name="id" not-null="true">
 		<type name="uuid" length="0"/>
 	</column>
@@ -246,6 +264,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="wanted" not-null="true" default-value="true">
 		<type name="boolean" length="0"/>
 	</column>
+	<column name="hostId" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
 	<column name="createdAt" not-null="true">
 		<type name="timestamp with time zone" length="0" with-timezone="true"/>
 	</column>
@@ -273,14 +294,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="Hosts_name_idx" table="public.&quot;Hosts&quot;"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="name"/>
-		</idxelement>
-</index>
-
 <index name="Torrents_hostId_idx" table="public.&quot;Torrents&quot;"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
@@ -300,7 +313,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="RefreshTokens">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="48" y="128"/>
+	<position x="47" y="109"/>
 	<column name="id" not-null="true" sequence="public.&quot;RefreshTokens_id_seq&quot;">
 		<type name="integer" length="0"/>
 	</column>
@@ -359,6 +372,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="hash" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="Files_hostId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Hosts&quot;" table="public.&quot;Files&quot;">
+	<columns names="hostId" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="RefreshTokens_userId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Users&quot;" table="public.&quot;RefreshTokens&quot;">
 	<columns names="userId" ref-type="src-columns"/>
@@ -392,6 +411,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="&quot;rel_RefreshTokens_Users&quot;" type="relfk"
 	 src-table="public.&quot;RefreshTokens&quot;"
 	 dst-table="public.&quot;Users&quot;" reference-fk="RefreshTokens_userId_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Files_Hosts&quot;" type="relfk"
+	 src-table="public.&quot;Files&quot;"
+	 dst-table="public.&quot;Hosts&quot;" reference-fk="Files_hostId_fkey"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

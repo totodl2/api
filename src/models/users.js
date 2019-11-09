@@ -97,15 +97,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       onUpdate: 'NO ACTION',
     });
-
-    User.belongsToMany(Host, {
-      as: 'TorrentHosts',
-      through: Torrent,
-      foreignKey: 'userId',
-      otherKey: 'hostId',
-      onDelete: 'SET NULL',
-      onUpdate: 'NO ACTION',
-    });
   };
 
   return User;

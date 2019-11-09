@@ -14,7 +14,39 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING(255),
         field: 'name',
+        allowNull: true,
+      },
+      transmissionServiceUrl: {
+        type: DataTypes.STRING(255),
+        field: 'transmissionServiceUrl',
+        allowNull: true,
+      },
+      cdnUrl: {
+        type: DataTypes.STRING(255),
+        field: 'cdnUrl',
+        allowNull: true,
+      },
+      spaceAvailable: {
+        type: DataTypes.BIGINT,
+        field: 'spaceAvailable',
         allowNull: false,
+        defaultValue: 0,
+      },
+      spaceReserved: {
+        type: DataTypes.BIGINT,
+        field: 'spaceReserved',
+        allowNull: false,
+        defaultValue: 0,
+      },
+      unavailabilityDetectedAt: {
+        type: DataTypes.DATE,
+        field: 'unavailabilityDetectedAt',
+        allowNull: true,
+      },
+      lastUploadAt: {
+        type: DataTypes.DATE,
+        field: 'lastUploadAt',
+        allowNull: true,
       },
     },
     {
@@ -28,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
     delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
 
     const { Torrent } = models;
-    const { User } = models;
+    const { File } = models;
 
     Host.hasMany(Torrent, {
       as: 'TorrentsHostidFkeys',
@@ -37,11 +69,9 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'NO ACTION',
     });
 
-    Host.belongsToMany(User, {
-      as: 'TorrentUsers',
-      through: Torrent,
+    Host.hasMany(File, {
+      as: 'FilesHostidFkeys',
       foreignKey: 'hostId',
-      otherKey: 'userId',
       onDelete: 'CASCADE',
       onUpdate: 'NO ACTION',
     });

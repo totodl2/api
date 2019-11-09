@@ -193,6 +193,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'hostId',
       onDelete: 'CASCADE',
       onUpdate: 'NO ACTION',
+      constraints: false,
     });
 
     Torrent.belongsTo(User, {
@@ -200,6 +201,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'SET NULL',
       onUpdate: 'NO ACTION',
+      constraints: false,
     });
   };
 

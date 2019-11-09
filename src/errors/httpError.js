@@ -42,13 +42,10 @@ const codes = {
 
 module.exports = class extends Error {
   /**
-   * Retapper ça, avec comme proto
-   * status, errors, name, message
-   * le name est auto généré par le status
-   * errors sert a transmettre des informations complémentaires sur l'erreur
-   * repasser partout et intégrer la gestion des errorHandlers validator
-   * @param {*} message
-   * @param {*} status
+   * @param {Number} status 
+   * @param {String} message 
+   * @param {Array} errors 
+   * @param {String} name 
    */
   constructor(status, message, errors, name) {
     super(message);
