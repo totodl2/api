@@ -75,21 +75,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="UploadingTorrents">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<position x="47.0462" y="550"/>
-	<column name="hash" not-null="true">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="userId" not-null="true">
-		<type name="integer" length="0"/>
-	</column>
-	<constraint name="UploadingTorrents_pkey" type="pk-constr" table="public.&quot;UploadingTorrents&quot;">
-		<columns names="hash" ref-type="src-columns"/>
-	</constraint>
-</table>
-
 <sequence name="Hosts_id_seq"
 	 start="1" increment="1"
 	 min-value="1" max-value="9223372036854775807"
@@ -286,14 +271,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="UploadingTorrents_userId_idx" table="public.&quot;UploadingTorrents&quot;"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="&quot;userId&quot;"/>
-		</idxelement>
-</index>
-
 <index name="Torrents_hostId_idx" table="public.&quot;Torrents&quot;"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
@@ -348,12 +325,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<constraint name="UploadingTorrents_userId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Users&quot;" table="public.&quot;UploadingTorrents&quot;">
-	<columns names="userId" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="Torrents_userId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="SET NULL" ref-table="public.&quot;Users&quot;" table="public.&quot;Torrents&quot;">
 	<columns names="userId" ref-type="src-columns"/>
@@ -383,12 +354,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="userId" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
-
-<relationship name="&quot;rel_UploadingTorrents_Users&quot;" type="relfk"
-	 custom-color="#5771ad"
-	 src-table="public.&quot;UploadingTorrents&quot;"
-	 dst-table="public.&quot;Users&quot;" reference-fk="UploadingTorrents_userId_fkey"
-	 src-required="false" dst-required="false"/>
 
 <relationship name="&quot;rel_Torrents_Users&quot;" type="relfk"
 	 custom-color="#47d575"

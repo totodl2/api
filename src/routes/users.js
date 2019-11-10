@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi');
 const HttpError = require('../errors/httpError');
 const userSchema = require('../validators/user');
 const joi = require('../middlewares/joi');
-const User = require('../services/user');
+const User = require('../services/users');
 const Jwt = require('../services/jwt');
 const RefreshToken = require('../services/refreshToken');
 

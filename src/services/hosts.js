@@ -2,9 +2,18 @@ const { Host, Sequelize } = require('../models');
 const transmission = require('../api/transmission');
 
 module.exports = {
+  /**
+   * @param {Number} id
+   * @returns {Promise<Host|null>}
+   */
+  getOne: id => Host.findOne({ where: { id } }),
+  /**
+   * @returns {Promise<Host>}
+   */
   getAll: () => Host.findAll(),
   /**
    * Select available host
+   * @returns {Promise<Host|null>}
    */
   findAvailableHost: () =>
     Host.findOne({

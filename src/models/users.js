@@ -74,8 +74,6 @@ module.exports = (sequelize, DataTypes) => {
 
     const { RefreshToken } = models;
     const { Torrent } = models;
-    const { UploadingTorrent } = models;
-    const { Host } = models;
 
     User.hasMany(RefreshToken, {
       as: 'RefreshTokensUseridFkeys',
@@ -88,13 +86,6 @@ module.exports = (sequelize, DataTypes) => {
       as: 'TorrentsUseridFkeys',
       foreignKey: 'userId',
       onDelete: 'SET NULL',
-      onUpdate: 'NO ACTION',
-    });
-
-    User.hasMany(UploadingTorrent, {
-      as: 'UploadingTorrentsUseridFkeys',
-      foreignKey: 'userId',
-      onDelete: 'CASCADE',
       onUpdate: 'NO ACTION',
     });
   };

@@ -1,7 +1,7 @@
 const Roles = require('../services/roles');
 const HttpError = require('../errors/httpError');
 const Jwt = require('../services/jwt');
-const User = require('../services/user');
+const User = require('../services/users');
 
 module.exports = ({ role, fetchUser } = {}) => async (ctx, next) => {
   const bearerToken = ctx.headers['x-authorization'];
@@ -15,8 +15,7 @@ module.exports = ({ role, fetchUser } = {}) => async (ctx, next) => {
   }
 
   try {
-    const jwt = Jwt.verify(splitted[1]);
-    ctx.state.jwt = jwt;
+    ctx.state.jwt = Jwt.verify(splitted[1]);
   } catch (e) {
     throw new HttpError(403);
   }

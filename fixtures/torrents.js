@@ -8,6 +8,13 @@ const entries = [
     hash: 'fghijkl',
     userId: 1,
     hostId: 1,
+    totalSize: 50,
+  },
+  {
+    hash: 'zedsdead',
+    userId: 1,
+    hostId: 1,
+    totalSize: 100,
   },
 ];
 

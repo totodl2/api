@@ -42,10 +42,10 @@ const codes = {
 
 module.exports = class extends Error {
   /**
-   * @param {Number} status 
-   * @param {String} message 
-   * @param {Array} errors 
-   * @param {String} name 
+   * @param {Number} status
+   * @param {String} [message]
+   * @param {?Array} [errors]
+   * @param {String} [name]
    */
   constructor(status, message, errors, name) {
     super(message);

@@ -3,14 +3,39 @@ const koaBody = require('koa-body');
 const Joi = require('@hapi/joi');
 
 const Hosts = require('../services/hosts');
+const Users = require('../services/users');
 const HttpError = require('../errors/httpError');
+const DuplicatedTorrent = require('../errors/duplicatedTorrent');
 const joi = require('../middlewares/joi');
 const authenticated = require('../middlewares/authenticated');
 const Roles = require('../services/roles');
 const transmission = require('../services/transmission');
 
 const router = new Router();
-router.use(authenticated({ role: Roles.ROLE_UPLOADER }));
+router.use(authenticated({ role: Roles.ROLE_UPLOADER, fetchUser: true }));
+
+const createUpload = uploadMethod => async ctx => {
+  const { user } = ctx.state;
+  await Users.updateSpaceUsage(user);
+  if (user.diskUsage > user.diskSpace) {
+    throw new HttpError(409, 'Not enough space left');
+  }
+
+  const host = await Hosts.findAvailableHost();
+  if (!host) {
+    throw new HttpError(503, 'All servers are unavailable');
+  }
+
+  try {
+    const torrent = await uploadMethod(ctx, host, user);
+    ctx.body = torrent.dataValues;
+  } catch (e) {
+    if (e instanceof DuplicatedTorrent) {
+      throw new HttpError(409, e.message);
+    }
+    throw e;
+  }
+};
 
 router.post(
   '/upload/file',
@@ -21,26 +46,9 @@ router.post(
     }),
     'request.files',
   ),
-  async ctx => {
-    try {
-      const host = await Hosts.findAvailableHost();
-      if (!host) {
-        throw new HttpError(503, 'All servers are unavailable');
-      }
-
-      const r = await transmission.uploadFile(
-        ctx.request.files.torrent.path,
-        host,
-      );
-
-      ctx.body = 'ok';
-    } catch (e) {
-      console.log('la eror => ', e);
-      // throw e;
-      ctx.body = 'NTM';
-      ctx.status = 200;
-    }
-  },
+  createUpload((ctx, host, user) =>
+    transmission.uploadFile(ctx.request.files.torrent.path, host, user.id),
+  ),
 );
 
 router.post(
@@ -50,23 +58,9 @@ router.post(
       url: Joi.string().required(),
     }),
   ),
-  async ctx => {
-    try {
-      const host = await Hosts.findAvailableHost();
-      if (!host) {
-        throw new HttpError(503, 'All servers are unavailable');
-      }
-
-      const r = await transmission.uploadMagnet(ctx.request.body.url, host);
-
-      ctx.body = 'ok';
-    } catch (e) {
-      console.log('la eror => ', e);
-      // throw e;
-      ctx.body = 'NTM';
-      ctx.status = 200;
-    }
-  },
+  createUpload((ctx, host, user) =>
+    transmission.uploadMagnet(ctx.request.body.url, host, user.id),
+  ),
 );
 
 module.exports = router;

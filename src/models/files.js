@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(40),
         field: 'torrentHash',
         allowNull: false,
+        unique: false,
         references: {
           model: 'Torrents',
           key: 'hash',

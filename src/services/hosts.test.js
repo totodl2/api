@@ -12,4 +12,7 @@ describe('Hosts', () => {
 
   it('findAvailableHost shoud select available host', async () =>
     expect(Hosts.findAvailableHost()).resolves.toMatchObject({ id: 4 }));
+
+  it('getOne should return result', () =>
+    expect(Hosts.getOne(1)).resolves.toBeDefined());
 });

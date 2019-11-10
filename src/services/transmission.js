@@ -1,21 +1,16 @@
 const fs = require('fs');
 const FormData = require('form-data');
 const Torrents = require('./torrents');
-const DuplicatedTorrent = require('../errors/duplicatedTorrent');
 const api = require('../api/transmission');
 
 module.exports = {
-  uploadFile: async (filePath, host) => {
+  uploadFile: async (filePath, host, userId) => {
     const form = new FormData();
-    form.append('torrent', fs.readFileSync(filePath), {
-      filename: 'file.torrent',
-      contentType: 'application/octet-stream',
-      knownLength: 27570,
-    });
+    form.append('torrent', fs.readFileSync(filePath), 'file.torrent');
 
     const {
       data: {
-        data: { hash },
+        data: { hash, name },
       },
     } = await api.upload.file({
       headers: form.getHeaders(),
@@ -23,26 +18,32 @@ module.exports = {
       data: form.getBuffer(),
     });
 
-    if (await Torrents.get(hash)) {
-      throw new DuplicatedTorrent('Torrent is already uploaded');
-    }
-
-    /** @todo
-    { hashString: '0f2a3adfe82e1c92b390cdcaaec3cdc0dd3ebfd7',
-      id: 2,
-      name: 'debian-10.1.0-amd64-netinst.iso' },
-     */
-
-    console.log('received', hash);
+    return Torrents.upsert({
+      userId,
+      name,
+      hostId: host.id,
+      hash,
+    });
   },
-  uploadMagnet: async (magnet, host) => {
+  uploadMagnet: async (magnet, host, userId) => {
     const {
-      data: { data },
+      data: {
+        data: { hash, name },
+      },
     } = await api.upload.magnet({
       baseURL: host.transmissionServiceUrl,
       data: { url: magnet },
     });
-    console.log('magnet', data);
+
+    return Torrents.upsert(
+      {
+        userId,
+        name,
+        hostId: host.id,
+        hash,
+      },
+      true,
+    );
   },
   remove: async (hash, host) =>
     api.torrent.remove({

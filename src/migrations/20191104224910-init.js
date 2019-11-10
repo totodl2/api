@@ -121,33 +121,6 @@ module.exports = {
     );
 
     await queryInterface.createTable(
-      'UploadingTorrents',
-      {
-        hash: {
-          type: DataTypes.STRING(255),
-          field: 'hash',
-          allowNull: false,
-          primaryKey: true,
-        },
-        userId: {
-          type: DataTypes.INTEGER,
-          field: 'userId',
-          allowNull: false,
-          references: {
-            model: 'Users',
-            key: 'id',
-          },
-          onUpdate: 'NO ACTION',
-          onDelete: 'CASCADE',
-        },
-      },
-      {
-        charset: 'utf8',
-        collate: 'utf8_general_ci',
-      },
-    );
-
-    await queryInterface.createTable(
       'Hosts',
       {
         id: {
@@ -473,9 +446,6 @@ module.exports = {
     await queryInterface.addIndex('Torrents', ['userId'], {
       name: 'Torrents_userId_idx',
     });
-    await queryInterface.addIndex('UploadingTorrents', ['userId'], {
-      name: 'UploadingTorrents_userId_idx',
-    });
     await queryInterface.addIndex('Torrents', ['hostId'], {
       name: 'Torrents_hostId_idx',
     });
@@ -485,7 +455,6 @@ module.exports = {
   },
   down: async queryInterface => {
     await queryInterface.dropTable('Users');
-    await queryInterface.dropTable('UploadingTorrents');
     await queryInterface.dropTable('Torrents');
     await queryInterface.dropTable('Hosts');
     await queryInterface.dropTable('Files');

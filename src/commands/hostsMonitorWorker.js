@@ -1,5 +1,5 @@
 const path = require('path');
-const debug = require('debug')('epf/workers/transco_cdn');
+const debug = require('debug')('api/workers/hostsMonitorWorker');
 const queue = require('../queues/hostsMonitor/index');
 
 module.exports = async () => {
