@@ -1,7 +1,7 @@
 const axios = require('axios');
 const formUrlEncode = require('form-urlencoded');
 
-const createFetcher = defaultConf => (
+const createFetcher = (defaultConf = {}) => (
   path,
   endpoint,
   { data, ...callerConf } = {},
@@ -18,9 +18,11 @@ const createFetcher = defaultConf => (
   }
 
   return axios({
+    ...defaultConf,
     ...callerConf,
     ...overloadedConf,
     headers: {
+      ...(defaultConf.headers || {}),
       ...(callerConf.headers || {}),
       ...overloadedConf.headers,
     },
@@ -104,7 +106,7 @@ const createTree = (fetcher, endpoints, previousName = '') =>
  * api.nested.get({ routeParams: { id: 2 }});
  *
  * @param {Object} endpoints
- * @param {Object} axiosDefault
+ * @param {Object} [axiosDefault]
  */
 const createApi = ({ endpoints, axiosDefault }) =>
   createTree(createFetcher(axiosDefault), endpoints);

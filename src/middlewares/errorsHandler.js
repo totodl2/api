@@ -14,7 +14,7 @@ module.exports = async (ctx, next) => {
         (isDev || err instanceof HttpError ? err.name : null) ||
         'Unknown error',
       message: err.message,
-      errors: err.errors,
+      violations: err.violations,
     };
     ctx.app.emit('error', err, ctx);
   }

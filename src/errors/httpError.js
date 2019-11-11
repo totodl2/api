@@ -44,10 +44,10 @@ module.exports = class extends Error {
   /**
    * @param {Number} status
    * @param {String} [message]
-   * @param {?Array} [errors]
+   * @param {?Array} [violations]
    * @param {String} [name]
    */
-  constructor(status, message, errors, name) {
+  constructor(status, message, violations, name) {
     super(message);
     this.status = status;
     this.name =
@@ -55,7 +55,7 @@ module.exports = class extends Error {
       codes[status] ||
       codes[`${status.toString().substr(1)}xx`] ||
       'Unkown error';
-    this.errors = errors;
+    this.violations = violations;
     this.message = message;
   }
 };
