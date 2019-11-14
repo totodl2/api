@@ -1,4 +1,4 @@
-const { User, Torrent } = require('../models');
+const { User, Torrent, Sequelize } = require('../models');
 const Roles = require('./roles');
 const PasswordsService = require('./passwords');
 
@@ -49,11 +49,11 @@ module.exports = {
    */
   updateSpaceUsage: async user => {
     const usage = await Torrent.sum('totalSize', {
-      where: { userId: user.id },
+      where: { userId: user.id, totalSize: { [Sequelize.Op.gte]: 0 } },
     });
 
     if (usage !== user.diskUsage) {
-      user.set('diskUsage', usage);
+      user.set('diskUsage', usage || 0);
       await user.save();
     }
 

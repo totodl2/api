@@ -10,7 +10,7 @@ module.exports = {
 
     const {
       data: {
-        data: { hash, name },
+        data: { hashString: hash, name },
       },
     } = await api.upload.file({
       headers: form.getHeaders(),
@@ -28,7 +28,7 @@ module.exports = {
   uploadMagnet: async (magnet, host, userId) => {
     const {
       data: {
-        data: { hash, name },
+        data: { hashString: hash, name },
       },
     } = await api.upload.magnet({
       baseURL: host.transmissionServiceUrl,

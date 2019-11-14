@@ -2,6 +2,7 @@ const Router = require('koa-router');
 const koaBody = require('koa-body');
 const Joi = require('@hapi/joi');
 
+const { Torrent } = require('../models');
 const Hosts = require('../services/hosts');
 const Users = require('../services/users');
 const HttpError = require('../errors/httpError');
@@ -12,7 +13,12 @@ const Roles = require('../services/roles');
 const transmission = require('../services/transmission');
 
 const router = new Router();
-router.use(authenticated({ role: Roles.ROLE_UPLOADER, fetchUser: true }));
+
+const checkAuthenticated = authenticated();
+const checkRoleUploader = authenticated({
+  role: Roles.ROLE_UPLOADER,
+  fetchUser: true,
+});
 
 const createUpload = uploadMethod => async ctx => {
   const { user } = ctx.state;
@@ -39,6 +45,7 @@ const createUpload = uploadMethod => async ctx => {
 
 router.post(
   '/upload/file',
+  checkRoleUploader,
   koaBody({ multipart: true }),
   joi(
     Joi.object({
@@ -53,6 +60,7 @@ router.post(
 
 router.post(
   '/upload/magnet',
+  checkRoleUploader,
   joi(
     Joi.object({
       url: Joi.string().required(),
@@ -61,6 +69,20 @@ router.post(
   createUpload((ctx, host, user) =>
     transmission.uploadMagnet(ctx.request.body.url, host, user.id),
   ),
+);
+
+router.get(
+  '/',
+  checkAuthenticated,
+  joi(
+    Joi.object({
+      page: Joi.number().positive(),
+    }),
+    'query',
+  ),
+  async ctx => {
+    ctx.body = await Torrent.paginate({ ...ctx.query, paginate: 50 });
+  },
 );
 
 module.exports = router;
