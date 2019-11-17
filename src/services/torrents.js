@@ -1,5 +1,6 @@
 const { Torrent } = require('../models');
 const DuplicatedTorrent = require('../errors/duplicatedTorrent');
+const Roles = require('./roles');
 
 module.exports = {
   /**
@@ -30,4 +31,13 @@ module.exports = {
 
     return torrent;
   },
+  /**
+   * Verify if user can edit this torrent
+   * @param {Torrent} torrent
+   * @param {User} user
+   * @returns {Boolean}
+   */
+  isOwner: (torrent, user) =>
+    user &&
+    (Roles.hasRole(user.roles, Roles.ROLE_ADMIN) || torrent.userId === user.id),
 };

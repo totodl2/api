@@ -160,7 +160,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="bigint" length="0"/>
 	</column>
 	<column name="magnetLink">
-		<type name="character varying" length="2048"/>
+		<type name="character varying" length="10240"/>
 	</column>
 	<column name="uploadedEver">
 		<type name="bigint" length="0"/>

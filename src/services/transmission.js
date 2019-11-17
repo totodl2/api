@@ -45,6 +45,21 @@ module.exports = {
       true,
     );
   },
+  setRatio: async (hash, ratio, host) =>
+    api.torrent.ratio({
+      baseURL: host.transmissionServiceUrl,
+      routeParams: { hash, ratio },
+    }),
+  pause: async (hash, host) =>
+    api.torrent.pause({
+      baseURL: host.transmissionServiceUrl,
+      routeParams: { hash },
+    }),
+  start: async (hash, host) =>
+    api.torrent.start({
+      baseURL: host.transmissionServiceUrl,
+      routeParams: { hash },
+    }),
   remove: async (hash, host) =>
     api.torrent.remove({
       baseURL: host.transmissionServiceUrl,

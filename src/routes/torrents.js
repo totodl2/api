@@ -34,6 +34,7 @@ const createUpload = uploadMethod => async ctx => {
 
   try {
     const torrent = await uploadMethod(ctx, host, user);
+    await transmission.setRatio(torrent.hash, user.uploadRatio, host);
     ctx.body = torrent.dataValues;
   } catch (e) {
     if (e instanceof DuplicatedTorrent) {
@@ -72,7 +73,7 @@ router.post(
 );
 
 router.get('/', checkAuthenticated, async ctx => {
-  ctx.body = await Torrent.findAll();
+  ctx.body = await Torrent.findAll({ order: [['createdAt', 'DESC']] });
 });
 
 module.exports = router;

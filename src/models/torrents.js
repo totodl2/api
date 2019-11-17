@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       magnetLink: {
-        type: DataTypes.STRING(2048),
+        type: DataTypes.STRING(10240),
         field: 'magnetLink',
         allowNull: true,
       },
