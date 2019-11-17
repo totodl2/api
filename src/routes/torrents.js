@@ -71,18 +71,8 @@ router.post(
   ),
 );
 
-router.get(
-  '/',
-  checkAuthenticated,
-  joi(
-    Joi.object({
-      page: Joi.number().positive(),
-    }),
-    'query',
-  ),
-  async ctx => {
-    ctx.body = await Torrent.paginate({ ...ctx.query, paginate: 50 });
-  },
-);
+router.get('/', checkAuthenticated, async ctx => {
+  ctx.body = await Torrent.findAll();
+});
 
 module.exports = router;

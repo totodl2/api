@@ -1,5 +1,5 @@
 /* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
-const sequelizePaginate = require('sequelize-paginate');
+const paginator = require('../utils/paginator');
 
 module.exports = (sequelize, DataTypes) => {
   const Torrent = sequelize.define(
@@ -203,8 +203,6 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'NO ACTION',
     });
   };
-
-  sequelizePaginate.paginate(Torrent);
 
   return Torrent;
 };
