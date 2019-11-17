@@ -183,7 +183,7 @@ module.exports = (sequelize, DataTypes) => {
     const { User } = models;
 
     Torrent.hasMany(File, {
-      as: 'FilesTorrenthashFkeys',
+      as: 'Files',
       foreignKey: 'torrentHash',
       onDelete: 'CASCADE',
       onUpdate: 'NO ACTION',

@@ -44,6 +44,11 @@ module.exports = {
    */
   normalize: ({ password, email, ...user }) => user,
   /**
+   * Normalize essentials value for user
+   * @returns {Object}
+   */
+  normalizeShort: ({ id, nickname }) => ({ id, nickname }),
+  /**
    * @param {User} user
    * @returns {Promise<User>}
    */
