@@ -37,7 +37,7 @@ router.post('/start', getTorrentMiddleware, assertOwner, async ctx => {
   ctx.body = true;
 });
 
-router.post('/remove', getTorrentMiddleware, assertOwner, async ctx => {
+router.delete('/', getTorrentMiddleware, assertOwner, async ctx => {
   const { entity: torrent } = ctx.state;
   const host = await torrent.getHost();
   await transmission.remove(torrent.hash, host);
