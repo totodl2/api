@@ -1,5 +1,6 @@
 const fixtures = require('sequelize-fixtures');
 const Torrents = require('./torrents');
+const Roles = require('./roles');
 const { db, ...models } = require('../models');
 
 describe('Torrents', () => {
@@ -53,4 +54,14 @@ describe('Torrents', () => {
         true,
       ),
     ).rejects.toThrow());
+
+  it('Should detect ownership', () => {
+    const torrent = { userId: 1 };
+
+    expect(Torrents.isOwner(torrent, { id: 1, roles: 0 })).toBe(true);
+    expect(Torrents.isOwner(torrent, { roles: Roles.ROLE_ADMIN })).toBe(true);
+    expect(
+      Torrents.isOwner(torrent, { id: 42, roles: Roles.ROLE_LEECHER }),
+    ).toBe(false);
+  });
 });

@@ -3,6 +3,7 @@ const User = require('./users');
 const { db, ...models } = require('../models');
 
 const testUser = {
+  id: 42,
   nickname: 'Jean',
   email: 'jean@jean.com',
   password: 'secret',
@@ -28,6 +29,13 @@ describe('User', () => {
   it('Normalize should remove email and password field', () => {
     const { email, password, ...expectedUser } = testUser;
     expect(User.normalize(testUser)).toEqual(expectedUser);
+  });
+
+  it('NormalizeShort should only retreive id and nickname', () => {
+    expect(User.normalizeShort(testUser)).toEqual({
+      id: testUser.id,
+      nickname: testUser.nickname,
+    });
   });
 
   it('Should not authenticate user with invalid email', async () => {
