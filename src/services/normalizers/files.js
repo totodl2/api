@@ -10,7 +10,12 @@ const normalizeOne = (file, host) => {
   if (file.bytesCompleted === file.length) {
     return {
       ...file,
-      url: createLink(file.name, host.cdnUrl || '', host.cdnSecret || ''),
+      url: createLink(
+        file.id,
+        file.name,
+        host.cdnUrl || '',
+        host.cdnSecret || '',
+      ),
     };
   }
   return file;

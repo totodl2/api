@@ -4,14 +4,14 @@ const { join } = require('path');
 
 const DEFAULT_EXPIRATION = 172800;
 
-module.exports = (path, baseURL, secret) => {
+module.exports = (id, path, baseURL, secret) => {
   const expires = (
     Date.now() + (process.env.LINKS_EXPIRATION || DEFAULT_EXPIRATION)
   ).toString();
 
   const hash = crypt
     .createHash('md5')
-    .update(expires + secret + path)
+    .update(expires + secret + id)
     .digest('base64');
 
   const newPath = path
@@ -19,5 +19,8 @@ module.exports = (path, baseURL, secret) => {
     .map(el => encodeURIComponent(el))
     .join('/');
 
-  return url.resolve(baseURL, join(encodeURIComponent(hash), expires, newPath));
+  return url.resolve(
+    baseURL,
+    join(encodeURIComponent(hash), id, expires, newPath),
+  );
 };
