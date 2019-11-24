@@ -145,6 +145,11 @@ module.exports = {
           field: 'cdnUrl',
           allowNull: true,
         },
+        cdnSecret: {
+          type: DataTypes.STRING(255),
+          field: 'cdnSecret',
+          allowNull: true,
+        },
         spaceAvailable: {
           type: DataTypes.BIGINT,
           field: 'spaceAvailable',

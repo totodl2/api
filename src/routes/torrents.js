@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const koaBody = require('koa-body');
 const Joi = require('@hapi/joi');
+const get = require('lodash.get');
 
 const { Torrent } = require('../models');
 const Hosts = require('../services/hosts');
@@ -22,6 +23,7 @@ const checkRoleUploader = authenticated({
 
 const createUpload = uploadMethod => async ctx => {
   const { user } = ctx.state;
+
   await Users.updateSpaceUsage(user);
   if (user.diskUsage > user.diskSpace) {
     throw new HttpError(409, 'Not enough space left');
@@ -35,9 +37,17 @@ const createUpload = uploadMethod => async ctx => {
   try {
     const torrent = await uploadMethod(ctx, host, user);
     await transmission.setRatio(torrent.hash, user.uploadRatio, host);
-    ctx.body = torrent.dataValues;
+    return new Promise(resolve =>
+      // limit bash upload
+      setTimeout(() => {
+        ctx.body = torrent.dataValues;
+        resolve();
+      }, 1000),
+    );
   } catch (e) {
-    if (e instanceof DuplicatedTorrent) {
+    if (get(e, 'response.status') === 422) {
+      throw new HttpError(422, get(e, 'response.data.data'));
+    } else if (e instanceof DuplicatedTorrent) {
       throw new HttpError(409, e.message);
     }
     throw e;

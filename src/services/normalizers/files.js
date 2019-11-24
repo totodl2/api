@@ -1,10 +1,20 @@
+const createLink = require('../../utils/createCdnLink');
+
 /**
  * Normalize file
  * @param {File} files
  * @param {Host} host
  * @returns {Object}
  */
-const normalizeOne = (file, host) => file; // eslint-disable-line
+const normalizeOne = (file, host) => {
+  if (file.bytesCompleted === file.length) {
+    return {
+      ...file,
+      url: createLink(file.name, host.cdnUrl || '', host.cdnSecret || ''),
+    };
+  }
+  return file;
+};
 /**
  * Normalize array of files
  * @param {Array<File>|File} files

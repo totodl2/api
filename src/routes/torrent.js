@@ -73,7 +73,7 @@ router.get('/', checkAuthenticated, getTorrentMiddleware, async ctx => {
   ctx.body = normalizeTorrent(
     {
       ...torrent.dataValues,
-      files,
+      files: files.map(f => f.dataValues),
       user: user ? user.dataValues : null,
     },
     host,

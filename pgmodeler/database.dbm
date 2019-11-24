@@ -99,6 +99,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="cdnUrl">
 		<type name="character varying" length="255"/>
 	</column>
+	<column name="cdnSecret">
+		<type name="character varying" length="255"/>
+	</column>
 	<column name="spaceAvailable" not-null="true" default-value="0">
 		<type name="bigint" length="0"/>
 	</column>
