@@ -23,7 +23,7 @@ const normalizeOne = (file, host) => {
  */
 const normalize = (files, host) => {
   if (!Array.isArray(files)) {
-    return normalizeOne(files);
+    return normalizeOne(files, host);
   }
   return files.map(file => normalizeOne(file, host));
 };
