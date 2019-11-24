@@ -12,7 +12,9 @@ module.exports = (id, path, baseURL, secret) => {
   const hash = crypt
     .createHash('md5')
     .update(expires + secret + id)
-    .digest('base64');
+    .digest('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
 
   const newPath = path
     .split('/')
