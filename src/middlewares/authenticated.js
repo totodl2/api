@@ -4,7 +4,9 @@ const Jwt = require('../services/jwt');
 const User = require('../services/users');
 
 module.exports = ({ role, fetchUser } = {}) => async (ctx, next) => {
-  const bearerToken = ctx.headers['x-authorization'];
+  const bearerToken =
+    ctx.headers['x-authorization'] || ctx.query['x-authorization'];
+
   if (!bearerToken) {
     throw new HttpError(403);
   }

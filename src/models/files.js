@@ -1,4 +1,8 @@
 /* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
+const queue = require('../queues/sseTorrents');
+const { normalize } = require('../services/normalizers/files');
+
+const { FILES } = queue.NAMES;
 
 module.exports = (sequelize, DataTypes) => {
   const File = sequelize.define(
@@ -97,6 +101,26 @@ module.exports = (sequelize, DataTypes) => {
       schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',
       tableName: 'Files',
       timestamps: true,
+      hooks: {
+        // dispatch events to bullmq
+        afterUpdate: (instance, { fields }) => {
+          queue.add(
+            FILES.UPDATED,
+            fields.reduce(
+              (prev, fieldName) => {
+                // eslint-disable-next-line no-param-reassign
+                prev.changes[fieldName] = instance.dataValues[fieldName];
+                return prev;
+              },
+              {
+                hash: instance.torrentHash,
+                id: instance.id,
+                changes: {},
+              },
+            ),
+          );
+        },
+      },
     },
   );
 

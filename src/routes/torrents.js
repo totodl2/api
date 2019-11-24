@@ -73,7 +73,10 @@ router.post(
 );
 
 router.get('/', checkAuthenticated, async ctx => {
-  ctx.body = await Torrent.findAll({ order: [['createdAt', 'DESC']] });
+  ctx.body = await Torrent.findAll({
+    order: [['createdAt', 'DESC']],
+    include: 'user',
+  });
 });
 
 module.exports = router;

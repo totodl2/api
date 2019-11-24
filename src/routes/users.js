@@ -5,13 +5,14 @@ const HttpError = require('../errors/httpError');
 const userSchema = require('../validators/user');
 const joi = require('../middlewares/joi');
 const User = require('../services/users');
+const { normalize: normalizeUser } = require('../services/normalizers/users');
 const Jwt = require('../services/jwt');
 const RefreshToken = require('../services/refreshToken');
 
 const router = new Router();
 
 const prepareLoggedUser = async (user, ip) => ({
-  ...User.normalize(user),
+  ...normalizeUser(user),
   token: await Jwt.create(user),
   refreshToken: (await RefreshToken.create(user.id, ip)).token,
 });

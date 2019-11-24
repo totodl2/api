@@ -16,7 +16,7 @@ module.exports = () => {
     queue.process(
       '*',
       processes,
-      path.join(__dirname, '../queues/torrents/processors.js'),
+      path.join(__dirname, '../queues/torrents/processor.js'),
     );
 
     process.on('exit', () => {

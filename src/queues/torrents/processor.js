@@ -61,10 +61,7 @@ module.exports = async job => {
 
   switch (job.name) {
     case queue.NAMES.CREATED: {
-      const host = await Hosts.getOne(job.data.hostId);
-      if (!host) {
-        throw new Error('Cannot found host');
-      }
+      const host = await Hosts.upsert(job.data.hostId);
       return createTorrent(job.data, host);
     }
     case queue.NAMES.UPDATED:

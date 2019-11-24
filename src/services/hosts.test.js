@@ -15,4 +15,12 @@ describe('Hosts', () => {
 
   it('getOne should return result', () =>
     expect(Hosts.getOne(1)).resolves.toBeDefined());
+
+  it('Should upsert host', async () => {
+    const newId = 5;
+    const file = await Hosts.upsert(newId);
+    expect(file.dataValues).toMatchObject({
+      id: newId,
+    });
+  });
 });

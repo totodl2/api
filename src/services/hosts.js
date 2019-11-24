@@ -8,6 +8,19 @@ module.exports = {
    */
   getOne: id => Host.findOne({ where: { id } }),
   /**
+   * Upsert Host
+   * @param {Number} data
+   * @returns {Promise<File>}
+   */
+  upsert: async function create(id) {
+    const [host] = await Host.findOrCreate({
+      where: { id },
+      defaults: { id },
+    });
+
+    return host;
+  },
+  /**
    * @returns {Promise<Host>}
    */
   getAll: () => Host.findAll(),

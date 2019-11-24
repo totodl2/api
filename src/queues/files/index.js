@@ -7,14 +7,12 @@ const QUEUE_NAMES = {
   DOWNLOADED: 'downloaded',
 };
 
-module.exports = process.env.REDIS_HOST
-  ? new Queue('file', {
-      redis: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT,
-        password: process.env.REDIS_PASSWORD,
-      },
-    })
-  : null;
+module.exports = new Queue('file', {
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD,
+  },
+});
 
 module.exports.NAMES = QUEUE_NAMES;

@@ -24,23 +24,4 @@ module.exports = {
 
     return file;
   },
-  /**
-   * Normalize file
-   * @param {File} files
-   * @param {Host} host
-   * @returns {Object}
-   */
-  normalizeOne: (file, host) => file, // eslint-disable-line
-  /**
-   * Normalize array of files
-   * @param {Array<File>|File} files
-   * @param {Host} host
-   * @returns {Array<Object>}
-   */
-  normalize: function normalize(files, host) {
-    if (!Array.isArray(files)) {
-      return this.normalizeOne(files);
-    }
-    return files.map(file => this.normalizeOne(file, host));
-  },
 };

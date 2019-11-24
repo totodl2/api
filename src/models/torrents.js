@@ -1,5 +1,8 @@
 /* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
-const paginator = require('../utils/paginator');
+const queue = require('../queues/sseTorrents');
+const { normalize } = require('../services/normalizers/torrents');
+
+const { TORRENTS } = queue.NAMES;
 
 module.exports = (sequelize, DataTypes) => {
   const Torrent = sequelize.define(
@@ -172,6 +175,40 @@ module.exports = (sequelize, DataTypes) => {
       schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',
       tableName: 'Torrents',
       timestamps: true,
+      hooks: {
+        // dispatch events to bullmq
+        afterUpdate: (instance, { fields }) => {
+          queue.add(
+            TORRENTS.UPDATED,
+            fields
+              .filter(field => field !== 'trackers')
+              .reduce(
+                (prev, fieldName) => {
+                  // eslint-disable-next-line no-param-reassign
+                  prev.changes[fieldName] = instance.dataValues[fieldName];
+                  return prev;
+                },
+                {
+                  hash: instance.hash,
+                  changes: {},
+                },
+              ),
+          );
+        },
+        afterCreate: async instance => {
+          const user = await instance.getUser();
+          queue.add(
+            TORRENTS.CREATED,
+            normalize({
+              ...instance.dataValues,
+              user,
+            }),
+          );
+        },
+        afterDestroy(instance, options) {
+          queue.add(TORRENTS.DELETED, { hash: instance.hash });
+        },
+      },
     },
   );
 
@@ -197,7 +234,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Torrent.belongsTo(User, {
-      as: 'User',
+      as: 'user',
       foreignKey: 'userId',
       onDelete: 'SET NULL',
       onUpdate: 'NO ACTION',

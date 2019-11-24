@@ -4,8 +4,9 @@ const HttpError = require('../errors/httpError');
 const authenticated = require('../middlewares/authenticated');
 const Roles = require('../services/roles');
 const TorrentsService = require('../services/torrents');
-const FilesService = require('../services/files');
-const UsersService = require('../services/users');
+const {
+  normalize: normalizeTorrent,
+} = require('../services/normalizers/torrents');
 const transmission = require('../services/transmission');
 const getRessource = require('../middlewares/getRessource');
 
@@ -69,11 +70,14 @@ router.get('/', checkAuthenticated, getTorrentMiddleware, async ctx => {
   const files = await torrent.getFiles();
   const user = await torrent.getUser();
 
-  ctx.body = {
-    ...torrent.dataValues,
-    files: FilesService.normalize(files, host),
-    user: user ? UsersService.normalizeShort(user.dataValues) : null,
-  };
+  ctx.body = normalizeTorrent(
+    {
+      ...torrent.dataValues,
+      files,
+      user: user ? user.dataValues : null,
+    },
+    host,
+  );
 });
 
 module.exports = router;

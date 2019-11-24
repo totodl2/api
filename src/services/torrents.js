@@ -8,7 +8,7 @@ module.exports = {
    * @param {string} hash
    * @returns {Promise<Torrent|null>}
    */
-  get: hash => Torrent.findOne({ where: { hash } }),
+  get: hash => Torrent.findOne({ where: { hash }, include: 'user' }),
   /**
    * Upsert torrent
    * @param {Object} data
