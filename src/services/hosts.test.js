@@ -23,4 +23,11 @@ describe('Hosts', () => {
       id: newId,
     });
   });
+
+  it('should update host uploaded at', async () => {
+    const host = await Hosts.getOne(1);
+    host.set('lastUploadAt', null);
+    await Hosts.markNewUpload(host, null);
+    expect(host.lastUploadAt).toBeDefined();
+  });
 });

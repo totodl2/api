@@ -37,6 +37,7 @@ const createUpload = uploadMethod => async ctx => {
   try {
     const torrent = await uploadMethod(ctx, host, user);
     await transmission.setRatio(torrent.hash, user.uploadRatio, host);
+    await Hosts.markNewUpload(host, torrent);
     return new Promise(resolve =>
       // limit bash upload
       setTimeout(() => {

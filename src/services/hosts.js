@@ -21,6 +21,18 @@ module.exports = {
     return host;
   },
   /**
+   * Mark new upload on host
+   * @param {Host} host
+   * @param {Torrent} torrent
+   * @returns {Promise<Host>}
+   */
+  // eslint-disable-next-line no-unused-vars
+  markNewUpload: async (host, torrent) => {
+    host.set('lastUploadAt', new Date());
+    await host.save();
+    return host;
+  },
+  /**
    * @returns {Promise<Host>}
    */
   getAll: () => Host.findAll(),
