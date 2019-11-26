@@ -15,7 +15,7 @@ module.exports = {
   upsert: async function create(id) {
     const [host] = await Host.findOrCreate({
       where: { id },
-      defaults: { id },
+      defaults: { id, lastUploadAt: new Date() },
     });
 
     return host;
