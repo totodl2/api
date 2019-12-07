@@ -1,5 +1,5 @@
 /* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
-const queue = require('../queues/sseTorrents');
+const queue = require('../queues/sse');
 const { normalize } = require('../services/normalizers/torrents');
 
 const { TORRENTS } = queue.NAMES;
@@ -177,7 +177,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       hooks: {
         // dispatch events to bullmq
-        afterUpdate: (instance, { fields }) => {
+        afterUpdate: async (instance, { fields }) => {
           queue.add(
             TORRENTS.UPDATED,
             fields

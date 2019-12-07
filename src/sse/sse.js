@@ -1,23 +1,25 @@
-const EventEmitter = require('events');
+const EventEmitter = require('eventemitter2').EventEmitter2;
 const Client = require('./client');
 
 /**
  * @param {Number|null} pingInterval
- * @returns {{send: *, middleware: *}}
+ * @param pingInterval
+ * @returns {{createRoute: (function(*): Function), send: *}}
  */
 const createSSE = ({ pingInterval = 5000 } = {}) => {
-  const emitter = new EventEmitter();
-
-  const middleware = function(ctx) {
-    const client = new Client(ctx, emitter, pingInterval);
-    ctx.body = client;
-  };
-
-  const sendData = (name, data) => emitter.emit('event', name, data);
+  const emitter = new EventEmitter({ wildcard: true, maxListeners: 500 });
+  const sendData = (name, data) => emitter.emit(name, name, data);
 
   return {
     send: sendData,
-    middleware,
+    /**
+     * @param {function(ctx)} onInit
+     * @returns {function(...[*]=)}
+     */
+    createRoute: onInit => ctx => {
+      const client = new Client({ ctx, emitter, pingInterval, onInit });
+      ctx.body = client;
+    },
   };
 };
 

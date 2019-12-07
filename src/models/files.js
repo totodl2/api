@@ -1,5 +1,5 @@
 /* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
-const queue = require('../queues/sseTorrents');
+const queue = require('../queues/sse');
 const { normalize } = require('../services/normalizers/files');
 
 const { FILES } = queue.NAMES;
@@ -103,35 +103,20 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       hooks: {
         // dispatch events to bullmq
+        afterCreate: async instance => {
+          const host = await instance.getHost();
+          queue.add(FILES.CREATED, {
+            hash: instance.torrentHash,
+            ...normalize(instance.dataValues, host),
+          });
+        },
         afterUpdate: async (instance, { fields }) => {
-          if (
-            fields.includes('bytesCompleted') &&
-            instance.bytesCompleted === instance.length &&
-            instance.previous('bytesCompleted') !== instance.length
-          ) {
-            const host = await instance.getHost();
-            queue.add(FILES.UPDATED, {
-              hash: instance.torrentHash,
-              id: instance.id,
-              changes: normalize(instance.dataValues, host),
-            });
-          } else {
-            queue.add(
-              FILES.UPDATED,
-              fields.reduce(
-                (prev, fieldName) => {
-                  // eslint-disable-next-line no-param-reassign
-                  prev.changes[fieldName] = instance.dataValues[fieldName];
-                  return prev;
-                },
-                {
-                  hash: instance.torrentHash,
-                  id: instance.id,
-                  changes: {},
-                },
-              ),
-            );
-          }
+          const host = await instance.getHost();
+          queue.add(FILES.UPDATED, {
+            hash: instance.torrentHash,
+            id: instance.id,
+            changes: normalize(instance.dataValues, host),
+          });
         },
       },
     },

@@ -13,9 +13,12 @@ const QUEUE_NAMES = {
     DELETED: 'files.deleted',
     DOWNLOADED: 'files.downloaded',
   },
+  USERS: {
+    UPDATED: 'users.$id.updated',
+  },
 };
 
-module.exports = new Queue('sse-torrents', {
+module.exports = new Queue('sse', {
   redis: {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,

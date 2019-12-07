@@ -1,4 +1,4 @@
-const { send } = require('../../sse/torrents/sse');
+const { send } = require('../../sse/all/sse');
 
 module.exports = async job => {
   send(job.name, job.data);

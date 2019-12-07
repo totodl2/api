@@ -1,14 +1,21 @@
 // eslint-disable-next-line no-unused-vars
-const EventEmitter = require('events');
+const EventEmitter = require('eventemitter2').EventEmitter2;
 const stream = require('stream');
+
+const defaultOnInit = async ctx => {
+  ctx.subscribe('event');
+};
 
 class Client extends stream.Transform {
   /**
-   * @param ctx
-   * @param emitter
-   * @param options
+   * @param {Object} parameters
+   * @param {Object} parameters.ctx
+   * @param {EventEmitter} parameters.emitter
+   * @param {Function} [parameters.onInit]
+   * @param {Number} parameters.pingInterval
    */
-  constructor(ctx, emitter, pingInterval) {
+
+  constructor({ ctx, emitter, onInit, pingInterval }) {
     super({ writableObjectMode: true });
     this.ctx = ctx;
     this.emitter = emitter;
@@ -24,15 +31,23 @@ class Client extends stream.Transform {
 
     this.onPing = this.onPing.bind(this);
     this.onEvent = this.onEvent.bind(this);
+    this.write = this.write.bind(this);
     this._destroy = this._destroy.bind(this);
 
-    emitter.on('event', this.onEvent);
     ctx.socket.on('error', this._destroy);
     ctx.socket.on('close', this._destroy);
 
     if (pingInterval) {
       this.interval = setInterval(this.onPing, pingInterval);
     }
+
+    this.eventsSubscribed = [];
+    this.ctx.subscribe = eventName => {
+      this.eventsSubscribed.push(eventName);
+      emitter.on(eventName, this.onEvent);
+    };
+
+    (onInit || defaultOnInit)(ctx);
 
     this.onPing();
   }
@@ -49,17 +64,24 @@ class Client extends stream.Transform {
     if (this.ctx) {
       this.ctx.socket.off('error', this._destroy);
       this.ctx.socket.off('close', this._destroy);
+      this.ctx.subscribe = null;
       this.ctx = null;
     }
 
     if (this.emitter) {
-      this.emitter.off('event', this.onEvent);
+      this.eventsSubscribed.forEach(eventName => {
+        this.emitter.off(eventName, this.onEvent);
+      });
       this.emitter = null;
     }
 
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
+    }
+
+    if (this.onMessage) {
+      this.onMessage = null;
     }
   }
 

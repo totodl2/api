@@ -1,4 +1,9 @@
 /* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
+const queue = require('../queues/sse');
+
+const { USERS } = queue.NAMES;
+
+const fieldsWatching = ['diskSpace', 'diskUsage'];
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
@@ -66,6 +71,32 @@ module.exports = (sequelize, DataTypes) => {
       schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',
       tableName: 'Users',
       timestamps: true,
+      hooks: {
+        // dispatch events to bullmq
+        afterUpdate: (instance, { fields }) => {
+          const filteredFields = fields.filter(field =>
+            fieldsWatching.includes(field),
+          );
+          if (filteredFields.length <= 0) {
+            return;
+          }
+
+          queue.add(
+            USERS.UPDATED.replace('$id', instance.id),
+            filteredFields.reduce(
+              (prev, field) => {
+                // eslint-disable-next-line no-param-reassign
+                prev.changes[field] = instance.dataValues[field];
+                return prev;
+              },
+              {
+                id: instance.id,
+                changes: {},
+              },
+            ),
+          );
+        },
+      },
     },
   );
 

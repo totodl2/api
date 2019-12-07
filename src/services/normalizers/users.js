@@ -11,4 +11,9 @@ module.exports = {
    * @returns {Object}
    */
   normalizeShort: ({ id, nickname }) => ({ id, nickname }),
+  /**
+   * @param {Object} user
+   * @returns {Object}
+   */
+  normalizeFull: ({ password, ...user }) => user,
 };

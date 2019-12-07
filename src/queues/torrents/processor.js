@@ -4,6 +4,7 @@ const queue = require('./index');
 const { get, set } = require('../../redis');
 const Torrents = require('../../services/torrents');
 const Hosts = require('../../services/hosts');
+const Users = require('../../services/users');
 
 const REDIS_DATE_EXPIRATION = 60 * 60;
 
@@ -11,7 +12,11 @@ const createTorrent = async (
   { objectId, data: { files, ...values } },
   host,
 ) => {
-  await Torrents.upsert({ ...values, hostId: host.id });
+  const torrent = await Torrents.upsert({ ...values, hostId: host.id });
+  const user = await torrent.getUser();
+  if (user) {
+    await Users.updateSpaceUsage(user);
+  }
   return `Torrent ${objectId} created`;
 };
 
@@ -27,6 +32,16 @@ const updateTorrent = async ({
   }
   await torrent.update(values);
 
+  if (
+    parseInt(torrent.previous('totalSize'), 10) !==
+    parseInt(values.totalSize, 10)
+  ) {
+    const user = await torrent.getUser();
+    if (user) {
+      await Users.updateSpaceUsage(user);
+    }
+  }
+
   return `Torrent ${objectId} updated`;
 };
 
@@ -35,7 +50,12 @@ const deleteTorrent = async ({ objectId }) => {
   if (!torrent) {
     throw new Error(`Torrent ${objectId} not found`);
   }
+  const user = await torrent.getUser();
   await torrent.destroy();
+
+  if (user) {
+    await Users.updateSpaceUsage(user);
+  }
 
   return `Torrent ${objectId} destroyed`;
 };

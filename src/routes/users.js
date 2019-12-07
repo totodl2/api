@@ -4,8 +4,12 @@ const Joi = require('@hapi/joi');
 const HttpError = require('../errors/httpError');
 const userSchema = require('../validators/user');
 const joi = require('../middlewares/joi');
+const authenticated = require('../middlewares/authenticated');
+
 const User = require('../services/users');
-const { normalize: normalizeUser } = require('../services/normalizers/users');
+const {
+  normalizeFull: normalizeUser,
+} = require('../services/normalizers/users');
 const Jwt = require('../services/jwt');
 const RefreshToken = require('../services/refreshToken');
 
@@ -44,5 +48,9 @@ router.post(
     }
   },
 );
+
+router.get('/me', authenticated({ fetchUser: true }), ctx => {
+  ctx.body = normalizeUser(ctx.state.user.dataValues);
+});
 
 module.exports = router;
