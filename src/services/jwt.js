@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
-const EXPIRATION = 7200;
-const MAX_AGE = 7300;
+const EXPIRATION = process.env.JWT_EXPIRATION || '7200s';
+const MAX_AGE = process.env.JWT_MAX_AGE || '7300s';
 const ALGO = 'HS512';
 
 module.exports = {
