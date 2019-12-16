@@ -2,6 +2,7 @@
 const queue = require('../queues/sse');
 const { normalize } = require('../services/normalizers/torrents');
 
+const hasRedis = !!process.env.REDIS_HOST;
 const { TORRENTS } = queue.NAMES;
 
 module.exports = (sequelize, DataTypes) => {
@@ -178,6 +179,10 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         // dispatch events to bullmq
         afterUpdate: async (instance, { fields }) => {
+          if (!hasRedis) {
+            return;
+          }
+
           queue.add(
             TORRENTS.UPDATED,
             fields
@@ -196,6 +201,10 @@ module.exports = (sequelize, DataTypes) => {
           );
         },
         afterCreate: async instance => {
+          if (!hasRedis) {
+            return;
+          }
+
           const user = await instance.getUser();
           queue.add(
             TORRENTS.CREATED,
@@ -206,6 +215,10 @@ module.exports = (sequelize, DataTypes) => {
           );
         },
         afterDestroy(instance, options) {
+          if (!hasRedis) {
+            return;
+          }
+
           queue.add(TORRENTS.DELETED, { hash: instance.hash });
         },
       },

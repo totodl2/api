@@ -2,6 +2,7 @@
 const queue = require('../queues/sse');
 const { normalize } = require('../services/normalizers/files');
 
+const hasRedis = !!process.env.REDIS_HOST;
 const { FILES } = queue.NAMES;
 
 module.exports = (sequelize, DataTypes) => {
@@ -104,6 +105,9 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         // dispatch events to bullmq
         afterCreate: async instance => {
+          if (!hasRedis) {
+            return;
+          }
           const host = await instance.getHost();
           queue.add(FILES.CREATED, {
             hash: instance.torrentHash,
@@ -111,6 +115,9 @@ module.exports = (sequelize, DataTypes) => {
           });
         },
         afterUpdate: async (instance, { fields }) => {
+          if (!hasRedis) {
+            return;
+          }
           const host = await instance.getHost();
           queue.add(FILES.UPDATED, {
             hash: instance.torrentHash,

@@ -25,7 +25,7 @@ describe('User normalizer', () => {
   });
 
   it('NormalizeFull should remove password field only', () => {
-    const { email, ...expectedUser } = testUser;
+    const { password, ...expectedUser } = testUser;
     expect(User.normalizeFull(testUser)).toEqual(expectedUser);
   });
 });

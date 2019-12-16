@@ -1,8 +1,8 @@
 /* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
 const queue = require('../queues/sse');
 
+const hasRedis = !!process.env.REDIS_HOST;
 const { USERS } = queue.NAMES;
-
 const fieldsWatching = ['diskSpace', 'diskUsage'];
 
 module.exports = (sequelize, DataTypes) => {
@@ -74,6 +74,10 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         // dispatch events to bullmq
         afterUpdate: (instance, { fields }) => {
+          if (!hasRedis) {
+            return;
+          }
+
           const filteredFields = fields.filter(field =>
             fieldsWatching.includes(field),
           );
