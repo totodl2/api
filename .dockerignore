@@ -1,3 +1,5 @@
 node_modules
 Dockerfile
 .pgen
+.directory
+tmdb_data_sample
