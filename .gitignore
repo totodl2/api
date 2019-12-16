@@ -3,3 +3,4 @@ node_modules
 .directory
 .env
 .idea
+tmdb_data_sample
