@@ -459,6 +459,7 @@ module.exports = {
     });
   },
   down: async queryInterface => {
+    await queryInterface.dropTable('RefreshTokens');
     await queryInterface.dropTable('Users');
     await queryInterface.dropTable('Torrents');
     await queryInterface.dropTable('Hosts');
