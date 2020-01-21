@@ -254,5 +254,15 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  Torrent.STATUS = {
+    STOPPED: 0,
+    CHECK_WAIT: 1,
+    CHECK: 2,
+    DOWNLOAD_WAIT: 3,
+    DOWNLOAD: 4,
+    SEED_WAIT: 5,
+    SEED: 6,
+  };
+
   return Torrent;
 };

@@ -25,11 +25,22 @@ const assertOwner = async (ctx, next) => {
   return next();
 };
 
+const canStartPause = async (ctx, next) => {
+  const { entity: torrent, jwt } = ctx.state;
+
+  if (torrent.isFinished && !Roles.hasRole(jwt.roles, Roles.ROLE_ADMIN)) {
+    throw new HttpError(403, 'User cannot start torrent');
+  }
+
+  return next();
+};
+
 router.post(
   '/pause',
   checkRoleUploader,
   getTorrentMiddleware,
   assertOwner,
+  canStartPause,
   async ctx => {
     const { entity: torrent } = ctx.state;
     const host = await torrent.getHost();
@@ -43,6 +54,7 @@ router.post(
   checkRoleUploader,
   getTorrentMiddleware,
   assertOwner,
+  canStartPause,
   async ctx => {
     const { entity: torrent } = ctx.state;
     const host = await torrent.getHost();
