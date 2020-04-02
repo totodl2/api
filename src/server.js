@@ -12,7 +12,7 @@ app
   .use(
     cors({
       origin: ctx => {
-        if (hosts.includes(ctx.host)) {
+        if (hosts.includes(ctx.origin)) {
           return '*';
         }
         return undefined;
