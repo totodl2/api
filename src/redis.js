@@ -1,5 +1,6 @@
 const util = require('util');
 const redis = require('redis');
+const Sentry = require('@sentry/node');
 
 const client = redis.createClient({
   host: process.env.REDIS_HOST,
@@ -8,8 +9,8 @@ const client = redis.createClient({
 });
 
 client.on('error', function(err) {
-  /** @todo sentry */
   console.log('Error ', err); // eslint-disable-line
+  Sentry.captureException(err);
   process.exit(1);
 });
 

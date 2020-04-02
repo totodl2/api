@@ -28,7 +28,7 @@
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
-    "jest": "^24.9.0",
+    "jest": "^25.2.6",
     "lint-staged": "^9.4.2",
     "nodemon": "^1.19.4",
     "pg-generator": "^4.8.2",
@@ -41,6 +41,7 @@
   "dependencies": {
     "@hapi/joi": "^16.1.7",
     "@koa/cors": "^2.2.3",
+    "@sentry/node": "^5.15.4",
     "axios": "^0.19.0",
     "bcrypt": "^3.0.6",
     "bull": "^3.12.0",
