@@ -22,7 +22,9 @@ module.exports = async (ctx, next) => {
       name:
         (isDev || err instanceof HttpError ? err.name : null) ||
         'Unknown error',
-      message: err.message,
+      message:
+        (isDev || err instanceof HttpError ? err.message : null) ||
+        'Unknown error',
       violations: err.violations,
     };
     ctx.app.emit('error', err, ctx);
