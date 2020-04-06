@@ -9,6 +9,7 @@ before_script:
   - export IMAGE_TAG=$IMAGE_PREFIX`[ ! -z $CI_COMMIT_TAG ] && echo "" || echo "-$CI_COMMIT_SHORT_SHA"`
   - export LATEST_IMAGE_TAG=`[ -z $CI_COMMIT_TAG ] && echo "$IMAGE_PREFIX-" || echo ''`latest
   - export RELEASE=`[[ ! -z $CI_COMMIT_TAG ]] && echo "$CI_COMMIT_TAG" || echo "$CI_COMMIT_SHORT_SHA"`
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 docker:
   stage: build
@@ -18,7 +19,6 @@ docker:
   services:
     - docker:dind
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --build-arg VERSION=$RELEASE -t $CI_REGISTRY_IMAGE:$IMAGE_TAG .
     - docker tag $CI_REGISTRY_IMAGE:$IMAGE_TAG $CI_REGISTRY_IMAGE:$LATEST_IMAGE_TAG
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
