@@ -2,6 +2,7 @@ image: docker:stable
 
 stages:
   - build
+  - test
 
 before_script:
   - export IMAGE_PREFIX=`[ ! -z $CI_MERGE_REQUEST_ID ] && echo "MR$CI_MERGE_REQUEST_ID" || echo $CI_COMMIT_REF_NAME`
@@ -23,3 +24,13 @@ docker:
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
     - docker push $CI_REGISTRY_IMAGE:$LATEST_IMAGE_TAG
     - '[ ! -z $SENTRY_RELEASE_URL ] && curl $SENTRY_RELEASE_URL -X POST -H "Content-Type: application/json" -d "{\"version\": \"$RELEASE\"}" || echo "Sentry not configured"'
+
+test:
+  stage: test
+  only:
+    - tags
+    - release
+  services:
+    - docker:dind
+  script:
+    - docker run --rm -e NODE_ENV=development --entrypoint "bash" $CI_REGISTRY_IMAGE:$IMAGE_TAG -c "npm run lint && npm run test"
