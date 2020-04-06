@@ -20,8 +20,8 @@ module.exports = async (ctx, next) => {
     }
 
     debug(
-      'Invalid request for %o, %s',
-      ctx.req.path,
+      'Invalid request for %s, %s',
+      ctx.request.path,
       err instanceof HttpError ? err.name : '',
     );
 

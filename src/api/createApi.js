@@ -26,6 +26,11 @@ const createFetcher = (defaultConf = {}) => (
       ...(callerConf.headers || {}),
       ...overloadedConf.headers,
     },
+    params: {
+      ...(defaultConf.params || {}),
+      ...(callerConf.params || {}),
+      ...(overloadedConf.params || {}),
+    },
     data: overloadedConf.data || data,
     method: endpoint.method,
     baseURL,
@@ -100,7 +105,7 @@ const createTree = (fetcher, endpoints, previousName = '') =>
  * const api = createApi(schema, { baseURL: 'http://api' });
  * api.endpointA({
  *    routeParams: { var: 123 },
- *    body: { email: 'a@la.com', password: 'b'},
+ *    data: { email: 'a@la.com', password: 'b'},
  *    ...axiosConf
  * }):
  * api.nested.get({ routeParams: { id: 2 }});

@@ -1,0 +1,6 @@
+{
+  "delete": {
+    "method": "DELETE",
+    "path": "/{id}"
+  }
+}

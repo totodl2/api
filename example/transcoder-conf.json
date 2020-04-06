@@ -1,0 +1,24 @@
+{
+  "extensions": ["avi", "mkv", "mp4"],
+  "transcoders": {
+    "audio-sub": {
+      "url": "http://transco-audio",
+      "apiKey": "audio"
+    },
+    "video": {
+      "url": "http://transco-video",
+      "apiKey": "video"
+    }
+  },
+  "muxer": {
+    "url": "http://muxer",
+    "uploadPath": "/upload",
+    "endPath": "/end",
+    "apiKey": "muxer"
+  },
+  "notify": {
+    "url": "http://notify",
+    "path": "/notify",
+    "apiKey": "notify"
+  }
+}

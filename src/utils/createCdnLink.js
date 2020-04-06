@@ -2,12 +2,16 @@ const url = require('url');
 const crypt = require('crypto');
 const { join } = require('path');
 
-const DEFAULT_EXPIRATION = 172800;
+const DEFAULT_EXPIRATION = process.env.LINKS_EXPIRATION || 172800;
 
-module.exports = (id, path, baseURL, secret) => {
-  const expires = (
-    Date.now() + (process.env.LINKS_EXPIRATION || DEFAULT_EXPIRATION)
-  ).toString();
+module.exports = (
+  id,
+  path,
+  baseURL,
+  secret,
+  expiration = DEFAULT_EXPIRATION,
+) => {
+  const expires = (Date.now() + expiration).toString();
 
   const hash = crypt
     .createHash('md5')

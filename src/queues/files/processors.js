@@ -4,6 +4,7 @@ const queue = require('./index');
 const { get, set } = require('../../redis');
 const Files = require('../../services/files');
 const Hosts = require('../../services/hosts');
+const Transcoder = require('../../services/transcoder');
 
 const REDIS_DATE_EXPIRATION = 60 * 60;
 
@@ -23,6 +24,7 @@ const updateFile = async ({ objectId, data: { new: values } }) => {
 };
 
 const deleteFile = async ({ objectId }) => {
+  await Transcoder.clean(objectId);
   const file = await Files.get(objectId);
   if (!file) {
     throw new Error(`File ${objectId} not found`);
@@ -30,6 +32,33 @@ const deleteFile = async ({ objectId }) => {
   await file.destroy();
 
   return `File ${objectId} destroyed`;
+};
+
+const transcodeFile = async ({ objectId }) => {
+  const file = await Files.get(objectId);
+  if (!file) {
+    throw new Error(`File ${objectId} not found`);
+  }
+
+  if (!Transcoder.enabled || !Transcoder.isCompatible(file)) {
+    return `Transcoding not enabled or compatible ${objectId}`;
+  }
+
+  if (file.transcodingAt) {
+    return `File ${objectId} already transcoded`;
+  }
+
+  const supported = await Transcoder.supports(file);
+  if (!supported) {
+    return `Transcoder not supporting file ${objectId}`;
+  }
+
+  await Transcoder.transcode(file);
+
+  file.transcodingAt = new Date();
+  await file.save();
+
+  return `File ${objectId} queued for transcoding`;
 };
 
 module.exports = async job => {
@@ -60,6 +89,8 @@ module.exports = async job => {
       return updateFile(job.data);
     case queue.NAMES.DELETED:
       return deleteFile(job.data);
+    case queue.NAMES.DOWNLOADED:
+      return transcodeFile(job.data);
     default:
       return 'No action available for this job';
   }

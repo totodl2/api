@@ -122,7 +122,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Torrents">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="444.492" y="50"/>
+	<position x="1045.49" y="85"/>
 	<column name="hash" not-null="true">
 		<type name="character varying" length="40"/>
 	</column>
@@ -218,7 +218,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Files">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="444" y="631.063"/>
+	<position x="557" y="70.063"/>
 	<column name="id" not-null="true">
 		<type name="uuid" length="0"/>
 	</column>
@@ -259,6 +259,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="timestamp with time zone" length="0" with-timezone="true"/>
 	</column>
 	<column name="updatedAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="transcoded">
+		<type name="json" length="0"/>
+	</column>
+	<column name="transcodingAt">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="transcodedAt">
 		<type name="timestamp with time zone" length="0" with-timezone="true"/>
 	</column>
 	<constraint name="Files_pkey" type="pk-constr" table="public.&quot;Files&quot;">

@@ -97,6 +97,21 @@ module.exports = (sequelize, DataTypes) => {
         field: 'updatedAt',
         allowNull: false,
       },
+      transcoded: {
+        type: DataTypes.JSON,
+        field: 'transcoded',
+        allowNull: true,
+      },
+      transcodingAt: {
+        type: DataTypes.DATE,
+        field: 'transcodingAt',
+        allowNull: true,
+      },
+      transcodedAt: {
+        type: DataTypes.DATE,
+        field: 'transcodedAt',
+        allowNull: true,
+      },
     },
     {
       schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',
