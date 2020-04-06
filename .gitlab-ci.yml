@@ -22,3 +22,4 @@ docker:
     - docker tag $CI_REGISTRY_IMAGE:$IMAGE_TAG $CI_REGISTRY_IMAGE:$LATEST_IMAGE_TAG
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
     - docker push $CI_REGISTRY_IMAGE:$LATEST_IMAGE_TAG
+    - '[ ! -z $SENTRY_RELEASE_URL ] && curl $SENTRY_RELEASE_URL -X POST -H "Content-Type: application/json" -d "{\"version\": \"$RELEASE\"}" || echo "Sentry not configured"'

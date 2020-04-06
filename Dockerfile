@@ -1,5 +1,6 @@
 FROM node:10.11
 
+ARG VERSION
 ENV NODE_ENV production
 ENV PORT 3000
 

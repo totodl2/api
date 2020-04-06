@@ -1,4 +1,5 @@
 const Sentry = require('@sentry/node');
+const debug = require('../debug')('error');
 const HttpError = require('../errors/httpError');
 
 module.exports = async (ctx, next) => {
@@ -9,12 +10,20 @@ module.exports = async (ctx, next) => {
     const code = err.status || 500;
 
     if (code.toString().substr(0, 1) === '5') {
-      Sentry.withScope(() => {
-        Sentry.setExtra('body', ctx.request.body);
+      Sentry.withScope(scope => {
+        scope.addEventProcessor(event =>
+          Sentry.Handlers.parseRequest(event, ctx.request),
+        );
         Sentry.setExtra('ctxState', ctx.state);
         Sentry.captureException(err);
       });
     }
+
+    debug(
+      'Invalid request for %o, %s',
+      ctx.req.path,
+      err instanceof HttpError ? err.name : '',
+    );
 
     ctx.status = code;
     ctx.body = {

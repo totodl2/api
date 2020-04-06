@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./src/sentry');
 const path = require('path');
 const fs = require('fs');
 
