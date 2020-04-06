@@ -34,4 +34,4 @@ test:
   services:
     - docker:dind
   script:
-    - docker run --rm -e NODE_ENV=development --entrypoint "bash" $CI_REGISTRY_IMAGE:$IMAGE_TAG -c "npm run lint && npm run test"
+    - docker run --rm -e NODE_ENV=development --entrypoint "bash" $CI_REGISTRY_IMAGE:$IMAGE_TAG -c "npm i && npm run lint && npm run test"
