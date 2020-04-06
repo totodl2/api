@@ -19,6 +19,7 @@ docker:
   services:
     - docker:dind
   script:
+    - apk update && (which curl || apk add curl)
     - docker build --build-arg VERSION=$RELEASE -t $CI_REGISTRY_IMAGE:$IMAGE_TAG .
     - docker tag $CI_REGISTRY_IMAGE:$IMAGE_TAG $CI_REGISTRY_IMAGE:$LATEST_IMAGE_TAG
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
