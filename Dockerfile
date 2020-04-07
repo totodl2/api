@@ -2,6 +2,7 @@ FROM node:10.11
 
 ARG VERSION
 ENV NODE_ENV production
+ENV VERSION=$VERSION
 ENV PORT 3000
 
 COPY --chown=node:node "." "/home/node/server"
