@@ -6,7 +6,7 @@ const Transcoder = require('../services/transcoder');
 const DEFAULT_MAX = 15;
 
 module.exports = async () => {
-  const processArgs = process.argv.filter(arg => arg.substr(0, 9) === '--max');
+  const processArgs = process.argv.filter(arg => arg.substr(0, 5) === '--max');
   const max = processArgs.length
     ? parseInt(processArgs[0].split('=')[1], 10)
     : DEFAULT_MAX;
