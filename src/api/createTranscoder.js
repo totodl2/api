@@ -4,5 +4,5 @@ const defaultEndpoints = require('./transcoder.json');
 module.exports = (apiKey, baseURL) =>
   createApi({
     endpoints: defaultEndpoints,
-    axiosDefault: { params: { 'api-key': apiKey }, baseURL },
+    axiosDefault: { params: { 'api-key': apiKey }, baseURL, timeout: 20000 },
   });

@@ -24,12 +24,15 @@ const updateFile = async ({ objectId, data: { new: values } }) => {
 };
 
 const deleteFile = async ({ objectId }) => {
-  await Transcoder.clean(objectId);
   const file = await Files.get(objectId);
-  if (!file) {
-    throw new Error(`File ${objectId} not found`);
+  if (file) {
+    await file.destroy();
+    debug('File %o not found', objectId);
   }
-  await file.destroy();
+
+  if (Transcoder.enabled) {
+    await Transcoder.clean(objectId);
+  }
 
   return `File ${objectId} destroyed`;
 };
@@ -49,14 +52,16 @@ const transcodeFile = async ({ objectId }) => {
   }
 
   const supported = await Transcoder.supports(file);
+  debug('Transcoder support : %o for %o', supported, objectId);
+
   if (!supported) {
     return `Transcoder not supporting file ${objectId}`;
   }
 
   await Transcoder.transcode(file);
+  debug('Transcoding order emitted for %o', objectId);
 
-  file.transcodingAt = new Date();
-  await file.save();
+  await file.update({ transcodingAt: new Date() });
 
   return `File ${objectId} queued for transcoding`;
 };

@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-const debug = require('debug')('queueAllTransco');
+const debug = require('../debug')('queueAllTransco');
 const { File, Sequelize } = require('../models');
 const Transcoder = require('../services/transcoder');
 
