@@ -1,4 +1,7 @@
+const path = require('path');
 const { File } = require('../models');
+
+const SUB_EXTENSIONS = ['ssa', 'ass', 'srt'];
 
 module.exports = {
   /**
@@ -23,5 +26,25 @@ module.exports = {
     }
 
     return file;
+  },
+
+  /**
+   * Search matching subtitle for file @file
+   * @param {Model|File} file
+   * @return {Promise<File | null>}
+   */
+  findSubtitle: file => {
+    const basename = path.basename(file.name, path.extname(file.name));
+    const filenames = SUB_EXTENSIONS.map(
+      extension => `${basename}.${extension}`,
+    );
+
+    return File.findOne({
+      where: {
+        directory: file.directory,
+        torrentHash: file.torrentHash,
+        name: filenames,
+      },
+    });
   },
 };

@@ -6,18 +6,26 @@ const Transcoder = require('../services/transcoder');
 const DEFAULT_MAX = 15;
 
 module.exports = async () => {
-  const processArgs = process.argv.filter(arg => arg.substr(0, 5) === '--max');
-  const max = processArgs.length
-    ? parseInt(processArgs[0].split('=')[1], 10)
+  const maxArgs = process.argv.filter(arg => arg.substr(0, 5) === '--max');
+  const fileIdArgs = process.argv.filter(arg => arg.substr(0, 6) === '--file');
+
+  const max = maxArgs.length
+    ? parseInt(maxArgs[0].split('=')[1], 10)
     : DEFAULT_MAX;
 
+  const fileId = fileIdArgs.length
+    ? parseInt(fileIdArgs[0].split('=')[1], 10)
+    : null;
+
   const files = await File.findAll({
-    where: {
-      transcodingAt: null,
-      transcodedAt: null,
-      extension: Transcoder.compatibles,
-      length: { [Sequelize.Op.eq]: Sequelize.col('bytesCompleted') },
-    },
+    where: fileId
+      ? { id: fileId }
+      : {
+          transcodingAt: null,
+          transcodedAt: null,
+          extension: Transcoder.compatibles,
+          length: { [Sequelize.Op.eq]: Sequelize.col('bytesCompleted') },
+        },
     limit: max,
   });
 

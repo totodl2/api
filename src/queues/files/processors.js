@@ -23,6 +23,10 @@ const updateFile = async ({ objectId, data: { new: values } }) => {
   return `File ${objectId} updated`;
 };
 
+/**
+ * @todo checker l'host, il doit être égal à celui qu'on a en DB pour valider la suppression
+ * @todo Checker si le torrent n'est pas déjà en base a l'upload
+ * */
 const deleteFile = async ({ objectId }) => {
   const file = await Files.get(objectId);
   if (file) {

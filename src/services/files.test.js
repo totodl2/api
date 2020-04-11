@@ -36,4 +36,14 @@ describe.only('Files', () => {
       bytesCompleted: 2,
     });
   });
+
+  it('Should find the subtitle when needed', async () => {
+    const file = await Files.get('a8a4e9d0-9639-4fcd-acc1-1703dc2b2891');
+    const sub = await Files.findSubtitle(file);
+    expect(sub.id).toBe('4a061ef9-5514-4266-aa2e-e2df340e17d9');
+
+    const noSubFile = await Files.get('a8a4e9d0-9639-4fcd-acc1-1703dc2b2892');
+    const noSub = await Files.findSubtitle(noSubFile);
+    expect(noSub).toBe(null);
+  });
 });

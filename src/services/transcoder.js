@@ -6,6 +6,7 @@ const createCdnLink = require('../utils/createCdnLink');
 const createMuxerApi = require('../api/createMuxer');
 const createTranscoderApi = require('../api/createTranscoder');
 const Host = require('./hosts');
+const Files = require('./files');
 
 const { TRANSCODERS_CONF_PATH } = process.env;
 const EXPIRATION_TIME = 5 * 360 * 24 * 60 * 60; // 5 years
@@ -86,6 +87,10 @@ class Transcoder {
   async transcode(file) {
     const host = await Host.getOne(file.hostId);
     const url = generateLongLivedCdnUrl(file, host);
+    const subtitle = await Files.findSubtitle(file);
+    const subtitleUrl = subtitle
+      ? generateLongLivedCdnUrl(subtitle, host)
+      : null;
 
     const transcodersList = this.transcoders.map(t => t.name).join(',');
     const responses = await Promise.all(
@@ -107,6 +112,7 @@ class Transcoder {
                 'api-key': this.notify.apiKey,
                 id: file.id,
               }),
+              ...(subtitleUrl ? { subtitle: subtitleUrl } : {}),
             }),
           },
         }),
