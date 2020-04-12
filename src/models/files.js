@@ -102,9 +102,19 @@ module.exports = (sequelize, DataTypes) => {
         field: 'transcoded',
         allowNull: true,
       },
-      transcodingAt: {
+      transcodingStatus: {
+        type: DataTypes.JSON,
+        field: 'transcodingStatus',
+        allowNull: true,
+      },
+      transcodingQueuedAt: {
         type: DataTypes.DATE,
-        field: 'transcodingAt',
+        field: 'transcodingQueuedAt',
+        allowNull: true,
+      },
+      transcodingFailedAt: {
+        type: DataTypes.DATE,
+        field: 'transcodingFailedAt',
         allowNull: true,
       },
       transcodedAt: {

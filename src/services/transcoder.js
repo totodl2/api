@@ -30,7 +30,7 @@ const generateUrl = (url, path, params = {}) => {
 class Transcoder {
   /**
    *
-   * @param {{extensions: string[],transcoders:{},muxer:{url:string,endPath:string,uploadPath:string,apiKey:string},notify:{url:string,apiKey:string,path:string}}|null} conf
+   * @param {{extensions: string[],transcoders:{},muxer:{url:string,endPath:string,uploadPath:string,apiKey:string},notify:{url:string,apiKey:string,path:string},progress:{url:string,apiKey:string,path:string}}} conf
    */
   constructor(conf = null) {
     this.enabled = !!conf;
@@ -49,6 +49,7 @@ class Transcoder {
     this.muxerApi = createMuxerApi(conf.muxer.apiKey, conf.muxer.url);
     this.muxer = conf.muxer;
     this.notify = conf.notify;
+    this.progress = conf.progress;
     this.compatibles = conf.extensions.map(ext => ext.toLowerCase());
   }
 
@@ -102,6 +103,11 @@ class Transcoder {
             output: generateUrl(this.muxer.url, this.muxer.uploadPath, {
               'api-key': this.muxer.apiKey,
               id: file.id,
+            }),
+            progress: generateUrl(this.progress.url, this.progress.path, {
+              'api-key': this.progress.apiKey,
+              id: file.id,
+              name: transco.name,
             }),
             end: generateUrl(this.muxer.url, this.muxer.endPath, {
               'api-key': this.muxer.apiKey,

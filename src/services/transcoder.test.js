@@ -30,6 +30,11 @@ const testConf = {
     path: '/notify',
     apiKey: 'notify',
   },
+  progress: {
+    url: 'http://progress',
+    path: '/progress',
+    apiKey: 'progress',
+  },
 };
 
 describe('Transcoder', () => {
@@ -132,6 +137,8 @@ describe('Transcoder', () => {
           'http://muxer/upload?api-key=muxer&id=a8a4e9d0-9639-4fcd-acc1-1703dc2b2890',
         end:
           'http://muxer/end?api-key=muxer&id=a8a4e9d0-9639-4fcd-acc1-1703dc2b2890&name=audio-sub&waiting=audio-sub%2Cvideo&notify=http%3A%2F%2Fnotify%2Fnotify%3Fapi-key%3Dnotify%26id%3Da8a4e9d0-9639-4fcd-acc1-1703dc2b2890',
+        progress:
+          'http://progress/progress?api-key=progress&id=a8a4e9d0-9639-4fcd-acc1-1703dc2b2890&name=audio-sub',
       },
       {
         id: 'a8a4e9d0-9639-4fcd-acc1-1703dc2b2890',
@@ -139,6 +146,8 @@ describe('Transcoder', () => {
           'http://muxer/upload?api-key=muxer&id=a8a4e9d0-9639-4fcd-acc1-1703dc2b2890',
         end:
           'http://muxer/end?api-key=muxer&id=a8a4e9d0-9639-4fcd-acc1-1703dc2b2890&name=video&waiting=audio-sub%2Cvideo&notify=http%3A%2F%2Fnotify%2Fnotify%3Fapi-key%3Dnotify%26id%3Da8a4e9d0-9639-4fcd-acc1-1703dc2b2890',
+        progress:
+          'http://progress/progress?api-key=progress&id=a8a4e9d0-9639-4fcd-acc1-1703dc2b2890&name=video',
       },
     ]);
   });

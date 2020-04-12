@@ -264,7 +264,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="transcoded">
 		<type name="json" length="0"/>
 	</column>
-	<column name="transcodingAt">
+	<column name="transcodingStatus">
+		<type name="json" length="0"/>
+	</column>
+	<column name="transcodingQueuedAt">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="transcodingFailedAt">
 		<type name="timestamp with time zone" length="0" with-timezone="true"/>
 	</column>
 	<column name="transcodedAt">

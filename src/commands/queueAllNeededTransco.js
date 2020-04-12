@@ -19,7 +19,8 @@ module.exports = async () => {
     where: fileId
       ? { id: fileId }
       : {
-          transcodingAt: null,
+          transcodingQueuedAt: null,
+          transcodingFailedAt: null,
           transcodedAt: null,
           extension: Transcoder.compatibles,
           length: { [Sequelize.Op.eq]: Sequelize.col('bytesCompleted') },
@@ -33,7 +34,7 @@ module.exports = async () => {
     if (await Transcoder.supports(file)) {
       await Transcoder.transcode(file);
       debug('File %s queued', file.id);
-      await file.update({ transcodingAt: new Date() });
+      await file.update({ transcodingQueuedAt: new Date() });
     }
   }
 

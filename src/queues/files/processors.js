@@ -51,8 +51,8 @@ const transcodeFile = async ({ objectId }) => {
     return `Transcoding not enabled or compatible ${objectId}`;
   }
 
-  if (file.transcodingAt) {
-    return `File ${objectId} already transcoded`;
+  if (file.transcodingQueuedAt) {
+    return `File ${objectId} already queued`;
   }
 
   const supported = await Transcoder.supports(file);
@@ -65,7 +65,7 @@ const transcodeFile = async ({ objectId }) => {
   await Transcoder.transcode(file);
   debug('Transcoding order emitted for %o', objectId);
 
-  await file.update({ transcodingAt: new Date() });
+  await file.update({ transcodingQueuedAt: new Date() });
 
   return `File ${objectId} queued for transcoding`;
 };
