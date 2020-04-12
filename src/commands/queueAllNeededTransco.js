@@ -13,9 +13,7 @@ module.exports = async () => {
     ? parseInt(maxArgs[0].split('=')[1], 10)
     : DEFAULT_MAX;
 
-  const fileId = fileIdArgs.length
-    ? parseInt(fileIdArgs[0].split('=')[1], 10)
-    : null;
+  const fileId = fileIdArgs.length ? fileIdArgs[0].split('=')[1] : null;
 
   const files = await File.findAll({
     where: fileId

@@ -34,7 +34,7 @@ module.exports = {
    * @return {Promise<File | null>}
    */
   findSubtitle: file => {
-    const basename = path.basename(file.name, path.extname(file.name));
+    const basename = path.basename(file.basename, path.extname(file.basename));
     const filenames = SUB_EXTENSIONS.map(
       extension => `${basename}.${extension}`,
     );
@@ -43,7 +43,7 @@ module.exports = {
       where: {
         directory: file.directory,
         torrentHash: file.torrentHash,
-        name: filenames,
+        basename: filenames,
       },
     });
   },
