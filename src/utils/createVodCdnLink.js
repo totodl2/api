@@ -35,4 +35,34 @@ module.exports = {
       ),
     );
   },
+
+  /**
+   * Create playlist url
+   * @param {string} id
+   * @param {string[]} presets
+   * @param {number} expiration
+   * @return {string}
+   */
+  stream: (id, presets, expiration = DEFAULT_EXPIRATION) => {
+    const expires = (Date.now() + expiration).toString();
+
+    const hash = crypt
+      .createHash('md5')
+      .update(expires + VOD_CDN_SECRET + id)
+      .digest('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_');
+
+    return url.resolve(
+      VOD_CDN_URL,
+      path.join(
+        'stream',
+        encodeURIComponent(hash),
+        id,
+        expires,
+        encodeURIComponent(presets.join(',')),
+        'master.m3u8',
+      ),
+    );
+  },
 };

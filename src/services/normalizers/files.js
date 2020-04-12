@@ -16,6 +16,19 @@ const normalizeTranscoded = file => {
   }));
 };
 
+const createVodUrl = file => {
+  const { transcoded } = file;
+  if (!transcoded) {
+    return null;
+  }
+
+  const presets = transcoded
+    .filter(el => el.type === 'media')
+    .map(el => el.title);
+
+  return createVodCdnLink.stream(file.id, presets);
+};
+
 /**
  * Normalize file
  * @param {File} files
@@ -33,6 +46,7 @@ const normalizeOne = (file, host) => {
         host.cdnUrl || '',
         host.cdnSecret || '',
       ),
+      vodUrl: createVodUrl(file),
     };
   }
   return file;
