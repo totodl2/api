@@ -9,11 +9,21 @@ const normalizeTranscoded = file => {
   }
 
   const basename = path.basename(file.name, path.extname(file.name));
-  return transcoded.map(({ type, title: preset, filename }) => ({
-    type,
-    preset,
-    url: createVodCdnLink.download(file.id, filename, basename),
-  }));
+  return transcoded.map(({ type, title: preset, lang, filename }) => {
+    if (type === 'media') {
+      return {
+        type,
+        preset,
+        url: createVodCdnLink.download(file.id, filename, basename),
+      };
+    }
+    return {
+      type,
+      title: preset,
+      lang,
+      url: createVodCdnLink.download(file.id, filename, basename),
+    };
+  });
 };
 
 const createVodUrl = file => {
