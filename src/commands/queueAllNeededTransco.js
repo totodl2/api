@@ -26,6 +26,7 @@ module.exports = async () => {
           length: { [Sequelize.Op.eq]: Sequelize.col('bytesCompleted') },
         },
     limit: max,
+    order: [['createdAt', 'ASC']],
   });
 
   for (let i = 0, sz = files.length; i < sz; i++) {
@@ -34,7 +35,12 @@ module.exports = async () => {
     if (await Transcoder.supports(file)) {
       await Transcoder.transcode(file);
       debug('File %s queued', file.id);
-      await file.update({ transcodingQueuedAt: new Date() });
+      await file.update({
+        transcodingQueuedAt: new Date(),
+        transcodedAt: null,
+        transcodingStatus: null,
+        transcodingFailedAt: null,
+      });
     }
   }
 
