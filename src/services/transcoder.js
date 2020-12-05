@@ -59,7 +59,9 @@ class Transcoder {
    * @return {boolean}
    */
   isCompatible(file) {
-    return this.compatibles.indexOf(file.extension.toLowerCase()) !== -1;
+    return (
+      this.compatibles.indexOf((file.extension || '').toLowerCase()) !== -1
+    );
   }
 
   /**

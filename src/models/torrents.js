@@ -82,6 +82,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(10240),
         field: 'magnetLink',
         allowNull: true,
+        set(value) {
+          if (typeof value === 'string' && value.length >= 10240) {
+            this.setDataValue('magnetLink', value.substr(0, 10239));
+          } else {
+            this.setDataValue('magnetLink', value);
+          }
+        },
       },
       uploadedEver: {
         type: DataTypes.BIGINT,
