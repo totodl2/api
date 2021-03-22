@@ -1,5 +1,6 @@
 const fixtures = require('sequelize-fixtures');
 const Files = require('./files');
+const Movies = require('./movies');
 const { db, ...models } = require('../models');
 
 describe.only('Files', () => {
@@ -11,6 +12,7 @@ describe.only('Files', () => {
         'fixtures/hosts.js',
         'fixtures/torrents.js',
         'fixtures/files.js',
+        'fixtures/movies.js',
       ],
       models,
     );
@@ -45,5 +47,12 @@ describe.only('Files', () => {
     const noSubFile = await Files.get('a8a4e9d0-9639-4fcd-acc1-1703dc2b2892');
     const noSub = await Files.findSubtitle(noSubFile);
     expect(noSub).toBe(null);
+  });
+
+  it('should set movie to file', async () => {
+    const file = await Files.get('a8a4e9d0-9639-4fcd-acc1-1703dc2b2890');
+    const movie = await Movies.get(1);
+    await Files.setMovie(file, movie);
+    expect((await Files.get(file.id, 'movie')).movie.id).toBe(movie.id);
   });
 });

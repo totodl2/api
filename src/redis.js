@@ -8,7 +8,7 @@ const client = redis.createClient({
   password: process.env.REDIS_PASSWORD,
 });
 
-client.on('error', function(err) {
+client.on('error', err => {
   console.log('Error ', err); // eslint-disable-line
   Sentry.captureException(err);
   process.exit(1);
@@ -20,4 +20,5 @@ module.exports = {
   hget: util.promisify(client.hget).bind(client),
   get: util.promisify(client.get).bind(client),
   set: util.promisify(client.set).bind(client),
+  setex: util.promisify(client.setex).bind(client),
 };

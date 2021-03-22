@@ -1,7 +1,7 @@
-/* eslint-disable no-await-in-loop */
-const debug = require('../debug')('queueAllTransco');
+const queue = require('../queues/metadata/index');
+const debug = require('../debug')('queueMetadata');
 const { File, Sequelize } = require('../models');
-const Transcoder = require('../services/transcoder');
+const Metadata = require('../services/metadata');
 
 const DEFAULT_MAX = 15;
 
@@ -19,10 +19,7 @@ module.exports = async () => {
     where: fileId
       ? { id: fileId }
       : {
-          transcodingQueuedAt: null,
-          transcodingFailedAt: null,
-          transcodedAt: null,
-          extension: Transcoder.compatibles,
+          extension: Metadata.supportedExtensions,
           length: { [Sequelize.Op.eq]: Sequelize.col('bytesCompleted') },
         },
     limit: max,
@@ -32,16 +29,10 @@ module.exports = async () => {
   for (let i = 0, sz = files.length; i < sz; i++) {
     const file = files[i];
     debug('Processing %i file %s', i, file.id);
-    if (await Transcoder.supports(file)) {
-      await Transcoder.transcode(file);
-      debug('File %s queued', file.id);
-      await file.update({
-        transcodingQueuedAt: new Date(),
-        transcodedAt: null,
-        transcodingStatus: null,
-        transcodingFailedAt: null,
-      });
-    }
+    await queue.add(queue.NAMES.ANALYZE, {
+      objectId: file.id,
+      data: file.dataValues,
+    });
   }
 
   process.exit(0);

@@ -74,4 +74,18 @@ const normalize = (files, host) => {
   return files.map(file => normalizeOne(file, host));
 };
 
-module.exports = { normalize, normalizeOne };
+const getBrief = ({ id, basename, name, torrentHash }) => ({
+  id,
+  basename,
+  name,
+  torrentHash,
+});
+
+const normalizeBrief = files => {
+  if (Array.isArray(files)) {
+    return files.map(file => getBrief(file));
+  }
+  return getBrief(files);
+};
+
+module.exports = { normalize, normalizeBrief };

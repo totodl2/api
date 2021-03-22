@@ -7,9 +7,10 @@ module.exports = {
   /**
    * Get one file by his hash
    * @param {string} id uuidv4
+   * @param {string|Array<string>} include
    * @returns {Promise<File|null>}
    */
-  get: id => File.findOne({ where: { id } }),
+  get: (id, include) => File.findOne({ where: { id }, include }),
   /**
    * Upsert file
    * @param {Object} data
@@ -46,5 +47,14 @@ module.exports = {
         basename: filenames,
       },
     });
+  },
+
+  /**
+   * @param {File} file
+   * @param {Movie} movie
+   * @return {Promise<void>}
+   */
+  setMovie: async (file, movie) => {
+    await file.setMovie(movie);
   },
 };

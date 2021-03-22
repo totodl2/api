@@ -1,6 +1,8 @@
 const debug = require('debug')('api:workers:filesWorker');
 const queue = require('./index');
 
+const metadataQueue = require('../metadata');
+const Metadata = require('../../services/metadata');
 const { get, set } = require('../../redis');
 const Files = require('../../services/files');
 const Hosts = require('../../services/hosts');
@@ -30,8 +32,16 @@ const updateFile = async ({ objectId, data: { new: values } }) => {
 const deleteFile = async ({ objectId }) => {
   const file = await Files.get(objectId);
   if (file) {
+    const { movieId } = file.dataValues;
     await file.destroy();
     debug('File %o not found', objectId);
+
+    if (Metadata.enabled) {
+      if (movieId) {
+        await metadataQueue.add(metadataQueue.NAMES.VERIFY, { movieId });
+      }
+      // todo: check for tv show
+    }
   }
 
   if (Transcoder.enabled) {
@@ -98,8 +108,17 @@ module.exports = async job => {
       return updateFile(job.data);
     case queue.NAMES.DELETED:
       return deleteFile(job.data);
-    case queue.NAMES.DOWNLOADED:
+    case queue.NAMES.DOWNLOADED: {
+      if (Metadata.enabled && Metadata.support(job.data.data.extension)) {
+        debug(
+          'Add %s (%s) to metadata queue',
+          job.data.objectId,
+          job.data.data.extension,
+        );
+        metadataQueue.add(metadataQueue.NAMES.ANALYZE, job.data);
+      }
       return transcodeFile(job.data);
+    }
     default:
       return 'No action available for this job';
   }

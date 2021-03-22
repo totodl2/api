@@ -122,6 +122,17 @@ module.exports = (sequelize, DataTypes) => {
         field: 'transcodedAt',
         allowNull: true,
       },
+      movieId: {
+        type: DataTypes.INTEGER,
+        field: 'movieId',
+        allowNull: true,
+        references: {
+          model: 'Movies',
+          key: 'id',
+        },
+        onUpdate: 'NO ACTION',
+        onDelete: 'SET NULL',
+      },
     },
     {
       schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',
@@ -157,8 +168,7 @@ module.exports = (sequelize, DataTypes) => {
   File.associate = models => {
     delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
 
-    const { Torrent } = models;
-    const { Host } = models;
+    const { Torrent, Host, Movie } = models;
 
     File.belongsTo(Torrent, {
       as: 'RelatedTorrenthash',
@@ -168,9 +178,16 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     File.belongsTo(Host, {
-      as: 'Host',
+      as: 'host',
       foreignKey: 'hostId',
       onDelete: 'CASCADE',
+      onUpdate: 'NO ACTION',
+    });
+
+    File.belongsTo(Movie, {
+      as: 'movie',
+      foreignKey: 'movieId',
+      onDelete: 'SET NULL',
       onUpdate: 'NO ACTION',
     });
   };

@@ -6,6 +6,8 @@ const tokens = require('./tokens');
 const torrents = require('./torrents');
 const torrent = require('./torrent');
 const internal = require('./internal');
+const metadata = require('./metadata');
+const movies = require('./movies');
 
 const router = new Router();
 
@@ -17,6 +19,10 @@ router.use('/tokens', tokens.routes());
 router.use('/torrents', torrents.routes());
 // Torrent routes
 router.use('/torrents/:hash([a-zA-Z0-9]{40})', torrent.routes());
+// metadata routes
+router.use('/metadata', metadata.routes());
+// movies routes
+router.use('/movies', movies.routes());
 // Internal routes
 router.use(
   '/internal',

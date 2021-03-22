@@ -3,20 +3,20 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.1" last-position="0,0" last-zoom="1"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,221" last-zoom="0.75" max-obj-count="10"
 	 default-schema="public" default-owner="postgres">
 <database name="totodl" encoding="UTF8" lc-collate="en_US.utf8" lc-ctype="en_US.utf8" is-template="false" allow-conns="true">
 	<role name="postgres"/>
 	<tablespace name="pg_default"/>
 </database>
 
-<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+<schema name="public" layer="0" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
 </schema>
 
-<table name="SequelizeMeta">
+<table name="SequelizeMeta" layer="0" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1267" y="706"/>
+	<position x="48.3333" y="39"/>
 	<column name="name" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
@@ -25,18 +25,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<sequence name="Users_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
+<sequence name="Users_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="9223372036854775807" cache="1">
 	<schema name="public"/>
 	<role name="postgres"/>
 </sequence>
 
-<table name="Users">
+<table name="Users" layer="0" collapse-mode="2" max-obj-count="12" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="47.8299" y="315"/>
+	<position x="1594.88" y="715"/>
 	<column name="id" not-null="true" sequence="public.&quot;Users_id_seq&quot;">
 		<type name="integer" length="0"/>
 	</column>
@@ -75,18 +72,50 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<sequence name="Hosts_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
+<sequence name="RefreshTokens_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="9223372036854775807" cache="1">
 	<schema name="public"/>
 	<role name="postgres"/>
 </sequence>
 
-<table name="Hosts">
+<table name="RefreshTokens" layer="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="43.8761" y="684"/>
+	<position x="1596.95" y="438.333"/>
+	<column name="id" not-null="true" sequence="public.&quot;RefreshTokens_id_seq&quot;">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="userId" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="token" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="ip" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="lastUsedAt">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="updatedAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="createdAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<constraint name="RefreshTokens_pkey" type="pk-constr" table="public.&quot;RefreshTokens&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="Hosts_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="9223372036854775807" cache="1">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="Hosts" layer="0" collapse-mode="2" max-obj-count="10" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="933.366" y="1470.33"/>
 	<column name="id" not-null="true" sequence="public.&quot;Hosts_id_seq&quot;">
 		<type name="integer" length="0"/>
 	</column>
@@ -119,10 +148,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="Torrents">
+<table name="Torrents" layer="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1045.49" y="85"/>
+	<position x="1596.11" y="1047"/>
 	<column name="hash" not-null="true">
 		<type name="character varying" length="40"/>
 	</column>
@@ -215,10 +244,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="Files">
+<table name="Files" layer="0" collapse-mode="2" max-obj-count="24" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="557" y="70.063"/>
+	<position x="496.333" y="1296.13"/>
 	<column name="id" not-null="true">
 		<type name="uuid" length="0"/>
 	</column>
@@ -264,17 +293,20 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="transcoded">
 		<type name="json" length="0"/>
 	</column>
-	<column name="transcodingStatus">
-		<type name="json" length="0"/>
-	</column>
 	<column name="transcodingQueuedAt">
-		<type name="timestamp with time zone" length="0" with-timezone="true"/>
-	</column>
-	<column name="transcodingFailedAt">
 		<type name="timestamp with time zone" length="0" with-timezone="true"/>
 	</column>
 	<column name="transcodedAt">
 		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="transcodingStatus">
+		<type name="json" length="0"/>
+	</column>
+	<column name="transcodingFailedAt">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="movieId">
+		<type name="integer" length="0"/>
 	</column>
 	<constraint name="Files_pkey" type="pk-constr" table="public.&quot;Files&quot;">
 		<columns names="id" ref-type="src-columns"/>
@@ -297,51 +329,176 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="RefreshTokens_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="postgres"/>
-</sequence>
+<index name="RefreshTokens_userId_idx" table="public.&quot;RefreshTokens&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;userId&quot;"/>
+		</idxelement>
+</index>
 
-<table name="RefreshTokens">
+<table name="Movies" layer="0" collapse-mode="2" max-obj-count="32" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="47" y="109"/>
-	<column name="id" not-null="true" sequence="public.&quot;RefreshTokens_id_seq&quot;">
+	<position x="529.744" y="630.8"/>
+	<column name="id" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="userId" not-null="true">
+	<column name="adult">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="backdropPath">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="budget">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="homepage">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="imdbId">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="originalLanguage">
+		<type name="character varying" length="8"/>
+	</column>
+	<column name="originalTitle">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="overview">
+		<type name="text" length="0"/>
+	</column>
+	<column name="popularity">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="posterPath">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="releaseDate">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="runtime">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="token" not-null="true">
+	<column name="status">
 		<type name="character varying" length="255"/>
 	</column>
-	<column name="ip" not-null="true">
+	<column name="tagline">
 		<type name="character varying" length="255"/>
 	</column>
-	<column name="lastUsedAt">
+	<column name="title">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="voteAverage">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="voteCount">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="productionCompanies">
+		<type name="json" length="0"/>
+	</column>
+	<column name="productionCountries">
+		<type name="json" length="0"/>
+	</column>
+	<column name="spokenLanguages">
+		<type name="json" length="0"/>
+	</column>
+	<column name="videos">
+		<type name="json" length="0"/>
+	</column>
+	<column name="credits">
+		<type name="json" length="0"/>
+	</column>
+	<column name="images">
+		<type name="json" length="0"/>
+	</column>
+	<column name="keywords">
+		<type name="json" length="0"/>
+	</column>
+	<column name="createdAt" not-null="true">
 		<type name="timestamp with time zone" length="0" with-timezone="true"/>
 	</column>
 	<column name="updatedAt" not-null="true">
 		<type name="timestamp with time zone" length="0" with-timezone="true"/>
 	</column>
-	<column name="createdAt" not-null="true">
-		<type name="timestamp with time zone" length="0" with-timezone="true"/>
-	</column>
-	<constraint name="RefreshTokens_pkey" type="pk-constr" table="public.&quot;RefreshTokens&quot;">
+	<constraint name="Movies_pkey" type="pk-constr" table="public.&quot;Movies&quot;">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<index name="RefreshTokens_userId_idx" table="public.&quot;RefreshTokens&quot;"
+<sequence name="Genres_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="9223372036854775807" cache="1">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="Genres" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="109.822" y="450.8"/>
+	<column name="id" not-null="true" sequence="public.&quot;Genres_id_seq&quot;">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="name">
+		<type name="character varying" length="255"/>
+	</column>
+	<constraint name="Genres_pkey" type="pk-constr" table="public.&quot;Genres&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="Genres_name_key" type="uq-constr" table="public.&quot;Genres&quot;">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="MovieGenres" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="116.033" y="629.467"/>
+	<column name="movieId" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="genreId" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+</table>
+
+<index name="Genres_name_idx" table="public.&quot;Genres&quot;"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="0">
+	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
-			<column name="id"/>
+			<column name="name"/>
 		</idxelement>
 </index>
+
+<index name="Files_movieId_idx" table="public.&quot;Files&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;movieId&quot;"/>
+		</idxelement>
+</index>
+
+<index name="MovieGenres_movieId_idx" table="public.&quot;MovieGenres&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;movieId&quot;"/>
+		</idxelement>
+</index>
+
+<index name="MovieGenres_genreId_idx" table="public.&quot;MovieGenres&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;genreId&quot;"/>
+		</idxelement>
+</index>
+
+<constraint name="RefreshTokens_userId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Users&quot;" table="public.&quot;RefreshTokens&quot;">
+	<columns names="userId" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
 
 <constraint name="Torrents_userId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="SET NULL" ref-table="public.&quot;Users&quot;" table="public.&quot;Torrents&quot;">
@@ -367,38 +524,79 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="RefreshTokens_userId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Users&quot;" table="public.&quot;RefreshTokens&quot;">
-	<columns names="userId" ref-type="src-columns"/>
+<constraint name="Files_movieId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="SET NULL" ref-table="public.&quot;Movies&quot;" table="public.&quot;Files&quot;">
+	<columns names="movieId" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<relationship name="&quot;rel_Torrents_Users&quot;" type="relfk"
-	 custom-color="#47d575"
+<constraint name="MovieGenres_movieId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Movies&quot;" table="public.&quot;MovieGenres&quot;">
+	<columns names="movieId" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="MovieGenres_genreId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Genres&quot;" table="public.&quot;MovieGenres&quot;">
+	<columns names="genreId" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="&quot;rel_RefreshTokens_Users&quot;" type="relfk" layer="0"
+	 custom-color="#33ae5a"
+	 src-table="public.&quot;RefreshTokens&quot;"
+	 dst-table="public.&quot;Users&quot;" reference-fk="RefreshTokens_userId_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="&quot;rel_Torrents_Users&quot;" type="relfk" layer="0"
+	 custom-color="#56b76a"
 	 src-table="public.&quot;Torrents&quot;"
 	 dst-table="public.&quot;Users&quot;" reference-fk="Torrents_userId_fkey"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="&quot;rel_Torrents_Hosts&quot;" type="relfk"
-	 custom-color="#005c08"
+<relationship name="&quot;rel_Torrents_Hosts&quot;" type="relfk" layer="0"
+	 custom-color="#b72528"
 	 src-table="public.&quot;Torrents&quot;"
 	 dst-table="public.&quot;Hosts&quot;" reference-fk="Torrents_hostId_fkey"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="true"/>
 
-<relationship name="&quot;rel_Files_Torrents&quot;" type="relfk"
-	 custom-color="#fb8ef6"
+<relationship name="&quot;rel_Files_Torrents&quot;" type="relfk" layer="0"
+	 custom-color="#8f9f74"
 	 src-table="public.&quot;Files&quot;"
 	 dst-table="public.&quot;Torrents&quot;" reference-fk="Files_torrentHash_fkey"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="true"/>
 
-<relationship name="&quot;rel_RefreshTokens_Users&quot;" type="relfk"
-	 src-table="public.&quot;RefreshTokens&quot;"
-	 dst-table="public.&quot;Users&quot;" reference-fk="RefreshTokens_userId_fkey"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="&quot;rel_Files_Hosts&quot;" type="relfk"
+<relationship name="&quot;rel_Files_Hosts&quot;" type="relfk" layer="0"
+	 custom-color="#f136dd"
 	 src-table="public.&quot;Files&quot;"
 	 dst-table="public.&quot;Hosts&quot;" reference-fk="Files_hostId_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="&quot;rel_Files_Movies&quot;" type="relfk" layer="0"
+	 custom-color="#bc466a"
+	 src-table="public.&quot;Files&quot;"
+	 dst-table="public.&quot;Movies&quot;" reference-fk="Files_movieId_fkey"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="&quot;rel_MovieGenres_Movies&quot;" type="relfk" layer="0"
+	 custom-color="#ec68be"
+	 src-table="public.&quot;MovieGenres&quot;"
+	 dst-table="public.&quot;Movies&quot;" reference-fk="MovieGenres_movieId_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="&quot;rel_MovieGenres_Genres&quot;" type="relfk" layer="0"
+	 custom-color="#6c334a"
+	 src-table="public.&quot;MovieGenres&quot;"
+	 dst-table="public.&quot;Genres&quot;" reference-fk="MovieGenres_genreId_fkey"
+	 src-required="false" dst-required="true"/>
+
+<permission>
+	<object name="public" type="schema"/>
+	<roles names="postgres"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="public" type="schema"/>
+	<privileges create="true" usage="true"/>
+</permission>
 </dbmodel>

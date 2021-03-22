@@ -24,6 +24,7 @@
     "prefer-template": 2,
     "prettier/prettier": "error",
     "react/destructuring-assignment": 0,
-    "require-yield": 0
+    "require-yield": 0,
+    "no-await-in-loop": 0
   }
 }
