@@ -22,8 +22,10 @@ const entries = [
     productionCountries: ['fr', 'us'],
     spokenLanguages: ['fr', 'en'],
     videos: [{ link: 'https://youtube.com' }],
-    cast: [{ person: 'one' }],
-    crew: [{ person: 'two' }],
+    credits: {
+      cast: [{ person: 'one' }],
+      crew: [{ person: 'two' }],
+    },
     images: [{ href: '/test-image ' }],
     keywords: [{ id: 1, name: 'test' }],
   },
