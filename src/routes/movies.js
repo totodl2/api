@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const Movies = require('../services/movies');
+const { File } = require('../models');
 const getRessource = require('../middlewares/getRessource');
 const authenticated = require('../middlewares/authenticated');
 const { normalize } = require('../services/normalizers/movies');
@@ -8,7 +9,8 @@ const router = new Router();
 router.use(authenticated());
 
 const getMovieMiddleware = getRessource(
-  id => Movies.get(id, ['genres', 'files']),
+  id =>
+    Movies.get(id, ['genres', { model: File, as: 'files', include: 'host' }]),
   'params.id',
 );
 

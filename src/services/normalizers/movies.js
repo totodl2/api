@@ -1,4 +1,4 @@
-const { normalizeBrief: normalizeFiles } = require('./files');
+const { normalize: normalizeFiles } = require('./files');
 const { normalize: normalizeGenres } = require('./genres');
 
 /**
