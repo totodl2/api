@@ -1,0 +1,576 @@
+_type: export
+__export_format: 4
+__export_date: 2021-03-23T21:30:10.745Z
+__export_source: insomnia.desktop.app:v2021.1.1
+resources:
+  - _id: req_b116628393dc4c6ba89021ebd69ba100
+    parentId: fld_014cfdc35c674317a4f42f7f1580f722
+    modified: 1616534946824
+    created: 1616534920553
+    url: "{{url}}/movies/genres/13"
+    name: getByGenre
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_44ce867853fe4e58856a03443c60cb9c
+    authentication: {}
+    metaSortKey: -1616534920553
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_014cfdc35c674317a4f42f7f1580f722
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1616450307912
+    created: 1616450307912
+    name: movies
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1616450307913
+    _type: request_group
+  - _id: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    parentId: null
+    modified: 1573083685683
+    created: 1573083476792
+    name: Totodl
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_d81a93e79be54001ad4d08bffdb7024a
+    parentId: fld_014cfdc35c674317a4f42f7f1580f722
+    modified: 1616534933651
+    created: 1616532870586
+    url: "{{url}}/movies/"
+    name: getTop
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_cee98e2a9924459d85c1084718093709
+    authentication: {}
+    metaSortKey: -1616532870586
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_0ea8161955894ece85ddcf78da47fa38
+    parentId: fld_014cfdc35c674317a4f42f7f1580f722
+    modified: 1616450339950
+    created: 1616450311624
+    url: "{{url}}/movies/{{movieId}}"
+    name: getOne
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_746465324e494e9e8dcfc4a14e5a1241
+    authentication: {}
+    metaSortKey: -1616450311624
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_0d10cc5134a44cfca985f74d729074c8
+    parentId: fld_569009bac81f4822bd0061f5cb91f0ce
+    modified: 1616450282899
+    created: 1616450056485
+    url: "{{url}}/metadata"
+    name: configuration
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_9261666a063f4ac18bf530f6550363a0
+    authentication: {}
+    metaSortKey: -1616450056486
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_569009bac81f4822bd0061f5cb91f0ce
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1616450049526
+    created: 1616450049526
+    name: metadata
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1616450049526
+    _type: request_group
+  - _id: req_b35517626b974cb1a3b38a2b3825eaf8
+    parentId: fld_610673b689184923b235c58541fac4db
+    modified: 1586702194913
+    created: 1586699159446
+    url: "{{url}}/internal/transcoder/progress?api-key={{internalApiKey}}&id=413316\
+      7a-89e1-4307-85fe-7dfbfd09b1e7&name=audio-sub"
+    name: Progress transco
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"progress": 10,
+        	"status": "progress",
+        	"job": 12
+        }
+    parameters: []
+    headers:
+      - id: pair_5a5f1e953522473fab3908bdb344f7e7
+        name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1586699159446
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_610673b689184923b235c58541fac4db
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1586195199672
+    created: 1586195199672
+    name: internal
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1586195199672
+    _type: request_group
+  - _id: req_b8fc4ce2f1e44196be080da9842404ff
+    parentId: fld_610673b689184923b235c58541fac4db
+    modified: 1586198473050
+    created: 1586195213176
+    url: "{{url}}/internal/muxer/notify?api-key={{internalApiKey}}&id=bffc0132-dbd9\
+      -4788-baa1-5dc0b9e5eef0"
+    name: End mux notify
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"content": "anything"
+        }
+    parameters: []
+    headers:
+      - id: pair_f5250a362e684fdd8720d3c5b183e77b
+        name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1586195213176
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_f9787510b1c24736a1e9075a492969ac
+    parentId: fld_d999a64d1976496da53cddf89c4967ff
+    modified: 1574022692584
+    created: 1574021329732
+    url: "{{url}}/torrents/{{ hashDemo  }}/pause"
+    name: pause
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_dc04d46600df4d29a70b33138b50e1aa
+        name: x-authorization
+        value: Bearer {{jwt}}
+    authentication: {}
+    metaSortKey: -1574021329732
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_d999a64d1976496da53cddf89c4967ff
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1573211378792
+    created: 1573211378792
+    name: torrents
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1573211378793
+    _type: request_group
+  - _id: req_893f708e540d478b911e4a86cdfbc5ce
+    parentId: fld_d999a64d1976496da53cddf89c4967ff
+    modified: 1574022902723
+    created: 1574022887053
+    url: "{{url}}/torrents/{{ hashDemo  }}/start"
+    name: start
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_dc04d46600df4d29a70b33138b50e1aa
+        name: x-authorization
+        value: Bearer {{jwt}}
+    authentication: {}
+    metaSortKey: -1573855902359
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_c6b254149b414eaabf3a7a215ae4666c
+    parentId: fld_d999a64d1976496da53cddf89c4967ff
+    modified: 1574023153400
+    created: 1574022922073
+    url: "{{url}}/torrents/{{ hashDemo  }}"
+    name: remove
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_dc04d46600df4d29a70b33138b50e1aa
+        name: x-authorization
+        value: Bearer {{jwt}}
+    authentication: {}
+    metaSortKey: -1573773188672.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_f102ee8fb49f4d89953f7763e0fd33c7
+    parentId: fld_d999a64d1976496da53cddf89c4967ff
+    modified: 1574028709947
+    created: 1574027193704
+    url: "{{url}}/torrents/{{hashDemo}}"
+    name: get one
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_dc04d46600df4d29a70b33138b50e1aa
+        name: x-authorization
+        value: Bearer {{jwt}}
+    authentication: {}
+    metaSortKey: -1573731831829.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_416b39a6665648df9ae5969992c4f6cb
+    parentId: fld_d999a64d1976496da53cddf89c4967ff
+    modified: 1573690854342
+    created: 1573690474986
+    url: "{{url}}/torrents?page=1"
+    name: get all torrents
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_f960d53c6b534231a2d146d51d96e9d8
+        name: x-authorization
+        value: Bearer {{jwt}}
+    authentication: {}
+    metaSortKey: -1573690474986
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_d28dc47e3537457fba8b2c34d61946ad
+    parentId: fld_d999a64d1976496da53cddf89c4967ff
+    modified: 1574597828850
+    created: 1573244193827
+    url: "{{url}}/torrents/upload/magnet"
+    name: upload magnet
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"url": "magnet:?xt=urn:btih:33d00d9797ac2da4db50cdd64faf2df188236640&dn=Debian+GNU%2FLinux+5.0.3+i386+CD17&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969"
+        }
+    parameters: []
+    headers:
+      - id: pair_02736672c4ad43a9adf8f22161fed034
+        name: Content-Type
+        value: application/json
+      - id: pair_b9a672f8b2604dba9ceeb6ffdb5ef947
+        name: x-authorization
+        value: Bearer {{jwt}}
+    authentication: {}
+    metaSortKey: -1573244193827
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_eb7bbf18ff5b4f05a1cfa46996aae5d3
+    parentId: fld_d999a64d1976496da53cddf89c4967ff
+    modified: 1574027290011
+    created: 1573211385352
+    url: "{{url}}/torrents/upload/file"
+    name: upload file
+    description: ""
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - fileName: /home/nico/Téléchargements/debian-10.1.0-i386-netinst.iso.torrent
+          id: pair_3d59f4d944404e65ac1eb7ef7ac06b9b
+          name: torrent
+          type: file
+          value: ""
+        - id: pair_9f48c641c8e3450ba515bbcc70022476
+          name: ""
+          value: ""
+    parameters: []
+    headers:
+      - id: pair_7c3d09a16adc467f8aebc91016f3a416
+        name: x-authorization
+        value: Bearer {{jwt}}
+      - id: pair_62ff6fd7f74c4f1a8468d97490f501e8
+        name: Content-Type
+        value: multipart/form-data
+    authentication: {}
+    metaSortKey: -1573211385352
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_12e0f903f7e14ec9b76f5013d4f8298e
+    parentId: fld_3735da75ad1c49f886643961658f75d1
+    modified: 1573209601607
+    created: 1573173524450
+    url: "{{url}}/tokens/renew"
+    name: renew
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsInJvbGVzIjoxLCJpYXQiOjE1NzMxNzMxMzcsImV4cCI6MTU3MzE3MzE0NH0.U9nGnvqKuhrFUdsHGLm0sR4jxDvGOzHkIaDqFje6P0NJyAghOIjpyeajxkLZCIc2QeIpT6P-MZMDVvZ67z7zOg",
+        	"refreshToken": "c8c3ba6fbaf2087a539100b4babf8ecb988026c8a95c11ff60c4c97332749e36"
+        }
+    parameters: []
+    headers:
+      - id: pair_39d553f2c2ea4d56ace03bd641484c92
+        name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1573173524450
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_3735da75ad1c49f886643961658f75d1
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1573173512891
+    created: 1573173512891
+    name: tokens
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1573173512891
+    _type: request_group
+  - _id: req_21f4db80c147493781c979eb0f94ff60
+    parentId: fld_8e44a21bb87c43d0aa4f1076f3544a72
+    modified: 1574805369559
+    created: 1574805335403
+    url: "{{url}}/users/me"
+    name: my profil
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_30b7df6c5ad444e8870567399da300ec
+        name: x-authorization
+        value: Bearer {{jwt}}
+    authentication: {}
+    metaSortKey: -1574805335403
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_8e44a21bb87c43d0aa4f1076f3544a72
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1573173519538
+    created: 1573083535696
+    name: users
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1573083535696
+    _type: request_group
+  - _id: req_ce947c1e17094d0a95221163fe459722
+    parentId: fld_8e44a21bb87c43d0aa4f1076f3544a72
+    modified: 1573495360255
+    created: 1573176119860
+    url: "{{url}}/users/login"
+    name: login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "test@test.fr",
+        	"password": "password"
+        }
+    parameters: []
+    headers:
+      - id: pair_32a8cd234a3a4856b08b1d22702b48e9
+        name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1573176119860
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_d145248f5c134dcbaecc412f30b7aa51
+    parentId: fld_8e44a21bb87c43d0aa4f1076f3544a72
+    modified: 1573208768661
+    created: 1573083515041
+    url: "{{url}}/users/"
+    name: createUser
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "test@test.fr",
+        	"password": "password",
+        	"nickname": "roger"
+        }
+    parameters: []
+    headers:
+      - id: pair_cb94b8ba6df845c9b19972c1d8a9230e
+        name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1573083525368.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_e1c36db86739ebfe2ce6dcb3f0f5a1e35b0c7a81
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1616532901013
+    created: 1573083476828
+    name: Base Environment
+    data:
+      url: http://127.0.0.1:3004
+      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYsInJvbGVzIjoxLCJpYXQiOjE2MTY1MzI4OTIsImV4cCI6MTYxNjU0MDA5Mn0.DDu3gE3SmeVUZ8Gps9rxGwum-vCQeoBdRZb_PBFIO6CdELUNMlzGdUmVuw2lAEab1FqKV7DBm3Uheo09Zo_c0A
+      hashDemo: 0aaf30d9ba50b9a4492279c093b995474462f63b
+      internalApiKey: internal-key
+      movieId: 741074
+    dataPropertyOrder:
+      "&":
+        - url
+        - jwt
+        - hashDemo
+        - internalApiKey
+        - movieId
+    color: null
+    isPrivate: false
+    metaSortKey: 1573083476828
+    _type: environment
+  - _id: jar_e1c36db86739ebfe2ce6dcb3f0f5a1e35b0c7a81
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1573083476830
+    created: 1573083476830
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_25fc0db62cd44e598e958d2459efe44b
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1616423607015
+    created: 1616423607015
+    fileName: Totodl
+    contents: ""
+    contentType: yaml
+    _type: api_spec

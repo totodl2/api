@@ -24,4 +24,20 @@ const normalize = movies => {
   return normalizeOne(movies);
 };
 
-module.exports = { normalize };
+const normalizeOneShort = ({
+  id,
+  backdropPath,
+  originalTitle,
+  popularity,
+  posterPath,
+  title,
+}) => ({ id, backdropPath, originalTitle, popularity, posterPath, title });
+
+const normalizeShort = movies => {
+  if (Array.isArray(movies)) {
+    return movies.map(movie => normalizeOneShort(movie));
+  }
+  return normalizeOneShort(movies);
+};
+
+module.exports = { normalize, normalizeShort };
