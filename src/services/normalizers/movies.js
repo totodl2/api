@@ -31,7 +31,16 @@ const normalizeOneShort = ({
   popularity,
   posterPath,
   title,
-}) => ({ id, backdropPath, originalTitle, popularity, posterPath, title });
+  releaseDate,
+}) => ({
+  id,
+  backdropPath,
+  originalTitle,
+  popularity,
+  posterPath,
+  title,
+  releaseDate,
+});
 
 const normalizeShort = movies => {
   if (Array.isArray(movies)) {

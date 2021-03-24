@@ -1,5 +1,4 @@
 const Metadata = require('../../services/metadata');
-const queue = require('./index');
 
 const { TYPES } = Metadata.Metadata;
 
@@ -18,10 +17,7 @@ module.exports = async ({ data: file }) => {
     }
 
     const movieId = moviesResult[0].id;
-    const job = await queue.add(queue.NAMES.ASSIGN_MOVIE, {
-      file,
-      movieId,
-    });
+    const job = await Metadata.assignMovie(file, movieId);
 
     return `Assign movie ${movieId} in job ${job.id}`;
   }

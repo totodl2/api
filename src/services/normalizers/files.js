@@ -45,10 +45,10 @@ const createVodUrl = file => {
  * @param {Host} host
  * @returns {Object}
  */
-const normalizeOne = ({ host: fileHost, ...file }, host) => {
+const normalizeOne = ({ host: fileHost, torrent, ...file }, host) => {
   if (file.bytesCompleted === file.length) {
     const finalHost = fileHost || host || {};
-    return {
+    const output = {
       ...file,
       transcoded: normalizeTranscoded(file),
       url: createLink(
@@ -59,6 +59,12 @@ const normalizeOne = ({ host: fileHost, ...file }, host) => {
       ),
       vodUrl: createVodUrl(file),
     };
+
+    if (torrent && torrent.userId) {
+      output.userId = torrent.userId;
+    }
+
+    return output;
   }
   return file;
 };

@@ -11,7 +11,10 @@ router.use(authenticated());
 
 const getMovieMiddleware = getRessource(
   id =>
-    Movies.get(id, ['genres', { model: File, as: 'files', include: 'host' }]),
+    Movies.get(id, [
+      'genres',
+      { model: File, as: 'files', include: ['host', 'torrent'] },
+    ]),
   'params.id',
 );
 

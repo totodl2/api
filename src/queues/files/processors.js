@@ -33,12 +33,7 @@ const deleteFile = async ({ objectId }) => {
   const file = await Files.get(objectId);
   if (file) {
     if (Metadata.enabled) {
-      if (file.movieId) {
-        await metadataQueue.add(metadataQueue.NAMES.VERIFY_MOVIE, {
-          movieId: file.movieId,
-        });
-      }
-      // todo: check for tv show
+      await Metadata.remove(file);
     }
     await file.destroy();
     debug('File %o destroyed', objectId);

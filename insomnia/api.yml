@@ -1,7 +1,7 @@
 _type: export
 __export_format: 4
-__export_date: 2021-03-23T21:30:10.745Z
-__export_source: insomnia.desktop.app:v2021.1.1
+__export_date: 2021-03-24T22:23:25.129Z
+__export_source: insomnia.desktop.app:v2021.2.0
 resources:
   - _id: req_b116628393dc4c6ba89021ebd69ba100
     parentId: fld_014cfdc35c674317a4f42f7f1580f722
@@ -96,11 +96,100 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
+  - _id: req_5c067befbb9a4a85977bb25e08be612f
+    parentId: fld_569009bac81f4822bd0061f5cb91f0ce
+    modified: 1616616281118
+    created: 1616616232863
+    url: "{{url}}/metadata/files/{{demoFileId}}"
+    name: removeMetadata
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_a5088ad1f8194d0391fc54725105ef32
+    authentication: {}
+    metaSortKey: -1616616232863
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_569009bac81f4822bd0061f5cb91f0ce
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1616450049526
+    created: 1616450049526
+    name: metadata
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1616450049526
+    _type: request_group
+  - _id: req_e9ebc8cba364426bb3efdb74832e345b
+    parentId: fld_569009bac81f4822bd0061f5cb91f0ce
+    modified: 1616624004072
+    created: 1616616286952
+    url: "{{url}}/metadata/files/{{demoFileId}}"
+    name: setMetadata
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_df9fa1f6dca44e89ab945a0c3e4605fe
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_d7a79e71e5bf4fabb8dbdfb677d882e6
+    authentication: {}
+    metaSortKey: -1616533144699.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_418782b133a84b14a77443513d729562
+    parentId: fld_569009bac81f4822bd0061f5cb91f0ce
+    modified: 1616608621214
+    created: 1616608562032
+    url: "{{url}}/metadata/movies/?query=rambo"
+    name: searchMovies
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_a1538a14da314edfa51085889286a798
+    authentication: {}
+    metaSortKey: -1616450056536
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
   - _id: req_0d10cc5134a44cfca985f74d729074c8
     parentId: fld_569009bac81f4822bd0061f5cb91f0ce
-    modified: 1616450282899
+    modified: 1616608594301
     created: 1616450056485
-    url: "{{url}}/metadata"
+    url: "{{url}}/metadata/configuration"
     name: configuration
     description: ""
     method: GET
@@ -121,16 +210,6 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
-  - _id: fld_569009bac81f4822bd0061f5cb91f0ce
-    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
-    modified: 1616450049526
-    created: 1616450049526
-    name: metadata
-    description: ""
-    environment: {}
-    environmentPropertyOrder: null
-    metaSortKey: -1616450049526
-    _type: request_group
   - _id: req_b35517626b974cb1a3b38a2b3825eaf8
     parentId: fld_610673b689184923b235c58541fac4db
     modified: 1586702194913
@@ -539,13 +618,14 @@ resources:
     _type: request
   - _id: env_e1c36db86739ebfe2ce6dcb3f0f5a1e35b0c7a81
     parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
-    modified: 1616532901013
+    modified: 1616616328244
     created: 1573083476828
     name: Base Environment
     data:
       url: http://127.0.0.1:3004
-      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYsInJvbGVzIjoxLCJpYXQiOjE2MTY1MzI4OTIsImV4cCI6MTYxNjU0MDA5Mn0.DDu3gE3SmeVUZ8Gps9rxGwum-vCQeoBdRZb_PBFIO6CdELUNMlzGdUmVuw2lAEab1FqKV7DBm3Uheo09Zo_c0A
+      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZXMiOjEsImlhdCI6MTYxNjYxNjMyMiwiZXhwIjoxNjE2NjIzNTIyfQ.I9OelKl0y1j6m_xLgTlC_20EGLv983mTh76PFDlNHkQXgRUMLbUKti7IcGvmNQlvol5caMz1rjdSSVotuwQAOA
       hashDemo: 0aaf30d9ba50b9a4492279c093b995474462f63b
+      demoFileId: ae272cc3-9771-4aad-8bea-cab7d830a6d2
       internalApiKey: internal-key
       movieId: 741074
     dataPropertyOrder:
@@ -553,6 +633,7 @@ resources:
         - url
         - jwt
         - hashDemo
+        - demoFileId
         - internalApiKey
         - movieId
     color: null

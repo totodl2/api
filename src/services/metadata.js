@@ -5,6 +5,7 @@ const createSchema = require('tmdb-graphql/src/gql/createSchema');
 const createApi = require('tmdb-graphql/src/api/tmdb');
 const guessit = require('guessit-exec');
 
+const queue = require('../queues/metadata/index');
 const redis = require('../redis');
 const lowerToCamel = require('./transformers/lowerToCamel');
 
@@ -88,6 +89,34 @@ class Metadata {
    */
   support(extension) {
     return this.supportedExtensions.includes(extension.toLowerCase());
+  }
+
+  /**
+   * Remove metadata from file
+   * @param {File} file
+   * @return {Promise<boolean>}
+   */
+  async remove(file) {
+    const { movieId } = file;
+    if (movieId) {
+      await file.update({ movieId: null });
+      await queue.add(queue.NAMES.VERIFY_MOVIE, { movieId });
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * @param {File|Object} file
+   * @param {Number} movieId
+   * @return {Promise<Boolean>}
+   */
+  async assignMovie(file, movieId) {
+    await queue.add(queue.NAMES.ASSIGN_MOVIE, {
+      file,
+      movieId,
+    });
+    return true;
   }
 
   /**

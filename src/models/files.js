@@ -171,7 +171,7 @@ module.exports = (sequelize, DataTypes) => {
     const { Torrent, Host, Movie } = models;
 
     File.belongsTo(Torrent, {
-      as: 'RelatedTorrenthash',
+      as: 'torrent',
       foreignKey: 'torrentHash',
       onDelete: 'CASCADE',
       onUpdate: 'NO ACTION',

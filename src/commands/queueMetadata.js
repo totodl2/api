@@ -28,8 +28,8 @@ module.exports = async () => {
 
   for (let i = 0, sz = files.length; i < sz; i++) {
     const file = files[i];
-    debug('Processing %i file %s', i, file.id);
-    await queue.add(queue.NAMES.ANALYZE, {
+    debug('Processing %i file %s (%s)', i, file.id, file.basename);
+    await queue.add(queue.NAMES.FILE_ANALYZE, {
       objectId: file.id,
       data: file.dataValues,
     });
