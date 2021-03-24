@@ -6,7 +6,7 @@ const { QueryTypes, Op } = Sequelize;
 module.exports = {
   /**
    * @param {Number} id
-   * @param {Array<String>|String} include included relations
+   * @param {Array<String>|String} [include] included relations
    * @return {Promise<Movie | null>}
    */
   get: (id, include) => Movie.findOne({ where: { id }, include }),
@@ -39,8 +39,8 @@ module.exports = {
   },
 
   /**
-   * @param {number} genreId
-   * @param {number} limit
+   * @param {number|null} [genreId]
+   * @param {number} [limit]
    * @return {Promise<Movie[]>}
    */
   getLast: async ({ genreId = null, limit = 12 } = {}) => {

@@ -1,8 +1,9 @@
 const Queue = require('bull');
 
 const QUEUE_NAMES = {
-  ANALYZE: 'analyze', // it will analyze the given file
-  VERIFY: 'verify', // it will check if there is files associated with the given movie
+  FILE_ANALYZE: 'file.analyze', // it will analyze the given file
+  ASSIGN_MOVIE: 'movie.assign', // assign movie to file
+  VERIFY_MOVIE: 'movie.verify', // it will check if there is files associated with the given movie
 };
 
 module.exports = new Queue('metadata', {

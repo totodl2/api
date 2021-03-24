@@ -32,16 +32,16 @@ const updateFile = async ({ objectId, data: { new: values } }) => {
 const deleteFile = async ({ objectId }) => {
   const file = await Files.get(objectId);
   if (file) {
-    const { movieId } = file.dataValues;
-    await file.destroy();
-    debug('File %o not found', objectId);
-
     if (Metadata.enabled) {
-      if (movieId) {
-        await metadataQueue.add(metadataQueue.NAMES.VERIFY, { movieId });
+      if (file.movieId) {
+        await metadataQueue.add(metadataQueue.NAMES.VERIFY_MOVIE, {
+          movieId: file.movieId,
+        });
       }
       // todo: check for tv show
     }
+    await file.destroy();
+    debug('File %o destroyed', objectId);
   }
 
   if (Transcoder.enabled) {
@@ -115,7 +115,7 @@ module.exports = async job => {
           job.data.objectId,
           job.data.data.extension,
         );
-        metadataQueue.add(metadataQueue.NAMES.ANALYZE, job.data);
+        await metadataQueue.add(metadataQueue.NAMES.FILE_ANALYZE, job.data);
       }
       return transcodeFile(job.data);
     }

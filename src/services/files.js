@@ -7,7 +7,7 @@ module.exports = {
   /**
    * Get one file by his hash
    * @param {string} id uuidv4
-   * @param {string|Array<string>} include
+   * @param {string|Array<string>} [include]
    * @returns {Promise<File|null>}
    */
   get: (id, include) => File.findOne({ where: { id }, include }),

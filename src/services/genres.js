@@ -5,14 +5,14 @@ const { QueryTypes } = Sequelize;
 module.exports = {
   /**
    * @param {Number} id
-   * @param {Array<String>|String} include included relations
+   * @param {Array<String>|String} [include] included relations
    * @return {Promise<Genre | null>}
    */
   get: (id, include) => Genre.findOne({ where: { id }, include }),
 
   /**
    * @param {string} name
-   * @param transaction
+   * @param [transaction]
    * @return {Promise<*>}
    */
   findOrCreate: async (name, transaction) => {
