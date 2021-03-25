@@ -8,22 +8,22 @@ module.exports = ({ role, fetchUser } = {}) => async (ctx, next) => {
     ctx.headers['x-authorization'] || ctx.query['x-authorization'];
 
   if (!bearerToken) {
-    throw new HttpError(403);
+    throw new HttpError(403, 'Invalid token');
   }
 
   const splitted = bearerToken.split(' ');
   if (splitted.length <= 1) {
-    throw new HttpError(403);
+    throw new HttpError(403, 'Invalid token');
   }
 
   try {
     ctx.state.jwt = Jwt.verify(splitted[1]);
   } catch (e) {
-    throw new HttpError(403);
+    throw new HttpError(403, 'Invalid token');
   }
 
   if (role && !Roles.hasRole(ctx.state.jwt.roles, role)) {
-    throw new HttpError(403);
+    throw new HttpError(403, 'Invalid grant');
   }
 
   if (fetchUser) {

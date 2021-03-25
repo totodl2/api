@@ -52,27 +52,18 @@ const transcodeFile = async ({ objectId }) => {
     throw new Error(`File ${objectId} not found`);
   }
 
-  if (!Transcoder.enabled || !Transcoder.isCompatible(file)) {
-    return `Transcoding not enabled or compatible ${objectId}`;
+  if (!Transcoder.enabled) {
+    return `Transcoding not enabled for ${objectId}`;
   }
 
   if (file.transcodingQueuedAt) {
     return `File ${objectId} already queued`;
   }
 
-  const supported = await Transcoder.supports(file);
-  debug('Transcoder support : %o for %o', supported, objectId);
+  const transcoding = await Transcoder.transcode(file);
+  debug('Transcoding order emitted for %o - success %o', objectId, transcoding);
 
-  if (!supported) {
-    return `Transcoder not supporting file ${objectId}`;
-  }
-
-  await Transcoder.transcode(file);
-  debug('Transcoding order emitted for %o', objectId);
-
-  await file.update({ transcodingQueuedAt: new Date() });
-
-  return `File ${objectId} queued for transcoding`;
+  return `File ${objectId} ${transcoding ? 'not ' : ''} queued for transcoding`;
 };
 
 module.exports = async job => {

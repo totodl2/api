@@ -32,15 +32,8 @@ module.exports = async () => {
   for (let i = 0, sz = files.length; i < sz; i++) {
     const file = files[i];
     debug('Processing %i file %s', i, file.id);
-    if (await Transcoder.supports(file)) {
-      await Transcoder.transcode(file);
+    if (await Transcoder.transcode(file)) {
       debug('File %s queued', file.id);
-      await file.update({
-        transcodingQueuedAt: new Date(),
-        transcodedAt: null,
-        transcodingStatus: null,
-        transcodingFailedAt: null,
-      });
     }
   }
 

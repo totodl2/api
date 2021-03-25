@@ -2,12 +2,21 @@ const Router = require('koa-router');
 const Joi = require('@hapi/joi');
 const set = require('lodash.set');
 
+const createApiKeyAuth = require('../middlewares/createApiKeyAuth');
 const joi = require('../middlewares/joi');
 const HttpError = require('../errors/httpError');
 const File = require('../services/files');
 const Transcoder = require('../services/transcoder');
 
 const router = new Router();
+const auth = createApiKeyAuth(
+  (process.env.INTERNAL_API_KEYS || '')
+    .split(',')
+    .map(key => key.toLowerCase())
+    .filter(Boolean),
+);
+
+router.use(auth);
 
 router.post(
   '/muxer/notify',

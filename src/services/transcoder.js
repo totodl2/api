@@ -88,12 +88,28 @@ class Transcoder {
    * @return {Promise<boolean>}
    */
   async transcode(file) {
+    if (!this.isCompatible(file)) {
+      return false;
+    }
+
+    const supported = await this.supports(file);
+    if (!supported) {
+      return false;
+    }
+
     const host = await Host.getOne(file.hostId);
     const url = generateLongLivedCdnUrl(file, host);
     const subtitle = await Files.findSubtitle(file);
     const subtitleUrl = subtitle
       ? generateLongLivedCdnUrl(subtitle, host)
       : null;
+
+    await file.update({
+      transcodingQueuedAt: new Date(),
+      transcodedAt: null,
+      transcodingStatus: null,
+      transcodingFailedAt: null,
+    });
 
     const transcodersList = this.transcoders.map(t => t.name).join(',');
     const responses = await Promise.all(
