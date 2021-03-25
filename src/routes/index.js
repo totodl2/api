@@ -25,7 +25,7 @@ router.use('/metadata', metadata.routes());
 router.use('/movies', movies.routes());
 // Internal routes
 router.use('/internal', internal.routes());
-// transcoder rotues
+// transcoder routes
 router.use('/transcoders', transcoders.routes());
 
 module.exports = router;

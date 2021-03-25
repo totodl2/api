@@ -41,9 +41,10 @@ module.exports = {
   /**
    * @param {number|null} [genreId]
    * @param {number} [limit]
+   * @param {number} [from]
    * @return {Promise<Movie[]>}
    */
-  getLast: async ({ genreId = null, limit = 12 } = {}) => {
+  getLast: async ({ genreId = null, from = 0, limit = 12 } = {}) => {
     let results = [];
 
     if (genreId) {
@@ -57,10 +58,10 @@ module.exports = {
           AND mg."genreId" = ?
         GROUP BY f."movieId"
         ORDER BY MAX(f."createdAt") DESC
-        LIMIT ?
+        LIMIT ? OFFSET ?
       `,
         {
-          replacements: [genreId, limit],
+          replacements: [genreId, limit, from],
           type: QueryTypes.SELECT,
         },
       );
@@ -73,10 +74,10 @@ module.exports = {
         WHERE f."movieId" IS NOT NULL
         GROUP BY f."movieId"
         ORDER BY MAX(f."createdAt") DESC
-        LIMIT ?
+        LIMIT ? OFFSET ?
       `,
         {
-          replacements: [limit],
+          replacements: [limit, from],
           type: QueryTypes.SELECT,
         },
       );

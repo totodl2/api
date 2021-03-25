@@ -1,4 +1,6 @@
 const Router = require('koa-router');
+const Joi = require('@hapi/joi');
+const joi = require('../middlewares/joi');
 const Movies = require('../services/movies');
 const Genres = require('../services/genres');
 const { File } = require('../models');
@@ -28,48 +30,34 @@ router.get('/:id([0-9]+)', getMovieMiddleware, async ctx => {
   });
 });
 
-router.get('/', async ctx => {
+const renderMoviesPage = async (genre, from, limit = 102) => {
   const genres = await Genres.getAll();
-  const selectedGenres = genres.slice(0, 5);
-  const results = {
+  return {
     genres,
-    movies: [],
-  };
-
-  results.movies.push({
-    type: 'last',
-    data: normalizeShort(await Movies.getLast({ limit: 24 })),
-  });
-
-  for (let i = 0, sz = selectedGenres.length; i < sz; i++) {
-    const genre = selectedGenres[i];
-    results.movies.push({
-      type: genre.id,
-      data: normalizeShort(await Movies.getLast({ genreId: genre.id })),
-    });
-  }
-
-  ctx.body = results;
-});
-
-const getGenreMiddleware = getRessource(id => Genres.get(id), 'params.id');
-
-router.get('/genres/:id([0-9]+)', getGenreMiddleware, async ctx => {
-  const { entity: genre } = ctx.state;
-  const genres = await Genres.getAll();
-  const results = {
-    genres,
-    movies: [],
-  };
-
-  results.movies.push({
-    type: 'last',
     data: normalizeShort(
-      await Movies.getLast({ genreId: genre.id, limit: 100 }),
+      await Movies.getLast({ genreId: genre ? genre.id : null, from, limit }),
     ),
-  });
+  };
+};
 
-  ctx.body = results;
-});
+router.get(
+  '/',
+  joi(Joi.object({ from: Joi.number().min(0) }), 'request.query'),
+  async ctx => {
+    const { from = 0 } = ctx.query || {};
+    ctx.body = await renderMoviesPage(null, from);
+  },
+);
+
+router.get(
+  '/genres/:id([0-9]+)',
+  joi(Joi.object({ from: Joi.number().min(0) }), 'request.query'),
+  getRessource(id => Genres.get(id), 'params.id'),
+  async ctx => {
+    const { entity: genre } = ctx.state;
+    const { from = 0 } = ctx.query || {};
+    ctx.body = await renderMoviesPage(genre, from);
+  },
+);
 
 module.exports = router;
