@@ -3,6 +3,7 @@ const koaBody = require('koa-body');
 const Joi = require('@hapi/joi');
 const get = require('lodash.get');
 
+const { normalizeShort } = require('../services/normalizers/torrents');
 const { Torrent } = require('../models');
 const Hosts = require('../services/hosts');
 const Users = require('../services/users');
@@ -84,10 +85,12 @@ router.post(
 );
 
 router.get('/', checkAuthenticated, async ctx => {
-  ctx.body = await Torrent.findAll({
-    order: [['createdAt', 'DESC']],
-    include: 'user',
-  });
+  ctx.body = normalizeShort(
+    (await Torrent.findAll({
+      order: [['createdAt', 'DESC']],
+      include: 'user',
+    })).map(torrent => torrent.dataValues),
+  );
 });
 
 module.exports = router;

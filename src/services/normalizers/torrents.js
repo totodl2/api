@@ -4,7 +4,7 @@ const { normalize: normalizeFiles } = require('./files');
 /**
  * @param torrent
  * @param {Host|null} host
- * @returns {{user: (*|null)}}
+ * @returns {Object}
  */
 const normalizeOne = (torrent, host) => ({
   ...torrent,
@@ -17,11 +17,31 @@ const normalizeOne = (torrent, host) => ({
  * @param {Host|null} host
  * @returns {Array<Object>|Object}
  */
-const normalize = function normalize(torrents, host = null) {
+const normalize = (torrents, host = null) => {
   if (!Array.isArray(torrents)) {
     return normalizeOne(torrents, host);
   }
   return torrents.map(torrent => normalizeOne(torrent, host));
 };
 
-module.exports = { normalizeOne, normalize };
+/**
+ * @param {Torrent} torrent
+ * @return {Object}
+ */
+const normalizeOneShort = ({ files, user, ...torrent }) => ({
+  ...torrent,
+  user: user ? normalizeUser(user) : null,
+});
+
+/**
+ * @param {Array<Torrent>|Torrent} torrents
+ * @returns {Array<Object>|Object}
+ */
+const normalizeShort = torrents => {
+  if (!Array.isArray(torrents)) {
+    return normalizeOneShort(torrents);
+  }
+  return torrents.map(torrent => normalizeOneShort(torrent));
+};
+
+module.exports = { normalize, normalizeShort };
