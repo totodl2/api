@@ -21,6 +21,8 @@ module.exports = async () => {
       : {
           extension: Metadata.supportedExtensions,
           length: { [Sequelize.Op.eq]: Sequelize.col('bytesCompleted') },
+          tvId: null,
+          movieId: null,
         },
     limit: max,
     order: [['createdAt', 'ASC']],

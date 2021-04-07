@@ -35,14 +35,14 @@ module.exports = (sequelize, DataTypes) => {
       as: 'movies',
     });
 
-    // Genre.belongsToMany(models.Tv, {
-    //   through: {
-    //     model: models.TvGenre,
-    //   },
-    //   foreignKey: 'genre_id',
-    //   otherKey: 'tv_id',
-    //   as: 'Tv',
-    // });
+    Genre.belongsToMany(models.Tv, {
+      through: {
+        model: models.TvGenre,
+      },
+      foreignKey: 'genreId',
+      otherKey: 'tvId',
+      as: 'tv',
+    });
   };
 
   return Genre;

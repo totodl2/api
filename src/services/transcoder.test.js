@@ -121,6 +121,7 @@ describe('Transcoder', () => {
   it('should transcode media', async () => {
     const file = await Files.get(mediaFileId);
     const submitted = [];
+    mock.onPost('/support').reply(() => [200, true]);
     mock.onPut('/').reply(config => {
       submitted.push(JSON.parse(config.data));
       return [200, true];

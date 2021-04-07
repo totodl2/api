@@ -97,10 +97,19 @@ class Metadata {
    * @return {Promise<boolean>}
    */
   async remove(file) {
-    const { movieId } = file;
+    const { movieId, tvId } = file;
     if (movieId) {
       await file.update({ movieId: null });
       await queue.add(queue.NAMES.VERIFY_MOVIE, { movieId });
+      return true;
+    }
+    if (tvId) {
+      await file.update({
+        tvId: null,
+        episodeNumber: null,
+        seasonNumber: null,
+      });
+      await queue.add(queue.NAMES.VERIFY_TV, { movieId });
       return true;
     }
     return false;
@@ -120,6 +129,23 @@ class Metadata {
   }
 
   /**
+   * @param {File|Object} file
+   * @param {number} tvId
+   * @param {number} seasonNumber
+   * @param {number} episodeNumber
+   * @returns {Promise<boolean>}
+   */
+  async assignTv(file, tvId, seasonNumber, episodeNumber) {
+    await queue.add(queue.NAMES.ASSIGN_TV, {
+      file,
+      tvId,
+      seasonNumber,
+      episodeNumber,
+    });
+    return true;
+  }
+
+  /**
    * @param {string} title
    * @return {Promise<*>}
    */
@@ -128,11 +154,27 @@ class Metadata {
   }
 
   /**
+   * @param {string} title
+   * @return {Promise<*>}
+   */
+  async searchTv(title) {
+    return lowerToCamel(await this.tmdb.searchTv(title));
+  }
+
+  /**
    * @param {Number} id
    * @return {Promise<*>}
    */
   async getMovie(id) {
     return lowerToCamel(await this.tmdb.getMovie(id));
+  }
+
+  /**
+   * @param {Number} id
+   * @return {Promise<*>}
+   */
+  async getTv(id) {
+    return lowerToCamel(await this.tmdb.getTv(id));
   }
 
   /**

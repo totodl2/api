@@ -133,6 +133,25 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'NO ACTION',
         onDelete: 'SET NULL',
       },
+      tvId: {
+        type: DataTypes.INTEGER,
+        field: 'tvId',
+        allowNull: true,
+        references: {
+          model: 'Tv',
+          key: 'id',
+        },
+        onUpdate: 'NO ACTION',
+        onDelete: 'SET NULL',
+      },
+      seasonNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      episodeNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
     {
       schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',
@@ -168,7 +187,7 @@ module.exports = (sequelize, DataTypes) => {
   File.associate = models => {
     delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
 
-    const { Torrent, Host, Movie } = models;
+    const { Torrent, Host, Movie, Tv } = models;
 
     File.belongsTo(Torrent, {
       as: 'torrent',
@@ -187,6 +206,13 @@ module.exports = (sequelize, DataTypes) => {
     File.belongsTo(Movie, {
       as: 'movie',
       foreignKey: 'movieId',
+      onDelete: 'SET NULL',
+      onUpdate: 'NO ACTION',
+    });
+
+    File.belongsTo(Tv, {
+      as: 'tv',
+      foreignKey: 'tvId',
       onDelete: 'SET NULL',
       onUpdate: 'NO ACTION',
     });

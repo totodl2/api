@@ -57,4 +57,20 @@ module.exports = {
   setMovie: async (file, movie) => {
     await file.setMovie(movie);
   },
+
+  /**
+   * @param {File} file
+   * @param {Tv} tv
+   * @param {number} seasonNumber
+   * @param {number} episodeNumber
+   * @returns {Promise<void>}
+   */
+  setTv: async (file, tv, seasonNumber, episodeNumber) => {
+    /* eslint-disable no-param-reassign */
+    file.seasonNumber = seasonNumber;
+    file.episodeNumber = episodeNumber;
+    await file.setTv(tv);
+    /* eslint-enable no-param-reassign */
+    await file.save();
+  },
 };
