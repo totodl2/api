@@ -27,17 +27,35 @@ module.exports = {
   /**
    * @return {Promise<Array<{id:Number,name:String,count:Number}>>}
    */
-  getAll: async () =>
+  getAllForMovies: async () =>
+    sequelize.query(
+      `
+          SELECT mg."genreId" as "id",
+                 g."name" as "name",
+                 COUNT(mg."movieId") as "count"
+          FROM "MovieGenres" mg
+                   LEFT JOIN "Genres" g
+                             ON g.id = mg."genreId"
+          GROUP BY mg."genreId", g."name"
+          ORDER BY COUNT (mg."movieId") DESC;
+      `,
+      { type: QueryTypes.SELECT },
+    ),
+
+  /**
+   * @return {Promise<Array<{id:Number,name:String,count:Number}>>}
+   */
+  getAllForTv: async () =>
     sequelize.query(
       `
       SELECT mg."genreId" as "id",
              g."name" as "name",
-             COUNT(mg."movieId") as "count"
-      FROM "MovieGenres" mg
+             COUNT(mg."tvId") as "count"
+      FROM "TvGenres" mg
           LEFT JOIN "Genres" g
       ON g.id = mg."genreId"
       GROUP BY mg."genreId", g."name"
-      ORDER BY COUNT (mg."movieId") DESC;
+      ORDER BY COUNT (mg."tvId") DESC;
     `,
       { type: QueryTypes.SELECT },
     ),

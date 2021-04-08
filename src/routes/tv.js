@@ -31,7 +31,7 @@ router.get('/:id([0-9]+)', getTvMiddleware, async ctx => {
 });
 
 const renderTvPage = async (genre, from, limit = 102) => {
-  const genres = await Genres.getAll();
+  const genres = await Genres.getAllForTv();
   return {
     genres,
     data: normalizeShort(
