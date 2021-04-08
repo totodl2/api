@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2021-04-08T19:25:55.544Z
+__export_date: 2021-04-08T19:49:53.541Z
 __export_source: insomnia.desktop.app:v2021.2.2
 resources:
   - _id: req_79515473e398442b8748eb71d8d5cb52
@@ -257,13 +257,18 @@ resources:
     _type: request_group
   - _id: req_e9ebc8cba364426bb3efdb74832e345b
     parentId: fld_569009bac81f4822bd0061f5cb91f0ce
-    modified: 1616624004072
+    modified: 1617910733284
     created: 1616616286952
     url: "{{url}}/metadata/files/{{demoFileId}}"
-    name: setMetadata
+    name: setMetadata (movie)
     description: ""
     method: POST
-    body: {}
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"movieId": 45
+        }
     parameters: []
     headers:
       - name: x-authorization
@@ -274,8 +279,50 @@ resources:
         value: ""
         description: ""
         id: pair_d7a79e71e5bf4fabb8dbdfb677d882e6
+      - name: Content-Type
+        value: application/json
+        id: pair_e04b67e313d44c1ca147deb87c117293
     authentication: {}
     metaSortKey: -1616533144699.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_50305d0a246f4a1c8095c372051553ab
+    parentId: fld_569009bac81f4822bd0061f5cb91f0ce
+    modified: 1617910773074
+    created: 1617910727372
+    url: "{{url}}/metadata/files/{{demoFileId}}"
+    name: setMetadata (tv)
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"tvId": 66038,
+        	"episodeNumber": 1,
+        	"seasonNumber": 1
+        }
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_df9fa1f6dca44e89ab945a0c3e4605fe
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_d7a79e71e5bf4fabb8dbdfb677d882e6
+      - name: Content-Type
+        value: application/json
+        id: pair_e04b67e313d44c1ca147deb87c117293
+    authentication: {}
+    metaSortKey: -1616533007642.75
     isPrivate: false
     settingStoreCookies: true
     settingSendCookies: true
@@ -305,6 +352,35 @@ resources:
         id: pair_89a1b61d17a242ce978ce5756940cb89
     authentication: {}
     metaSortKey: -1616450056536
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_5205c6ff5bb74233a2c448ea039ef7bd
+    parentId: fld_569009bac81f4822bd0061f5cb91f0ce
+    modified: 1617910052252
+    created: 1617910031716
+    url: "{{url}}/metadata/tv/?query=peepoodo"
+    name: searchTv
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_a1538a14da314edfa51085889286a798
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_89a1b61d17a242ce978ce5756940cb89
+    authentication: {}
+    metaSortKey: -1616450056511
     isPrivate: false
     settingStoreCookies: true
     settingSendCookies: true
@@ -746,14 +822,14 @@ resources:
     _type: request
   - _id: env_e1c36db86739ebfe2ce6dcb3f0f5a1e35b0c7a81
     parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
-    modified: 1617909864576
+    modified: 1617910353033
     created: 1573083476828
     name: Base Environment
     data:
       url: http://127.0.0.1:3004
-      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZXMiOjMsImlhdCI6MTYxNzkwOTc3OSwiZXhwIjoxNjE3OTE2OTc5fQ.Tvb-lRpfRUXqiwk7XjJQkSTqcSYrQLWUcbsnTxHR_-omyUqmpU4CuqBfrjRgIEar7M3D8fJDfs7HsZvPnsy79A
+      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOjY3LCJpYXQiOjE2MTc5MTAzMTYsImV4cCI6MTYxNzkxNzUxNn0.BvWiLdWSW-D4aJDRS84s1x5xDYfKmGuwVMFUdzhcpoqITURnQHJ7pJ5vCt3NOf0NgEjmNL01gejB2S1XCC7Hxg
       hashDemo: 0aaf30d9ba50b9a4492279c093b995474462f63b
-      demoFileId: 35153483-026e-4445-a99e-c992819c1c10
+      demoFileId: 2c98a6df-2a00-4355-8a90-b5721b0a6db5
       internalApiKey: internal-key
       movieId: 741074
       tvId: 66038
