@@ -109,7 +109,7 @@ class Metadata {
         episodeNumber: null,
         seasonNumber: null,
       });
-      await queue.add(queue.NAMES.VERIFY_TV, { movieId });
+      await queue.add(queue.NAMES.VERIFY_TV, { tvId });
       return true;
     }
     return false;
