@@ -2,8 +2,8 @@ const { normalize: normalizeFiles } = require('./files');
 const { normalize: normalizeGenres } = require('./genres');
 
 /**
- * @param {File} files
- * @param {Genre} genres
+ * @param {File[]} files
+ * @param {Genre[]} genres
  * @param data
  * @return {*&{genres: *, files: *}}
  */

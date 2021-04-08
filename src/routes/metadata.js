@@ -31,6 +31,16 @@ router.get(
   },
 );
 
+router.get(
+  '/tv',
+  authenticated(),
+  joi(Joi.object({ query: Joi.string().required() }), 'request.query'),
+  async ctx => {
+    const { query } = ctx.request.query;
+    ctx.body = await Metadata.searchTv(query);
+  },
+);
+
 const getFileMiddleware = getRessource(
   id => Files.get(id, 'torrent'),
   'params.file',
@@ -60,16 +70,38 @@ router.post(
   getFileMiddleware,
   assertIsOwner,
   joi(
-    Joi.alternatives().try(
-      Joi.object({
-        movieId: Joi.alternatives(Joi.string(), Joi.number()).required(),
-      }),
-    ),
+    Joi.alternatives()
+      .try(
+        Joi.object({
+          movieId: Joi.alternatives(Joi.string(), Joi.number()).required(),
+        }),
+        Joi.object({
+          tvId: Joi.alternatives(Joi.string(), Joi.number()).required(),
+          episodeNumber: Joi.alternatives(
+            Joi.string(),
+            Joi.number(),
+          ).required(),
+          seasonNumber: Joi.alternatives(Joi.string(), Joi.number()).required(),
+        }),
+      )
+      .required(),
   ),
   async ctx => {
     const { entity: file } = ctx.state;
-    const { movieId } = ctx.request.body;
-    ctx.body = await Metadata.assignMovie(file, movieId);
+    const { movieId, tvId, seasonNumber, episodeNumber } = ctx.request.body;
+
+    if (movieId) {
+      ctx.body = await Metadata.assignMovie(file, movieId);
+    } else if (tvId) {
+      ctx.body = await Metadata.assignTv(
+        file,
+        tvId,
+        seasonNumber,
+        episodeNumber,
+      );
+    } else {
+      ctx.body = false;
+    }
   },
 );
 

@@ -1,7 +1,7 @@
 _type: export
 __export_format: 4
-__export_date: 2021-03-25T09:12:21.671Z
-__export_source: insomnia.desktop.app:v2021.2.1
+__export_date: 2021-04-08T19:25:55.544Z
+__export_source: insomnia.desktop.app:v2021.2.2
 resources:
   - _id: req_79515473e398442b8748eb71d8d5cb52
     parentId: fld_778c48cd59c64765b3aa3325c3581c45
@@ -52,9 +52,9 @@ resources:
     _type: workspace
   - _id: req_b116628393dc4c6ba89021ebd69ba100
     parentId: fld_014cfdc35c674317a4f42f7f1580f722
-    modified: 1616534946824
+    modified: 1616670231662
     created: 1616534920553
-    url: "{{url}}/movies/genres/13"
+    url: "{{url}}/movies/genres/13?from=0"
     name: getByGenre
     description: ""
     method: GET
@@ -87,10 +87,10 @@ resources:
     _type: request_group
   - _id: req_d81a93e79be54001ad4d08bffdb7024a
     parentId: fld_014cfdc35c674317a4f42f7f1580f722
-    modified: 1616534933651
+    modified: 1616681018352
     created: 1616532870586
-    url: "{{url}}/movies/"
-    name: getTop
+    url: "{{url}}/movies/?from=0"
+    name: getAll
     description: ""
     method: GET
     body: {}
@@ -115,6 +115,91 @@ resources:
     modified: 1616450339950
     created: 1616450311624
     url: "{{url}}/movies/{{movieId}}"
+    name: getOne
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_746465324e494e9e8dcfc4a14e5a1241
+    authentication: {}
+    metaSortKey: -1616450311624
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_473fc0e5e0c945eba4528a2e0d7d1e49
+    parentId: fld_fcae4d24f7154601973a86243b6577c7
+    modified: 1617909924588
+    created: 1617909806310
+    url: "{{url}}/tv/genres/1?from=0"
+    name: getByGenre
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_44ce867853fe4e58856a03443c60cb9c
+    authentication: {}
+    metaSortKey: -1616534920553
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_fcae4d24f7154601973a86243b6577c7
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1617909806281
+    created: 1617909806281
+    name: tv
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1616450178719.5
+    _type: request_group
+  - _id: req_aa28e00ec70246d2a9be4a97ad2e2589
+    parentId: fld_fcae4d24f7154601973a86243b6577c7
+    modified: 1617909812592
+    created: 1617909806306
+    url: "{{url}}/tv/?from=0"
+    name: getAll
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_cee98e2a9924459d85c1084718093709
+    authentication: {}
+    metaSortKey: -1616532870586
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_2ef988394cac44ad92b90ccaeda2f801
+    parentId: fld_fcae4d24f7154601973a86243b6577c7
+    modified: 1617909820148
+    created: 1617909806295
+    url: "{{url}}/tv/{{ tvId }}"
     name: getOne
     description: ""
     method: GET
@@ -661,16 +746,17 @@ resources:
     _type: request
   - _id: env_e1c36db86739ebfe2ce6dcb3f0f5a1e35b0c7a81
     parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
-    modified: 1616662596396
+    modified: 1617909864576
     created: 1573083476828
     name: Base Environment
     data:
       url: http://127.0.0.1:3004
-      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZXMiOjMsImlhdCI6MTYxNjY2MjU4OCwiZXhwIjoxNjE2NjY5Nzg4fQ.YXOhtE5Qv3VBQiJ0-hPcMuAMVM1i2W3HKYyZyF68sAZF1GvWhXmqQZlO88pJi1lOkWa9fmrpbkw-JfFkw-pD7A
+      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZXMiOjMsImlhdCI6MTYxNzkwOTc3OSwiZXhwIjoxNjE3OTE2OTc5fQ.Tvb-lRpfRUXqiwk7XjJQkSTqcSYrQLWUcbsnTxHR_-omyUqmpU4CuqBfrjRgIEar7M3D8fJDfs7HsZvPnsy79A
       hashDemo: 0aaf30d9ba50b9a4492279c093b995474462f63b
       demoFileId: 35153483-026e-4445-a99e-c992819c1c10
       internalApiKey: internal-key
       movieId: 741074
+      tvId: 66038
     dataPropertyOrder:
       "&":
         - url
@@ -679,6 +765,7 @@ resources:
         - demoFileId
         - internalApiKey
         - movieId
+        - tvId
     color: null
     isPrivate: false
     metaSortKey: 1573083476828

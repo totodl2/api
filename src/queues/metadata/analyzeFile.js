@@ -12,6 +12,14 @@ module.exports = async ({ data: file }) => {
       return `No tv show found for ${mediaInfos.title}`;
     }
 
+    if (!mediaInfos.season) {
+      return `No season number found for ${mediaInfos.title}`;
+    }
+
+    if (Array.isArray(mediaInfos.episode)) {
+      return `No episode number found for ${mediaInfos.title}`;
+    }
+
     const tvId = tvResults[0].id;
     const job = await Metadata.assignTv(
       file,

@@ -1,11 +1,13 @@
 const Genres = require('./genres');
-const { Tv, sequelize } = require('../models');
+const { Tv, sequelize, Sequelize } = require('../models');
+
+const { QueryTypes, Op } = Sequelize;
 
 module.exports = {
   /**
    * @param {Number} id
    * @param {Array<String>|String} [include] included relations
-   * @return {Promise<Movie | null>}
+   * @return {Promise<Tv | null>}
    */
   get: (id, include) => Tv.findOne({ where: { id }, include }),
 
@@ -79,5 +81,65 @@ module.exports = {
         episode => episode.episodeNumber === episodeNumber,
       );
     });
+  },
+
+  /**
+   * @param {number|null} [genreId]
+   * @param {number} [limit]
+   * @param {number} [from]
+   * @return {Promise<Tv[]>}
+   */
+  getLast: async ({ genreId = null, from = 0, limit = 12 } = {}) => {
+    let results = [];
+
+    if (genreId) {
+      results = await sequelize.query(
+        `
+        SELECT f."tvId",
+               MAX(f."createdAt") as "createdAt"
+        FROM "Files" f
+                 LEFT JOIN "TvGenres" mg ON mg."tvId" = f."tvId"
+        WHERE f."tvId" IS NOT NULL
+          AND mg."genreId" = ?
+        GROUP BY f."tvId"
+        ORDER BY MAX(f."createdAt") DESC
+        LIMIT ? OFFSET ?
+      `,
+        {
+          replacements: [genreId, limit, from],
+          type: QueryTypes.SELECT,
+        },
+      );
+    } else {
+      results = await sequelize.query(
+        `
+        SELECT f."tvId",
+               MAX(f."createdAt") as "createdAt"
+        FROM "Files" f
+        WHERE f."tvId" IS NOT NULL
+        GROUP BY f."tvId"
+        ORDER BY MAX(f."createdAt") DESC
+        LIMIT ? OFFSET ?
+      `,
+        {
+          replacements: [limit, from],
+          type: QueryTypes.SELECT,
+        },
+      );
+    }
+
+    const orders = results.reduce(
+      (prev, result) => ({
+        ...prev,
+        [result.tvId]: result.createdAt,
+      }),
+      {},
+    );
+
+    const tv = await Tv.findAll({
+      where: { id: { [Op.in]: results.map(result => result.tvId) } },
+    });
+
+    return tv.sort((tvA, tvB) => orders[tvA.id] - orders[tvB.id]);
   },
 };

@@ -1,5 +1,6 @@
 const path = require('path');
 const { File } = require('../models');
+const Metadata = require('./metadata');
 
 const SUB_EXTENSIONS = ['ssa', 'ass', 'srt'];
 
@@ -55,6 +56,7 @@ module.exports = {
    * @return {Promise<void>}
    */
   setMovie: async (file, movie) => {
+    await Metadata.remove(file);
     await file.setMovie(movie);
   },
 
@@ -66,11 +68,12 @@ module.exports = {
    * @returns {Promise<void>}
    */
   setTv: async (file, tv, seasonNumber, episodeNumber) => {
+    await Metadata.remove(file);
     /* eslint-disable no-param-reassign */
     file.seasonNumber = seasonNumber;
     file.episodeNumber = episodeNumber;
-    await file.setTv(tv);
-    /* eslint-enable no-param-reassign */
+    file.setTv(tv);
     await file.save();
+    /* eslint-enable no-param-reassign */
   },
 };

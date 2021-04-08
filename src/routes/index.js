@@ -7,6 +7,7 @@ const torrent = require('./torrent');
 const internal = require('./internal');
 const metadata = require('./metadata');
 const movies = require('./movies');
+const tv = require('./tv');
 const transcoders = require('./transcoders');
 
 const router = new Router();
@@ -23,6 +24,8 @@ router.use('/torrents/:hash([a-zA-Z0-9]{40})', torrent.routes());
 router.use('/metadata', metadata.routes());
 // movies routes
 router.use('/movies', movies.routes());
+// tv routes
+router.use('/tv', tv.routes());
 // Internal routes
 router.use('/internal', internal.routes());
 // transcoder routes
