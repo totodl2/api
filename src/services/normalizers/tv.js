@@ -13,24 +13,26 @@ const normalizeOne = ({ files = [], genres = [], seasons = [], ...data }) => {
   const tvShow = {
     ...data,
     genres: normalizeGenres(genres),
-    seasons: seasons.map(({ episodes = [], ...season }) => ({
-      ...season,
-      episodes: episodes.map(episode => ({
-        ...episode,
-        files: files
-          .filter(file => {
-            const found =
-              file.tvId === data.id &&
-              file.seasonNumber === season.seasonNumber &&
-              file.episodeNumber === episode.episodeNumber;
-            if (found) {
-              founds.push(file.id);
-            }
-            return found;
-          })
-          .map(normalizeFiles),
+    seasons: seasons
+      .filter(season => season.seasonNumber !== 0 && season.episodes.length > 0)
+      .map(({ episodes = [], ...season }) => ({
+        ...season,
+        episodes: episodes.map(episode => ({
+          ...episode,
+          files: files
+            .filter(file => {
+              const found =
+                file.tvId === data.id &&
+                file.seasonNumber === season.seasonNumber &&
+                file.episodeNumber === episode.episodeNumber;
+              if (found) {
+                founds.push(file.id);
+              }
+              return found;
+            })
+            .map(normalizeFiles),
+        })),
       })),
-    })),
   };
   tvShow.lost = files
     .filter(file => !founds.includes(file.id))
