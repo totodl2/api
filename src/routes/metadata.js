@@ -65,18 +65,33 @@ router.del(
 );
 
 router.post(
-  '/files/:file([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})',
+  '/files/movie/:file([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})',
   authenticated({ fetchUser: true }),
   getFileMiddleware,
   assertIsOwner,
   joi(
-    Joi.alternatives()
-      .try(
+    Joi.object({
+      movieId: Joi.alternatives(Joi.string(), Joi.number()).required(),
+    }).required(),
+  ),
+  async ctx => {
+    const { entity: file } = ctx.state;
+    const { movieId } = ctx.request.body;
+
+    ctx.body = await Metadata.assignMovie(file, movieId);
+  },
+);
+
+router.post(
+  '/files/tv/:tvId([0-9]+)',
+  authenticated({ fetchUser: true }),
+  joi(
+    Joi.array()
+      .items(
         Joi.object({
-          movieId: Joi.alternatives(Joi.string(), Joi.number()).required(),
-        }),
-        Joi.object({
-          tvId: Joi.alternatives(Joi.string(), Joi.number()).required(),
+          fileId: Joi.string()
+            .guid({ version: ['uuidv4'] })
+            .required(),
           episodeNumber: Joi.alternatives(
             Joi.string(),
             Joi.number(),
@@ -84,24 +99,43 @@ router.post(
           seasonNumber: Joi.alternatives(Joi.string(), Joi.number()).required(),
         }),
       )
+      .min(1)
+      .max(50)
       .required(),
   ),
   async ctx => {
-    const { entity: file } = ctx.state;
-    const { movieId, tvId, seasonNumber, episodeNumber } = ctx.request.body;
+    const items = ctx.request.body;
+    const { user } = ctx.state;
+    const { tvId } = ctx.params;
 
-    if (movieId) {
-      ctx.body = await Metadata.assignMovie(file, movieId);
-    } else if (tvId) {
-      ctx.body = await Metadata.assignTv(
-        file,
-        tvId,
-        seasonNumber,
-        episodeNumber,
-      );
-    } else {
-      ctx.body = false;
-    }
+    ctx.body = await items.reduce(
+      async (prev, { fileId, episodeNumber, seasonNumber }) => {
+        const results = await prev;
+        const file = await Files.get(fileId, 'torrent');
+
+        if (!file) {
+          results.push({ fileId, success: false });
+          return results;
+        }
+
+        if (!TorrentsService.isOwner(file.torrent, user)) {
+          throw new HttpError(403, `Invalid owner for file ${fileId}`);
+        }
+
+        results.push({
+          fileId: file.id,
+          success: await Metadata.assignTv(
+            file,
+            tvId,
+            seasonNumber,
+            episodeNumber,
+          ),
+        });
+
+        return results;
+      },
+      Promise.resolve([]),
+    );
   },
 );
 

@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2021-04-08T19:49:53.541Z
+__export_date: 2021-04-11T14:28:35.142Z
 __export_source: insomnia.desktop.app:v2021.2.2
 resources:
   - _id: req_79515473e398442b8748eb71d8d5cb52
@@ -257,10 +257,10 @@ resources:
     _type: request_group
   - _id: req_e9ebc8cba364426bb3efdb74832e345b
     parentId: fld_569009bac81f4822bd0061f5cb91f0ce
-    modified: 1617910733284
+    modified: 1618150543292
     created: 1616616286952
-    url: "{{url}}/metadata/files/{{demoFileId}}"
-    name: setMetadata (movie)
+    url: "{{url}}/metadata/files/movie/{{demoFileId}}"
+    name: setMovieMetadata
     description: ""
     method: POST
     body:
@@ -294,20 +294,22 @@ resources:
     _type: request
   - _id: req_50305d0a246f4a1c8095c372051553ab
     parentId: fld_569009bac81f4822bd0061f5cb91f0ce
-    modified: 1617910773074
+    modified: 1618151136310
     created: 1617910727372
-    url: "{{url}}/metadata/files/{{demoFileId}}"
-    name: setMetadata (tv)
+    url: "{{url}}/metadata/files/tv/66038"
+    name: setTvMetadata
     description: ""
     method: POST
     body:
       mimeType: application/json
       text: |-
-        {
-        	"tvId": 66038,
-        	"episodeNumber": 1,
-        	"seasonNumber": 1
-        }
+        [
+        	{
+        		"fileId": "{{demoFileId}}",
+        		"episodeNumber": 1,
+        		"seasonNumber": 1
+        	}
+        ]
     parameters: []
     headers:
       - name: x-authorization
@@ -822,12 +824,12 @@ resources:
     _type: request
   - _id: env_e1c36db86739ebfe2ce6dcb3f0f5a1e35b0c7a81
     parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
-    modified: 1617910353033
+    modified: 1618151262170
     created: 1573083476828
     name: Base Environment
     data:
       url: http://127.0.0.1:3004
-      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOjY3LCJpYXQiOjE2MTc5MTAzMTYsImV4cCI6MTYxNzkxNzUxNn0.BvWiLdWSW-D4aJDRS84s1x5xDYfKmGuwVMFUdzhcpoqITURnQHJ7pJ5vCt3NOf0NgEjmNL01gejB2S1XCC7Hxg
+      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOjY3LCJpYXQiOjE2MTgxNDY5OTAsImV4cCI6MTYxODE1NDE5MH0.1CYyok9BtWS0K8J7Prsp2V30GelMsotoDHCGMMy3gImnhi-Pm-RqrPzdV3omrxPKS3YS59lR3lC2CknEZvQVig
       hashDemo: 0aaf30d9ba50b9a4492279c093b995474462f63b
       demoFileId: 2c98a6df-2a00-4355-8a90-b5721b0a6db5
       internalApiKey: internal-key
