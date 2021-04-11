@@ -95,8 +95,7 @@ module.exports = {
       where: { id: { [Op.in]: results.map(result => result.movieId) } },
     });
 
-    return movies.sort(
-      (movieA, movieB) => orders[movieB.id] - orders[movieA.id],
-    );
+    movies.sort((movieA, movieB) => orders[movieB.id] - orders[movieA.id]);
+    return movies;
   },
 };

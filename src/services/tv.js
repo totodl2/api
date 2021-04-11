@@ -140,6 +140,7 @@ module.exports = {
       where: { id: { [Op.in]: results.map(result => result.tvId) } },
     });
 
-    return tv.sort((tvA, tvB) => orders[tvA.id] - orders[tvB.id]);
+    tv.sort((tvA, tvB) => orders[tvB.id] - orders[tvA.id]);
+    return tv;
   },
 };

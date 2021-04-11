@@ -3,7 +3,6 @@ const Joi = require('@hapi/joi');
 const joi = require('../middlewares/joi');
 const Movies = require('../services/movies');
 const Genres = require('../services/genres');
-const { File } = require('../models');
 const getRessource = require('../middlewares/getRessource');
 const authenticated = require('../middlewares/authenticated');
 const { normalize, normalizeShort } = require('../services/normalizers/movies');
@@ -15,22 +14,24 @@ const getMovieMiddleware = getRessource(
   id =>
     Movies.get(id, [
       'genres',
-      { model: File, as: 'files', include: ['host', 'torrent'] },
+      // { model: File, as: 'files', include: ['host', 'torrent'] },
     ]),
   'params.id',
 );
 
 router.get('/:id([0-9]+)', getMovieMiddleware, async ctx => {
   const { entity } = ctx.state;
-  const { genres = [], files = [], ...movie } = entity.dataValues;
+  const { genres = [], files: ignoredFiles, ...movie } = entity.dataValues;
+  const files = await entity.getFiles({ include: ['host', 'torrent'] });
+
   ctx.body = normalize({
     ...movie,
     genres: genres.map(genre => genre.dataValues),
-    files: files.map(file => file.dataValues),
+    files: (files || []).map(file => file.dataValues),
   });
 });
 
-const renderMoviesPage = async (genre, from, limit = 102) => {
+const renderMoviesPage = async (genre, from, limit = 54) => {
   const genres = await Genres.getAllForMovies();
   return {
     genres,
