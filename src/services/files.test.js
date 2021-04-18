@@ -4,7 +4,7 @@ const Movies = require('./movies');
 const Tv = require('./tv');
 const { db, ...models } = require('../models');
 
-describe.only('Files', () => {
+describe('Files', () => {
   beforeAll(async () => {
     await db.sync();
     await fixtures.loadFiles(
@@ -12,9 +12,9 @@ describe.only('Files', () => {
         'fixtures/users.js',
         'fixtures/hosts.js',
         'fixtures/torrents.js',
-        'fixtures/files.js',
         'fixtures/movies.js',
         'fixtures/tv.js',
+        'fixtures/files.js',
       ],
       models,
     );

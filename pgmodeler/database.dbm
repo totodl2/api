@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="13"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="15"
 	 default-schema="public" default-owner="postgres">
 <database name="totodl" encoding="UTF8" lc-collate="en_US.utf8" lc-ctype="en_US.utf8" is-template="false" allow-conns="true">
 	<role name="postgres"/>
@@ -16,7 +16,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="SequelizeMeta" layer="0" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="75.3333" y="23"/>
+	<position x="124.118" y="137.647"/>
 	<column name="name" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
@@ -33,7 +33,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Users" layer="0" collapse-mode="2" max-obj-count="12" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="581.878" y="163"/>
+	<position x="117.407" y="477.059"/>
 	<column name="id" not-null="true" sequence="public.&quot;Users_id_seq&quot;">
 		<type name="integer" length="0"/>
 	</column>
@@ -80,7 +80,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="RefreshTokens" layer="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="86.2883" y="140.333"/>
+	<position x="120.484" y="245.294"/>
 	<column name="id" not-null="true" sequence="public.&quot;RefreshTokens_id_seq&quot;">
 		<type name="integer" length="0"/>
 	</column>
@@ -115,7 +115,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Hosts" layer="0" collapse-mode="2" max-obj-count="10" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1064.7" y="473.667"/>
+	<position x="555.209" y="785.294"/>
 	<column name="id" not-null="true" sequence="public.&quot;Hosts_id_seq&quot;">
 		<type name="integer" length="0"/>
 	</column>
@@ -151,7 +151,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Torrents" layer="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1584.44" y="23"/>
+	<position x="548.522" y="132.353"/>
 	<column name="hash" not-null="true">
 		<type name="character varying" length="40"/>
 	</column>
@@ -247,7 +247,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Files" layer="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="100.667" y="608.133"/>
+	<position x="1105.29" y="122.741"/>
 	<column name="id" not-null="true">
 		<type name="uuid" length="0"/>
 	</column>
@@ -349,7 +349,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Movies" layer="0" collapse-mode="2" max-obj-count="32" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="706.077" y="710.8"/>
+	<position x="1621.14" y="728.624"/>
 	<column name="id" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -444,7 +444,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Genres" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1692.82" y="746.8"/>
+	<position x="792.273" y="1413.33"/>
 	<column name="id" not-null="true" sequence="public.&quot;Genres_id_seq&quot;">
 		<type name="integer" length="0"/>
 	</column>
@@ -462,7 +462,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="MovieGenres" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1260.37" y="726.8"/>
+	<position x="1263.74" y="1395.68"/>
 	<column name="movieId" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -506,7 +506,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Tv" layer="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="704.381" y="1278.8"/>
+	<position x="1147.13" y="742.741"/>
 	<column name="id" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -602,7 +602,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="TvGenres" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1276.67" y="904.533"/>
+	<position x="790" y="1167.38"/>
 	<column name="tvId" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -632,6 +632,72 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
 			<column name="&quot;genreId&quot;"/>
+		</idxelement>
+</index>
+
+<sequence name="WatchStatus_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="9223372036854775807" cache="1">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="WatchStatus" layer="0" collapse-mode="2" max-obj-count="13" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="115.446" y="754.435"/>
+	<column name="id" not-null="true" sequence="public.&quot;WatchStatus_id_seq&quot;">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="userId" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="fileId">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="tvId">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="seasonNumber">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="episodeNumber">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="movieId">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="position" not-null="true" default-value="0">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="length" not-null="true" default-value="0">
+		<type name="integer" length="0" with-timezone="true"/>
+	</column>
+	<column name="createdAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="updatedAt" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<constraint name="WatchStatus_pkey" type="pk-constr" table="public.&quot;WatchStatus&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="WatchStatus_userId_tvId_idx" table="public.&quot;WatchStatus&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;userId&quot;"/>
+		</idxelement>
+		<idxelement use-sorting="false">
+			<column name="&quot;tvId&quot;"/>
+		</idxelement>
+</index>
+
+<index name="WatchStatus_userId_idx" table="public.&quot;WatchStatus&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;userId&quot;"/>
 		</idxelement>
 </index>
 
@@ -701,71 +767,94 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="WatchStatus_userId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Users&quot;" table="public.&quot;WatchStatus&quot;">
+	<columns names="userId" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="WatchStatus_fileId_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Files&quot;" table="public.&quot;WatchStatus&quot;">
+	<columns names="fileId" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <relationship name="&quot;rel_RefreshTokens_Users&quot;" type="relfk" layer="0"
-	 custom-color="#2cb0aa"
+	 custom-color="#27af6e"
 	 src-table="public.&quot;RefreshTokens&quot;"
 	 dst-table="public.&quot;Users&quot;" reference-fk="RefreshTokens_userId_fkey"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="&quot;rel_Torrents_Users&quot;" type="relfk" layer="0"
-	 custom-color="#2bd0fe"
+	 custom-color="#80f863"
 	 src-table="public.&quot;Torrents&quot;"
 	 dst-table="public.&quot;Users&quot;" reference-fk="Torrents_userId_fkey"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="&quot;rel_Torrents_Hosts&quot;" type="relfk" layer="0"
-	 custom-color="#3e26ac"
+	 custom-color="#6fb408"
 	 src-table="public.&quot;Torrents&quot;"
 	 dst-table="public.&quot;Hosts&quot;" reference-fk="Torrents_hostId_fkey"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="&quot;rel_Files_Torrents&quot;" type="relfk" layer="0"
-	 custom-color="#182e0c"
+	 custom-color="#501198"
 	 src-table="public.&quot;Files&quot;"
 	 dst-table="public.&quot;Torrents&quot;" reference-fk="Files_torrentHash_fkey"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="&quot;rel_Files_Hosts&quot;" type="relfk" layer="0"
-	 custom-color="#13f208"
+	 custom-color="#340f3f"
 	 src-table="public.&quot;Files&quot;"
 	 dst-table="public.&quot;Hosts&quot;" reference-fk="Files_hostId_fkey"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="&quot;rel_Files_Movies&quot;" type="relfk" layer="0"
-	 custom-color="#5ab9b3"
+	 custom-color="#cefaf1"
 	 src-table="public.&quot;Files&quot;"
 	 dst-table="public.&quot;Movies&quot;" reference-fk="Files_movieId_fkey"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="&quot;rel_Files_Tv&quot;" type="relfk" layer="0"
-	 custom-color="#a95e43"
+	 custom-color="#f6b51d"
 	 src-table="public.&quot;Files&quot;"
 	 dst-table="public.&quot;Tv&quot;" reference-fk="Files_tvId_fkey"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="&quot;rel_MovieGenres_Movies&quot;" type="relfk" layer="0"
-	 custom-color="#f23e8d"
+	 custom-color="#ebc733"
 	 src-table="public.&quot;MovieGenres&quot;"
 	 dst-table="public.&quot;Movies&quot;" reference-fk="MovieGenres_movieId_fkey"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="&quot;rel_MovieGenres_Genres&quot;" type="relfk" layer="0"
-	 custom-color="#82872a"
+	 custom-color="#da0e08"
 	 src-table="public.&quot;MovieGenres&quot;"
 	 dst-table="public.&quot;Genres&quot;" reference-fk="MovieGenres_genreId_fkey"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="&quot;rel_TvGenres_Tv&quot;" type="relfk" layer="0"
-	 custom-color="#74d072"
+	 custom-color="#5ecc1d"
 	 src-table="public.&quot;TvGenres&quot;"
 	 dst-table="public.&quot;Tv&quot;" reference-fk="TvGenres_tvId_fkey"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="&quot;rel_TvGenres_Genres&quot;" type="relfk" layer="0"
-	 custom-color="#6fc259"
+	 custom-color="#78cbbf"
 	 src-table="public.&quot;TvGenres&quot;"
 	 dst-table="public.&quot;Genres&quot;" reference-fk="TvGenres_genreId_fkey"
 	 src-required="false" dst-required="true"/>
+
+<relationship name="&quot;rel_WatchStatus_Users&quot;" type="relfk" layer="0"
+	 custom-color="#18ddd5"
+	 src-table="public.&quot;WatchStatus&quot;"
+	 dst-table="public.&quot;Users&quot;" reference-fk="WatchStatus_userId_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="&quot;rel_WatchStatus_Files&quot;" type="relfk" layer="0"
+	 src-table="public.&quot;WatchStatus&quot;"
+	 dst-table="public.&quot;Files&quot;" reference-fk="WatchStatus_fileId_fkey"
+	 src-required="false" dst-required="false"/>
 
 <permission>
 	<object name="public" type="schema"/>

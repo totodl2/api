@@ -107,8 +107,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = models => {
     delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
 
-    const { RefreshToken } = models;
-    const { Torrent } = models;
+    const { Torrent, WatchStatus, RefreshToken } = models;
 
     User.hasMany(RefreshToken, {
       as: 'RefreshTokensUseridFkeys',
@@ -122,6 +121,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'SET NULL',
       onUpdate: 'NO ACTION',
+    });
+
+    User.hasMany(WatchStatus, {
+      as: 'watchStatus',
+      foreignKey: 'userId',
     });
   };
 

@@ -1,14 +1,22 @@
 const { normalize: normalizeFiles } = require('./files');
 const { normalize: normalizeGenres } = require('./genres');
+const { normalize: normalizeWatchStatus } = require('./watchStatus');
 
 /**
  * @param {File[]} files
  * @param {Genre[]} genres
  * @param {Array} seasons
+ * @param {WatchStatus[]} watchStatus
  * @param data
  * @return {*&{genres: *, files: *}}
  */
-const normalizeOne = ({ files = [], genres = [], seasons = [], ...data }) => {
+const normalizeOne = ({
+  files = [],
+  genres = [],
+  seasons = [],
+  watchStatus = [],
+  ...data
+}) => {
   const founds = [];
   const tvShow = {
     ...data,
@@ -37,6 +45,7 @@ const normalizeOne = ({ files = [], genres = [], seasons = [], ...data }) => {
   tvShow.lost = files
     .filter(file => !founds.includes(file.id))
     .map(normalizeFiles);
+  tvShow.watchStatus = watchStatus.map(normalizeWatchStatus);
   return tvShow;
 };
 

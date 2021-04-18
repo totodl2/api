@@ -9,6 +9,7 @@ const metadata = require('./metadata');
 const movies = require('./movies');
 const tv = require('./tv');
 const transcoders = require('./transcoders');
+const watchStatus = require('./watchStatus');
 
 const router = new Router();
 
@@ -30,5 +31,7 @@ router.use('/tv', tv.routes());
 router.use('/internal', internal.routes());
 // transcoder routes
 router.use('/transcoders', transcoders.routes());
+// watch status routes
+router.use('/watch-status', watchStatus.routes());
 
 module.exports = router;

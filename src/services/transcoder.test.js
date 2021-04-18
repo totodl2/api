@@ -50,6 +50,8 @@ describe('Transcoder', () => {
         'fixtures/users.js',
         'fixtures/hosts.js',
         'fixtures/torrents.js',
+        'fixtures/movies.js',
+        'fixtures/tv.js',
         'fixtures/files.js',
       ],
       models,

@@ -1,8 +1,76 @@
 _type: export
 __export_format: 4
-__export_date: 2021-04-11T14:28:35.142Z
+__export_date: 2021-04-18T10:15:42.675Z
 __export_source: insomnia.desktop.app:v2021.2.2
 resources:
+  - _id: req_df674ec792d24853b8c9bef19ba8053d
+    parentId: fld_b4323914bd3a46a383aae8c01ae4c2a8
+    modified: 1618611343326
+    created: 1618610875677
+    url: "{{url}}/watch-status/files/{{ demoFileId }}"
+    name: getFileStatus
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_44ce867853fe4e58856a03443c60cb9c
+    authentication: {}
+    metaSortKey: -1616662342535
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_b4323914bd3a46a383aae8c01ae4c2a8
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1618610860495
+    created: 1618610857470
+    name: watch-status
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1616662342560
+    _type: request_group
+  - _id: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    parentId: null
+    modified: 1573083685683
+    created: 1573083476792
+    name: Totodl
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_442aeb0d908547cfb7f2c384d03d19b4
+    parentId: fld_b4323914bd3a46a383aae8c01ae4c2a8
+    modified: 1618673728410
+    created: 1618611517137
+    url: "{{url}}/watch-status/files/{{ demoFileId }}/123/456"
+    name: setPosition
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_44ce867853fe4e58856a03443c60cb9c
+    authentication: {}
+    metaSortKey: -1616639287699
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
   - _id: req_79515473e398442b8748eb71d8d5cb52
     parentId: fld_778c48cd59c64765b3aa3325c3581c45
     modified: 1616662601735
@@ -42,14 +110,6 @@ resources:
     environmentPropertyOrder: null
     metaSortKey: -1616662342510
     _type: request_group
-  - _id: wrk_af7dd6babec048009b9c6fa6476bb1ef
-    parentId: null
-    modified: 1573083685683
-    created: 1573083476792
-    name: Totodl
-    description: ""
-    scope: collection
-    _type: workspace
   - _id: req_b116628393dc4c6ba89021ebd69ba100
     parentId: fld_014cfdc35c674317a4f42f7f1580f722
     modified: 1616670231662
@@ -824,14 +884,14 @@ resources:
     _type: request
   - _id: env_e1c36db86739ebfe2ce6dcb3f0f5a1e35b0c7a81
     parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
-    modified: 1618151262170
+    modified: 1618740909097
     created: 1573083476828
     name: Base Environment
     data:
       url: http://127.0.0.1:3004
-      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOjY3LCJpYXQiOjE2MTgxNDY5OTAsImV4cCI6MTYxODE1NDE5MH0.1CYyok9BtWS0K8J7Prsp2V30GelMsotoDHCGMMy3gImnhi-Pm-RqrPzdV3omrxPKS3YS59lR3lC2CknEZvQVig
+      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZXMiOjMsImlhdCI6MTYxODc0MDgzNywiZXhwIjoxNjE4NzQ4MDM3fQ.MnpSsIhJ2c6PGC0KoSTK5EKKJ5M6HUDr0H8mGUq0Myo4H4GYBAf5Pk0Cw5CIhAQl2iMqKFuiM5wxk6Egvs5whQ
       hashDemo: 0aaf30d9ba50b9a4492279c093b995474462f63b
-      demoFileId: 2c98a6df-2a00-4355-8a90-b5721b0a6db5
+      demoFileId: c596f38a-ed74-48fc-a765-a46da5b7e886
       internalApiKey: internal-key
       movieId: 741074
       tvId: 66038

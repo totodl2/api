@@ -16,6 +16,12 @@ const entries = [
     hostId: 1,
     totalSize: 100,
   },
+  {
+    hash: 'media',
+    userId: null,
+    hostId: 1,
+    totalSize: 100,
+  },
 ];
 
 module.exports = entries.map(data => ({ model: 'Torrent', data }));

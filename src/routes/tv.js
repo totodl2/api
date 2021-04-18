@@ -3,6 +3,7 @@ const Joi = require('@hapi/joi');
 const joi = require('../middlewares/joi');
 const Tv = require('../services/tv');
 const Genres = require('../services/genres');
+const WatchStatus = require('../services/watchStatus');
 const getRessource = require('../middlewares/getRessource');
 const authenticated = require('../middlewares/authenticated');
 const { normalize, normalizeShort } = require('../services/normalizers/tv');
@@ -20,14 +21,19 @@ const getTvMiddleware = getRessource(
 );
 
 router.get('/:id([0-9]+)', getTvMiddleware, async ctx => {
-  const { entity } = ctx.state;
+  const {
+    entity,
+    jwt: { id: userId },
+  } = ctx.state;
   const { genres = [], files: ignoredFiles, ...tv } = entity.dataValues;
   const files = await entity.getFiles({ include: ['host', 'torrent'] });
+  const status = await WatchStatus.findForTv(userId, tv.id);
 
   ctx.body = normalize({
     ...tv,
     genres: genres.map(genre => genre.dataValues),
     files: (files || []).map(file => file.dataValues),
+    watchStatus: status.map(watchStatus => watchStatus.dataValues),
   });
 });
 
