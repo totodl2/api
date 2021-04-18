@@ -4,7 +4,6 @@ const File = require('./files');
 const { db, ...models } = require('../models');
 
 describe('WatchStatus', () => {
-  const tvId = 42;
   const userId = 1;
   const newUserId = 2;
   const demoFile = '27bb08c8-db16-4d1f-b0d2-44f70f39cd0a';
@@ -147,10 +146,5 @@ describe('WatchStatus', () => {
     expect(status.tvId).toBeFalsy();
     expect(status.length).toBe(456);
     expect(status.position).toBe(123);
-  });
-
-  it('Should get last episode seen', async () => {
-    const status = await WatchStatus.findLastSeenForTv(userId, tvId);
-    expect(status.id).toBe(4);
   });
 });
