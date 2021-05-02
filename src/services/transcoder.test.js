@@ -90,8 +90,8 @@ describe('Transcoder', () => {
     const file = await Files.get(mediaFileId);
     const called = [];
     const calledExpected = [
-      `${testConf.transcoders['audio-sub'].url}/support`,
-      `${testConf.transcoders.video.url}/support`,
+      { url: '/support', baseURL: testConf.transcoders['audio-sub'].url },
+      { url: '/support', baseURL: testConf.transcoders.video.url },
     ];
 
     let hasApiKeys = true;
@@ -99,7 +99,8 @@ describe('Transcoder', () => {
       if (!config.params['api-key'] && hasApiKeys) {
         hasApiKeys = false;
       }
-      called.push(config.url);
+
+      called.push({ url: config.url, baseURL: config.baseURL });
       return [200, true];
     });
 
