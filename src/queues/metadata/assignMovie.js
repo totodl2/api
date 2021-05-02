@@ -1,6 +1,7 @@
 const Files = require('../../services/files');
 const Metadata = require('../../services/metadata');
 const Movies = require('../../services/movies');
+const Search = require('../../services/search');
 const queue = require('./index');
 
 module.exports = async (file, movieId) => {
@@ -13,6 +14,9 @@ module.exports = async (file, movieId) => {
 
   const { movieId: oldMovieId } = file;
   await Files.setMovie(file, movie);
+
+  await Search.addMovie(movie);
+  await Search.addFile(file);
 
   if (oldMovieId) {
     await queue.add(queue.NAMES.VERIFY_MOVIE, { movieId: oldMovieId });

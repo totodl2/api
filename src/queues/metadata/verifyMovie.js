@@ -1,4 +1,5 @@
 const Movies = require('../../services/movies');
+const Search = require('../../services/search');
 
 module.exports = async movieId => {
   const movie = await Movies.get(movieId, 'files');
@@ -7,5 +8,7 @@ module.exports = async movieId => {
   }
 
   await movie.destroy();
+  await Search.deleteMovie(movieId);
+
   return `Movie ${movie.title} removed`;
 };

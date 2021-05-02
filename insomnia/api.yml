@@ -1,8 +1,55 @@
 _type: export
 __export_format: 4
-__export_date: 2021-04-18T10:15:42.675Z
-__export_source: insomnia.desktop.app:v2021.2.2
+__export_date: 2021-05-01T10:37:56.824Z
+__export_source: insomnia.desktop.app:v2021.3.0
 resources:
+  - _id: req_837f694f7d6f46b497f5514eff46e5e7
+    parentId: fld_f1b617be451e4abebff941849021841f
+    modified: 1619865376849
+    created: 1619865363897
+    url: "{{url}}/search"
+    name: all
+    description: ""
+    method: GET
+    body: {}
+    parameters:
+      - name: keywords
+        value: adieu
+        description: ""
+        id: pair_b584f0ac066c474ab8b6e5e5a3bb713b
+    headers:
+      - name: x-authorization
+        value: Bearer {{jwt}}
+        description: ""
+        id: pair_44ce867853fe4e58856a03443c60cb9c
+    authentication: {}
+    metaSortKey: -1616650815117
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_f1b617be451e4abebff941849021841f
+    parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    modified: 1619865358251
+    created: 1619865358251
+    name: search
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1619865358251
+    _type: request_group
+  - _id: wrk_af7dd6babec048009b9c6fa6476bb1ef
+    parentId: null
+    modified: 1573083685683
+    created: 1573083476792
+    name: Totodl
+    description: ""
+    scope: collection
+    _type: workspace
   - _id: req_df674ec792d24853b8c9bef19ba8053d
     parentId: fld_b4323914bd3a46a383aae8c01ae4c2a8
     modified: 1618611343326
@@ -38,14 +85,6 @@ resources:
     environmentPropertyOrder: null
     metaSortKey: -1616662342560
     _type: request_group
-  - _id: wrk_af7dd6babec048009b9c6fa6476bb1ef
-    parentId: null
-    modified: 1573083685683
-    created: 1573083476792
-    name: Totodl
-    description: ""
-    scope: collection
-    _type: workspace
   - _id: req_442aeb0d908547cfb7f2c384d03d19b4
     parentId: fld_b4323914bd3a46a383aae8c01ae4c2a8
     modified: 1618673728410
@@ -884,12 +923,12 @@ resources:
     _type: request
   - _id: env_e1c36db86739ebfe2ce6dcb3f0f5a1e35b0c7a81
     parentId: wrk_af7dd6babec048009b9c6fa6476bb1ef
-    modified: 1618740909097
+    modified: 1619865404542
     created: 1573083476828
     name: Base Environment
     data:
       url: http://127.0.0.1:3004
-      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZXMiOjMsImlhdCI6MTYxODc0MDgzNywiZXhwIjoxNjE4NzQ4MDM3fQ.MnpSsIhJ2c6PGC0KoSTK5EKKJ5M6HUDr0H8mGUq0Myo4H4GYBAf5Pk0Cw5CIhAQl2iMqKFuiM5wxk6Egvs5whQ
+      jwt: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOjY3LCJpYXQiOjE2MTk4NjEwNDMsImV4cCI6MTYxOTg2ODI0M30.JXR_Wamlx1qwogTBis2KUUHus0ExKtdYxVYaLCuJJsfses_54UaxbNaz40Y7nQohu0RKCrBta89g4Pv1JNmAkw
       hashDemo: 0aaf30d9ba50b9a4492279c093b995474462f63b
       demoFileId: c596f38a-ed74-48fc-a765-a46da5b7e886
       internalApiKey: internal-key

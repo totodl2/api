@@ -720,7 +720,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="Files_torrentHash_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="CASCADE" ref-table="public.&quot;Torrents&quot;" table="public.&quot;Files&quot;">
+	 upd-action="NO ACTION" del-action="SET NULL" ref-table="public.&quot;Torrents&quot;" table="public.&quot;Files&quot;">
 	<columns names="torrentHash" ref-type="src-columns"/>
 	<columns names="hash" ref-type="dst-columns"/>
 </constraint>

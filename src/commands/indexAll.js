@@ -1,5 +1,5 @@
 const debug = require('../debug')('searchIndex');
-const { File, Movie, Tv, Torrent } = require('../models');
+const { Movie, Tv, Torrent } = require('../models');
 const search = require('../services/search');
 
 const BATCH = 5;
@@ -26,7 +26,6 @@ const processBatch = async (Entity, callback, debugName) => {
 };
 
 module.exports = async () => {
-  await processBatch(File, search.addFile, 'File');
   await processBatch(Movie, search.addMovie, 'Movie');
   await processBatch(Tv, search.addTvShow, 'Tv');
   await processBatch(Torrent, search.addTorrent, 'Torrent');

@@ -7,6 +7,7 @@ const torrent = require('./torrent');
 const internal = require('./internal');
 const metadata = require('./metadata');
 const movies = require('./movies');
+const search = require('./search');
 const tv = require('./tv');
 const transcoders = require('./transcoders');
 const watchStatus = require('./watchStatus');
@@ -33,5 +34,7 @@ router.use('/internal', internal.routes());
 router.use('/transcoders', transcoders.routes());
 // watch status routes
 router.use('/watch-status', watchStatus.routes());
+// search routes
+router.use('/search', search.routes());
 
 module.exports = router;

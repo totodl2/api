@@ -192,7 +192,7 @@ module.exports = (sequelize, DataTypes) => {
     File.belongsTo(Torrent, {
       as: 'torrent',
       foreignKey: 'torrentHash',
-      onDelete: 'CASCADE',
+      onDelete: 'SET NULL', // file suppression is handled by message broker
       onUpdate: 'NO ACTION',
     });
 
@@ -216,6 +216,10 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'SET NULL',
       onUpdate: 'NO ACTION',
     });
+  };
+
+  File.prototype.isComplete = function() {
+    return this.bytesCompleted >= this.length;
   };
 
   return File;

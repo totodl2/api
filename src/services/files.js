@@ -6,12 +6,20 @@ const SUB_EXTENSIONS = ['ssa', 'ass', 'srt'];
 
 module.exports = {
   /**
-   * Get one file by his hash
+   * Get one file by his uuid
    * @param {string} id uuidv4
    * @param {string|Array<string>} [include]
    * @returns {Promise<File|null>}
    */
   get: (id, include) => File.findOne({ where: { id }, include }),
+
+  /**
+   * @param {string[]} ids uuidsv4
+   * @param {string|Array<string>} [include]
+   * @returns {Promise<File[]>}
+   */
+  findByIds: (ids, include) => File.findAll({ where: { id: ids }, include }),
+
   /**
    * Upsert file
    * @param {Object} data

@@ -242,8 +242,6 @@ module.exports = (sequelize, DataTypes) => {
     Torrent.hasMany(File, {
       as: 'Files',
       foreignKey: 'torrentHash',
-      onDelete: 'CASCADE',
-      onUpdate: 'NO ACTION',
     });
 
     Torrent.belongsTo(Host, {

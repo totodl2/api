@@ -40,6 +40,14 @@ const createVodUrl = file => {
 };
 
 /**
+ * @param {File} files
+ * @param {Host} host
+ * @returns {string}
+ */
+const createUrl = (file, host) =>
+  createLink(file.id, file.name, host.cdnUrl || '', host.cdnSecret || '');
+
+/**
  * Normalize file
  * @param {File} files
  * @param {Host} host
@@ -51,12 +59,7 @@ const normalizeOne = ({ host: fileHost, torrent, ...file }, host) => {
     const output = {
       ...file,
       transcoded: normalizeTranscoded(file),
-      url: createLink(
-        file.id,
-        file.name,
-        finalHost.cdnUrl || '',
-        finalHost.cdnSecret || '',
-      ),
+      url: createUrl(file, finalHost),
       vodUrl: createVodUrl(file),
     };
 
@@ -68,6 +71,7 @@ const normalizeOne = ({ host: fileHost, torrent, ...file }, host) => {
   }
   return file;
 };
+
 /**
  * Normalize array of files
  * @param {Array<File>|File} files
@@ -81,4 +85,4 @@ const normalize = (files, host) => {
   return files.map(file => normalizeOne(file, host));
 };
 
-module.exports = { normalize };
+module.exports = { normalize, createUrl };

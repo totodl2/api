@@ -7,11 +7,13 @@ const { get, set } = require('../../redis');
 const Files = require('../../services/files');
 const Hosts = require('../../services/hosts');
 const Transcoder = require('../../services/transcoder');
+const Search = require('../../services/search');
 
 const REDIS_DATE_EXPIRATION = 60 * 60;
 
 const createFile = async ({ objectId, data: values }, host) => {
-  await Files.upsert({ ...values, hostId: host.id });
+  const file = await Files.upsert({ ...values, hostId: host.id });
+  await Search.addFile(file);
   return `File ${objectId} created`;
 };
 
@@ -43,7 +45,8 @@ const deleteFile = async ({ objectId }) => {
     await Transcoder.clean(objectId);
   }
 
-  return `File ${objectId} destroyed`;
+  await Search.deleteFile(objectId);
+  return `File ${objectId} destroyed (file exists ${file ? 'true' : 'false'})`;
 };
 
 const transcodeFile = async ({ objectId }) => {
