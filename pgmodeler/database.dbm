@@ -251,7 +251,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="id" not-null="true">
 		<type name="uuid" length="0"/>
 	</column>
-	<column name="torrentHash" not-null="true">
+	<column name="torrentHash">
 		<type name="character varying" length="40"/>
 	</column>
 	<column name="name" not-null="true">
@@ -801,7 +801,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#501198"
 	 src-table="public.&quot;Files&quot;"
 	 dst-table="public.&quot;Torrents&quot;" reference-fk="Files_torrentHash_fkey"
-	 src-required="false" dst-required="true"/>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="&quot;rel_Files_Hosts&quot;" type="relfk" layer="0"
 	 custom-color="#340f3f"
