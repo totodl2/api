@@ -2,8 +2,6 @@ import {
   Sequelize,
   DataTypes,
   Optional,
-  HasOneGetAssociationMixin,
-  HasOneSetAssociationMixin,
   HasManyGetAssociationsMixin,
   HasManyAddAssociationMixin,
   HasManyHasAssociationMixin,
@@ -11,11 +9,12 @@ import {
   HasManyCreateAssociationMixin,
   HasManyRemoveAssociationMixin,
   InstanceUpdateOptions,
+  HasManySetAssociationsMixin,
 } from 'sequelize';
 import { Model, ModelAssociateType } from './types';
-import { GenreInstance } from './genres';
 import { TorrentInstance } from './torrents';
 import { RefreshTokenInstance } from './refresh-tokens';
+import { WatchStatusInstance } from './watch-status';
 
 const queue = require('../queues/sse');
 
@@ -30,8 +29,8 @@ export type UserAttributes = {
   password: string;
   roles: number;
   uploadRatio: number;
-  diskSpace: string; // big int is treated as string
-  diskUsage: string; // big int is treated as string
+  diskSpace: string | number; // big int is treated as string
+  diskUsage: string | number; // big int is treated as string
   createdAt: Date;
   updatedAt: Date;
 };
@@ -47,28 +46,6 @@ export type CreateUserAttributes = Optional<
   | 'updatedAt'
 >;
 
-/**
- *
- User.hasMany(RefreshToken, {
-    as: 'refreshTokens',
-    foreignKey: 'userId',
-    onDelete: 'CASCADE',
-    onUpdate: 'NO ACTION',
-  });
-
- User.hasMany(Torrent, {
-    as: 'torrents',
-    foreignKey: 'userId',
-    onDelete: 'SET NULL',
-    onUpdate: 'NO ACTION',
-  });
-
- User.hasMany(WatchStatus, {
-    as: 'watchStatus',
-    foreignKey: 'userId',
-  });
- */
-
 export type UserAssociations = {
   getTorrents: HasManyGetAssociationsMixin<TorrentInstance>;
   addTorrent: HasManyAddAssociationMixin<TorrentInstance, string>;
@@ -78,6 +55,7 @@ export type UserAssociations = {
   removeTorrent: HasManyRemoveAssociationMixin<TorrentInstance, string>;
 
   getRefreshTokens: HasManyGetAssociationsMixin<RefreshTokenInstance>;
+  setRefreshTokens: HasManySetAssociationsMixin<RefreshTokenInstance, number>;
   addRefreshToken: HasManyAddAssociationMixin<RefreshTokenInstance, number>;
   hasRefreshToken: HasManyHasAssociationMixin<RefreshTokenInstance, number>;
   countRefreshTokens: HasManyCountAssociationsMixin;
@@ -87,13 +65,13 @@ export type UserAssociations = {
     number
   >;
 
-  // @todo le bloc
-  getWatchStatus: HasManyGetAssociationsMixin<any>;
-  addWatchStatu: HasManyAddAssociationMixin<any, number>;
-  hasWatchStatu: HasManyHasAssociationMixin<any, number>;
+  getWatchStatus: HasManyGetAssociationsMixin<WatchStatusInstance>;
+  setWatchStatus: HasManySetAssociationsMixin<WatchStatusInstance, number>;
+  addWatchStatu: HasManyAddAssociationMixin<WatchStatusInstance, number>;
+  hasWatchStatu: HasManyHasAssociationMixin<WatchStatusInstance, number>;
   countWatchStatus: HasManyCountAssociationsMixin;
-  createWatchStatu: HasManyCreateAssociationMixin<any>;
-  removeWatchStatu: HasManyRemoveAssociationMixin<any, number>;
+  createWatchStatu: HasManyCreateAssociationMixin<WatchStatusInstance>;
+  removeWatchStatu: HasManyRemoveAssociationMixin<WatchStatusInstance, number>;
 };
 
 export type UserInstance = Model<

@@ -1,7 +1,6 @@
 import {
   Sequelize,
   DataTypes,
-  Optional,
   HasOneGetAssociationMixin,
   HasOneSetAssociationMixin,
   HasManyGetAssociationsMixin,
@@ -11,10 +10,12 @@ import {
   HasManyCreateAssociationMixin,
   HasManyRemoveAssociationMixin,
   InstanceUpdateOptions,
+  HasManySetAssociationsMixin,
 } from 'sequelize';
 import { Model, ModelAssociateType, Nullable } from './types';
 import { HostInstance } from './hosts';
 import { FileInstance } from './files';
+import { UserInstance } from './users';
 
 const queue = require('../queues/sse');
 const { normalize } = require('../services/normalizers/torrents');
@@ -49,12 +50,12 @@ export type TorrentAttributes = {
   downloadDir: Nullable<string>;
   isFinished: boolean;
   isStalled: boolean;
-  desiredAvailable: Nullable<string>; // bigint treated as string
-  leftUntilDone: Nullable<string>; // bigint treated as string
-  sizeWhenDone: Nullable<string>; // bigint treated as string
-  totalSize: Nullable<string>; // bigint treated as string
+  desiredAvailable: Nullable<string | number>; // bigint treated as string
+  leftUntilDone: Nullable<string | number>; // bigint treated as string
+  sizeWhenDone: Nullable<string | number>; // bigint treated as string
+  totalSize: Nullable<string | number>; // bigint treated as string
   magnetLink: Nullable<string>;
-  uploadedEver: Nullable<string>; // bigint treated as string
+  uploadedEver: Nullable<string | number>; // bigint treated as string
   seedRatioLimit: Nullable<number>;
   seedRatioMode: Nullable<number>;
   uploadRatio: Nullable<number>;
@@ -64,31 +65,32 @@ export type TorrentAttributes = {
   rateDownload: Nullable<number>;
   rateUpload: Nullable<number>;
   activityDate: Nullable<number>;
-  trackers: Nullable<TrackerType>;
+  trackers: Nullable<TrackerType[]>;
   createdAt: Date;
   updatedAt: Date;
   userId: Nullable<number>;
   hostId: number;
 };
 
-export type CreateTorrentAttributes = Optional<
-  TorrentAttributes,
-  'status' | 'isFinished' | 'isStalled' | 'createdAt' | 'updatedAt'
->;
+export type CreateTorrentAttributes = Partial<TorrentAttributes> & {
+  hash: TorrentAttributes['hash'];
+  hostId: TorrentAttributes['hostId'];
+};
 
 export type TorrentAssociations = {
   getHost: HasOneGetAssociationMixin<HostInstance>;
   setHost: HasOneSetAssociationMixin<HostInstance, number>;
 
   getFiles: HasManyGetAssociationsMixin<FileInstance>;
+  setFiles: HasManySetAssociationsMixin<FileInstance, string>;
   addFile: HasManyAddAssociationMixin<FileInstance, string>;
   hasFile: HasManyHasAssociationMixin<FileInstance, string>;
   countFiles: HasManyCountAssociationsMixin;
   createFile: HasManyCreateAssociationMixin<FileInstance>;
   removeFile: HasManyRemoveAssociationMixin<FileInstance, string>;
 
-  getUser: HasOneGetAssociationMixin<any>; // @todo
-  setUser: HasOneSetAssociationMixin<any, number>; // @todo
+  getUser: HasOneGetAssociationMixin<UserInstance | null>;
+  setUser: HasOneSetAssociationMixin<UserInstance, number>;
 };
 
 export type TorrentInstance = Model<
@@ -97,8 +99,8 @@ export type TorrentInstance = Model<
   TorrentAssociations
 >;
 
-const createTorrentRepository = (sequelize: Sequelize) => {
-  const TorrentRepository = sequelize.define<TorrentInstance>(
+const createTorrentRepository = (sequelize: Sequelize) =>
+  sequelize.define<TorrentInstance>(
     'Torrent',
     {
       hash: {
@@ -321,7 +323,7 @@ const createTorrentRepository = (sequelize: Sequelize) => {
             }),
           );
         },
-        afterDestroy(instance: TorrentInstance, options) {
+        afterDestroy(instance: TorrentInstance) {
           if (!hasRedis) {
             return;
           }
@@ -331,9 +333,6 @@ const createTorrentRepository = (sequelize: Sequelize) => {
       },
     },
   );
-
-  return TorrentRepository;
-};
 
 export type TorrentRepository = ReturnType<typeof createTorrentRepository>;
 

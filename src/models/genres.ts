@@ -2,13 +2,17 @@ import {
   Sequelize,
   DataTypes,
   HasManyGetAssociationsMixin,
+  HasManySetAssociationsMixin,
   HasManyAddAssociationMixin,
   HasManyHasAssociationMixin,
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
   HasManyRemoveAssociationMixin,
+  Optional,
 } from 'sequelize';
 import { Model, ModelAssociateType } from './types';
+import { MovieInstance } from './movies';
+import { TvInstance } from './tv';
 
 export type GenreAttributes = {
   id: number;
@@ -16,24 +20,28 @@ export type GenreAttributes = {
 };
 
 export type GenreAssociations = {
-  getMovies: HasManyGetAssociationsMixin<any>; // @todo
-  addMovie: HasManyAddAssociationMixin<any, number>; // @todo
-  hasMovie: HasManyHasAssociationMixin<any, number>; // @todo
+  getMovies: HasManyGetAssociationsMixin<MovieInstance>;
+  setMovies: HasManySetAssociationsMixin<MovieInstance, number>;
+  addMovie: HasManyAddAssociationMixin<MovieInstance, number>;
+  hasMovie: HasManyHasAssociationMixin<MovieInstance, number>;
   countMovies: HasManyCountAssociationsMixin;
-  createMovie: HasManyCreateAssociationMixin<any>; // @todo
-  removeMovie: HasManyRemoveAssociationMixin<any, number>; // @todo
+  createMovie: HasManyCreateAssociationMixin<MovieInstance>;
+  removeMovie: HasManyRemoveAssociationMixin<MovieInstance, number>;
 
-  getTv: HasManyGetAssociationsMixin<any>; // @todo
-  addTv: HasManyAddAssociationMixin<any, number>; // @todo
-  hasTv: HasManyHasAssociationMixin<any, number>; // @todo
+  getTv: HasManyGetAssociationsMixin<TvInstance>;
+  setTv: HasManySetAssociationsMixin<TvInstance, number>;
+  addTv: HasManyAddAssociationMixin<TvInstance, number>;
+  hasTv: HasManyHasAssociationMixin<TvInstance, number>;
   countTv: HasManyCountAssociationsMixin;
-  createTv: HasManyCreateAssociationMixin<any>; // @todo
-  removeTv: HasManyRemoveAssociationMixin<any, number>; // @todo
+  createTv: HasManyCreateAssociationMixin<TvInstance>;
+  removeTv: HasManyRemoveAssociationMixin<TvInstance, number>;
 };
+
+export type CreateGenreAttributes = Optional<GenreAttributes, 'id'>;
 
 export type GenreInstance = Model<
   GenreAttributes,
-  GenreAttributes,
+  CreateGenreAttributes,
   GenreAssociations
 >;
 

@@ -1,4 +1,4 @@
-FROM node:10.11 as build-stage
+FROM node:14.16 as build-stage
 
 ARG VERSION
 ENV NODE_ENV development
@@ -11,7 +11,7 @@ USER node
 WORKDIR /home/node/server
 RUN npm i && npm run build && ls -lah
 
-FROM node:10.11 as prod-stage
+FROM node:14.16 as build-stage
 
 ARG VERSION
 ENV NODE_ENV production

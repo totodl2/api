@@ -4,10 +4,11 @@ export enum TranscodedElementTypes {
 }
 
 type TranscodedElementType = {
-  lang?: string;
-  title: string;
   type: TranscodedElementTypes;
-  url: string;
+  title: string;
+  lang?: string;
+  filename: string;
+  filepath: string;
 };
 
 export default TranscodedElementType;

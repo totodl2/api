@@ -6,6 +6,7 @@ import {
   HasOneSetAssociationMixin,
 } from 'sequelize';
 import { Model, ModelAssociateType, Nullable } from './types';
+import { UserInstance } from './users';
 
 export type RefreshTokenAttributes = {
   id: number;
@@ -19,12 +20,12 @@ export type RefreshTokenAttributes = {
 
 export type CreateRefreshTokenAttributes = Optional<
   RefreshTokenAttributes,
-  'id' | 'createdAt' | 'updatedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'lastUsedAt'
 >;
 
 export type RefreshTokenAssociation = {
-  getUser: HasOneGetAssociationMixin<any>; // @todo
-  setUser: HasOneSetAssociationMixin<any, number>; // @todo
+  getUser: HasOneGetAssociationMixin<UserInstance>;
+  setUser: HasOneSetAssociationMixin<UserInstance, number>;
 };
 
 export type RefreshTokenInstance = Model<
@@ -34,7 +35,7 @@ export type RefreshTokenInstance = Model<
 >;
 
 const createRefreshTokenRepository = (sequelize: Sequelize) =>
-  sequelize.define(
+  sequelize.define<RefreshTokenInstance>(
     'RefreshToken',
     {
       id: {

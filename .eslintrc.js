@@ -36,6 +36,7 @@ module.exports = {
         ...defaultRules,
         'no-shadow': 0,
         'no-unused-vars': 0,
+        'require-atomic-updates': 0,
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/explicit-member-accessibility': 0,
         '@typescript-eslint/member-delimiter-style': 0,

@@ -9,6 +9,7 @@ import { Model, ModelAssociateType, Nullable } from './types';
 import { TorrentInstance } from './torrents';
 import { UserInstance } from './users';
 import { FileInstance } from './files';
+import { Defined } from '../types/TypesHelper';
 
 export type WatchStatusAttributes = {
   id: number;
@@ -22,9 +23,9 @@ export type WatchStatusAttributes = {
   length: number;
 };
 
-export type CreateWatchStatusAttributes = Optional<
-  WatchStatusAttributes,
-  'id' | 'position' | 'length'
+export type CreateWatchStatusAttributes = Defined<
+  Partial<WatchStatusAttributes>,
+  'userId'
 >;
 
 export type WatchStatusAssociations = {

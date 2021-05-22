@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Dialect } from 'sequelize';
+import { Sequelize, Dialect } from 'sequelize';
 import createFileRepository, {
   associate as associateFileRepository,
 } from './files';
@@ -25,7 +25,7 @@ import createWatchStatusRepository, {
   associate as associateWatchStatus,
 } from './watch-status';
 
-const db = new Sequelize(
+export const sequelize = new Sequelize(
   process.env.DATABASE_NAME!,
   process.env.DATABASE_USER!,
   process.env.DATABASE_PASSWORD,
@@ -44,18 +44,30 @@ const db = new Sequelize(
   },
 );
 
-const repositories = {
-  File: createFileRepository(db),
-  Genre: createGenreRepository(db),
-  Host: createHostRepository(db),
-  MovieGenre: createMovieGenreRepository(db),
-  Movie: createMovieRepository(db),
-  RefreshToken: createRefreshTokenRepository(db),
-  Torrent: createTorrentRepository(db),
-  Tv: createTvRepository(db),
-  TvGenre: createTvGenreRepository(db),
-  User: createUserRepository(db),
-  WatchStatus: createWatchStatusRepository(db),
+export const File = createFileRepository(sequelize);
+export const Genre = createGenreRepository(sequelize);
+export const Host = createHostRepository(sequelize);
+export const MovieGenre = createMovieGenreRepository(sequelize);
+export const Movie = createMovieRepository(sequelize);
+export const RefreshToken = createRefreshTokenRepository(sequelize);
+export const Torrent = createTorrentRepository(sequelize);
+export const Tv = createTvRepository(sequelize);
+export const TvGenre = createTvGenreRepository(sequelize);
+export const User = createUserRepository(sequelize);
+export const WatchStatus = createWatchStatusRepository(sequelize);
+
+export const repositories = {
+  File,
+  Genre,
+  Host,
+  MovieGenre,
+  Movie,
+  RefreshToken,
+  Torrent,
+  Tv,
+  TvGenre,
+  User,
+  WatchStatus,
 };
 
 export type RepositoriesTypes = typeof repositories;
@@ -72,9 +84,11 @@ associateWatchStatus(repositories);
 
 const out = {
   ...repositories,
-  db,
-  sequelize: db,
+  db: sequelize,
+  sequelize,
   Sequelize,
+  repositories,
 };
 
-module.exports = out;
+export default out;
+module.exports = out; // @todo: remove me

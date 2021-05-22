@@ -7,13 +7,23 @@ export type HostAttributes = {
   transmissionServiceUrl: Nullable<string>;
   cdnUrl: Nullable<string>;
   cdnSecret: Nullable<string>;
-  spaceAvailable: Nullable<string>; // big int treated as string
-  spaceReserved: Nullable<string>; // big int treated as string
+  spaceAvailable: Nullable<string | number>; // big int treated as string
+  spaceReserved: Nullable<string | number>; // big int treated as string
   unavailabilityDetectedAt: Nullable<Date>;
   lastUploadAt: Nullable<Date>;
 };
 
-export type CreateHostAttributes = Optional<HostAttributes, 'id'>;
+export type CreateHostAttributes = Optional<
+  HostAttributes,
+  | 'name'
+  | 'transmissionServiceUrl'
+  | 'cdnUrl'
+  | 'cdnSecret'
+  | 'spaceAvailable'
+  | 'spaceReserved'
+  | 'unavailabilityDetectedAt'
+  | 'lastUploadAt'
+>;
 
 export type HostInstance = Model<HostAttributes, CreateHostAttributes>;
 

@@ -1,19 +1,19 @@
 import {
   Sequelize,
   DataTypes,
-  Optional,
-  HasOneGetAssociationMixin,
-  HasOneSetAssociationMixin,
   HasManyGetAssociationsMixin,
   HasManyAddAssociationMixin,
   HasManyHasAssociationMixin,
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
   HasManyRemoveAssociationMixin,
+  HasManySetAssociationsMixin,
 } from 'sequelize';
 import { Model, ModelAssociateType, Nullable } from './types';
 import { TvType } from '../types/MetadataTypes';
 import { GenreInstance } from './genres';
+import { FileInstance } from './files';
+import { MovieAttributes } from './movies';
 
 export type TvAttributes = {
   id: number;
@@ -43,18 +43,35 @@ export type TvAttributes = {
   keywords: Nullable<TvType['keywords']>;
   videos: Nullable<TvType['videos']>;
   seasons: Nullable<TvType['seasons']>;
+  createdAt: Date;
+  updatedAt: Date;
 };
+
+export type CreateTvAttributes = Partial<TvAttributes>;
 
 export type TvAssociations = {
   getGenres: HasManyGetAssociationsMixin<GenreInstance>;
+  setGenres: HasManySetAssociationsMixin<GenreInstance, number>;
   addGenre: HasManyAddAssociationMixin<GenreInstance, number>;
   hasGenre: HasManyHasAssociationMixin<GenreInstance, number>;
   countGenres: HasManyCountAssociationsMixin;
   createGenre: HasManyCreateAssociationMixin<GenreInstance>;
   removeGenre: HasManyRemoveAssociationMixin<GenreInstance, number>;
+
+  getFiles: HasManyGetAssociationsMixin<FileInstance>;
+  setFiles: HasManySetAssociationsMixin<FileInstance, string>;
+  addFile: HasManyAddAssociationMixin<FileInstance, string>;
+  hasFile: HasManyHasAssociationMixin<FileInstance, string>;
+  countFiles: HasManyCountAssociationsMixin;
+  createFile: HasManyCreateAssociationMixin<FileInstance>;
+  removeFile: HasManyRemoveAssociationMixin<FileInstance, string>;
 };
 
-export type TvInstance = Model<TvAttributes, TvAttributes, TvAssociations>;
+export type TvInstance = Model<
+  TvAttributes,
+  CreateTvAttributes,
+  TvAssociations
+>;
 
 const createTvRepository = (sequelize: Sequelize) =>
   sequelize.define<TvInstance>(
@@ -92,6 +109,16 @@ const createTvRepository = (sequelize: Sequelize) =>
       keywords: DataTypes.JSON,
       videos: DataTypes.JSON,
       seasons: DataTypes.JSON,
+      updatedAt: {
+        type: DataTypes.DATE,
+        field: 'updatedAt',
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        field: 'createdAt',
+        allowNull: false,
+      },
     },
     {
       schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',

@@ -1,25 +1,25 @@
 import {
   Sequelize,
   DataTypes,
-  Optional,
-  HasOneGetAssociationMixin,
-  HasOneSetAssociationMixin,
   HasManyGetAssociationsMixin,
   HasManyAddAssociationMixin,
   HasManyHasAssociationMixin,
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
   HasManyRemoveAssociationMixin,
+  Optional,
+  HasManySetAssociationsMixin,
 } from 'sequelize';
 import { Model, ModelAssociateType, Nullable } from './types';
 import { MovieType } from '../types/MetadataTypes';
 import { GenreInstance } from './genres';
+import { FileInstance } from './files';
 
 export type MovieAttributes = {
   id: number;
   adult: Nullable<boolean>;
   backdropPath: Nullable<string>;
-  budget: Nullable<string>; // bigint is treated as string
+  budget: Nullable<string | number>; // bigint is treated as string
   homepage: Nullable<string>;
   imdbId: Nullable<string>;
   originalLanguage: Nullable<string>;
@@ -41,20 +41,33 @@ export type MovieAttributes = {
   credits: Nullable<MovieType['credits']>;
   images: Nullable<MovieType['images']>;
   keywords: Nullable<MovieType['keywords']>;
+  createdAt: Date;
+  updatedAt: Date;
 };
+
+export type CreateMovieAttributes = Partial<MovieAttributes>;
 
 export type MovieAssociations = {
   getGenres: HasManyGetAssociationsMixin<GenreInstance>;
+  setGenres: HasManySetAssociationsMixin<GenreInstance, number>;
   addGenre: HasManyAddAssociationMixin<GenreInstance, number>;
   hasGenre: HasManyHasAssociationMixin<GenreInstance, number>;
   countGenres: HasManyCountAssociationsMixin;
   createGenre: HasManyCreateAssociationMixin<GenreInstance>;
   removeGenre: HasManyRemoveAssociationMixin<GenreInstance, number>;
+
+  getFiles: HasManyGetAssociationsMixin<FileInstance>;
+  setFiles: HasManySetAssociationsMixin<FileInstance, string>;
+  addFile: HasManyAddAssociationMixin<FileInstance, string>;
+  hasFile: HasManyHasAssociationMixin<FileInstance, string>;
+  countFiles: HasManyCountAssociationsMixin;
+  createFile: HasManyCreateAssociationMixin<FileInstance>;
+  removeFile: HasManyRemoveAssociationMixin<FileInstance, string>;
 };
 
 export type MovieInstance = Model<
   MovieAttributes,
-  MovieAttributes,
+  CreateMovieAttributes,
   MovieAssociations
 >;
 
@@ -92,6 +105,16 @@ const createMovieRepository = (sequelize: Sequelize) =>
       credits: DataTypes.JSON,
       images: DataTypes.JSON,
       keywords: DataTypes.JSON,
+      updatedAt: {
+        type: DataTypes.DATE,
+        field: 'updatedAt',
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        field: 'createdAt',
+        allowNull: false,
+      },
     },
     {
       schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',

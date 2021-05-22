@@ -1,4 +1,4 @@
-import Umzug from 'umzug';
+import Umzug, { Migration } from 'umzug';
 import path from 'path';
 import models from './models/index';
 import debugFactory from './debug';
@@ -16,7 +16,7 @@ const umzug = new Umzug({
   },
 });
 
-export default () =>
+export default (): Promise<Migration[]> =>
   umzug.up().then(migrations => {
     if (migrations.length <= 0) {
       debug('Your db is up to date');

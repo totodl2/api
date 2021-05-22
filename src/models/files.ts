@@ -11,6 +11,7 @@ import TranscodingStatusType from '../types/TranscodingStatusType';
 import { HostInstance } from './hosts';
 import { MovieInstance } from './movies';
 import { TorrentInstance } from './torrents';
+import { TvInstance } from './tv';
 
 const queue = require('../queues/sse');
 const { normalize } = require('../services/normalizers/files');
@@ -25,15 +26,15 @@ export type FileAttributes = {
   basename: Nullable<string>;
   directory: Nullable<string>;
   extension: Nullable<string>;
-  bytesCompleted: string; // big int treated as string
-  length: string; // big int treated as string
+  bytesCompleted: string | number; // big int treated as string
+  length: string | number; // big int treated as string
   priority: number;
   position: number;
   wanted: boolean;
   hostId: number;
   createdAt: Date;
   updatedAt: Date;
-  transcoded: Nullable<TranscodedElementType>;
+  transcoded: Nullable<TranscodedElementType[]>;
   transcodingStatus: Nullable<TranscodingStatusType>;
   transcodingQueuedAt: Nullable<Date>;
   transcodingFailedAt: Nullable<Date>;
@@ -45,12 +46,12 @@ export type FileAttributes = {
 };
 
 export type FileAssociations = {
-  getTorrent: HasOneGetAssociationMixin<TorrentInstance>; // @todo: type this
-  setTorrent: HasOneSetAssociationMixin<TorrentInstance, string>; // @todo: type this
+  getTorrent: HasOneGetAssociationMixin<TorrentInstance>;
+  setTorrent: HasOneSetAssociationMixin<TorrentInstance, string>;
   getHost: HasOneGetAssociationMixin<HostInstance>;
   setHost: HasOneSetAssociationMixin<HostInstance, number>;
-  getTv: HasOneGetAssociationMixin<any | null>; // @todo: type this
-  setTv: HasOneSetAssociationMixin<any | null, number | null>;
+  getTv: HasOneGetAssociationMixin<TvInstance | null>;
+  setTv: HasOneSetAssociationMixin<TvInstance | null, number | null>;
   getMovie: HasOneGetAssociationMixin<MovieInstance | null>;
   setMovie: HasOneSetAssociationMixin<MovieInstance | null, number | null>;
 };
@@ -70,7 +71,8 @@ export type CreateFileAttributes = Optional<
 export type FileInstance = Model<
   FileAttributes,
   CreateFileAttributes,
-  FileAssociations
+  FileAssociations,
+  { isComplete: () => boolean }
 >;
 
 const createFileRepository = (sequelize: Sequelize) => {
@@ -237,7 +239,7 @@ const createFileRepository = (sequelize: Sequelize) => {
             ...normalize(instance.dataValues, host),
           });
         },
-        afterUpdate: async (instance: FileInstance, { fields }) => {
+        afterUpdate: async (instance: FileInstance) => {
           if (!hasRedis) {
             return;
           }

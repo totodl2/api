@@ -170,7 +170,7 @@ export type SeasonType = {
 export type TvType = {
   backdropPath: string | null;
   episodeRunTime: number[];
-  firstAirDare: string;
+  firstAirDaTe: string;
   genres: GenreType[];
   homepage: string;
   id: string;
@@ -201,4 +201,50 @@ export type TvType = {
   keywords: KeywordType[];
   externalIds: ExternalIdsType;
   seasons: SeasonType[];
+};
+
+export type SearchMovieType = {
+  id: string;
+  adult: boolean;
+  backdropPath: string | null;
+  genreIds: number[];
+  originalLanguage: string;
+  originalTitle: string;
+  overview: string | null;
+  popularity: number;
+  posterPath: string | null;
+  releaseDate: string;
+  title: string;
+  video: boolean;
+  voteAverage: number;
+  voteCount: number;
+};
+
+export type SearchTvType = {
+  backdropPath: string | null;
+  genreIds: number[];
+  firstAirDate: string;
+  id: string;
+  name: string;
+  originCountry: string[];
+  originalLanguage: string;
+  originalName: string;
+  overview: string;
+  popularity: number;
+  posterPath: string | null;
+  voteAverage: number;
+  voteCount: number;
+};
+
+export type ConfigurationType = {
+  images: {
+    baseUrl: string;
+    secureBaseUrl: string;
+    backdropSizes: string[];
+    logoSizes: string[];
+    posterSizes: string[];
+    profileSizes: string[];
+    stillSizes: string[];
+  };
+  changeKeys: string[];
 };
