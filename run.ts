@@ -1,5 +1,6 @@
 require('dotenv').config();
 require('./src/sentry');
+
 const path = require('path');
 const fs = require('fs');
 
@@ -8,8 +9,10 @@ const { argv } = process;
 function help() {
   const commands = fs
     .readdirSync(path.join(__dirname, 'src/commands/'))
-    .filter(file => file.indexOf('.') !== 0 && file.slice(-3) === '.js')
-    .map(file => path.basename(file, path.extname(file)));
+    .filter(
+      (file: string) => file.indexOf('.') !== 0 && file.slice(-3) === '.js',
+    )
+    .map((file: string) => path.basename(file, path.extname(file)));
 
   /* eslint-disable-next-line */
   console.log(` 
@@ -30,7 +33,7 @@ if (!fs.existsSync(commandFile)) {
 
 /* eslint-disable-next-line */
 const command = require(commandFile);
-command().catch(e => {
+command().catch((e: any) => {
   console.log(e); // eslint-disable-line
   process.exit(1);
 });

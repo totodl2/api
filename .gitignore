@@ -4,3 +4,4 @@ node_modules
 .env
 .idea
 tmdb_data_sample
+dist

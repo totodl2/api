@@ -1,7 +1,9 @@
-const Umzug = require('umzug');
-const path = require('path');
-const models = require('./models/index.js');
-const debug = require('./debug')('migrations');
+import Umzug from 'umzug';
+import path from 'path';
+import models from './models/index';
+import debugFactory from './debug';
+
+const debug = debugFactory('migrations');
 
 const umzug = new Umzug({
   storage: 'sequelize',
@@ -14,7 +16,7 @@ const umzug = new Umzug({
   },
 });
 
-module.exports = () =>
+export default () =>
   umzug.up().then(migrations => {
     if (migrations.length <= 0) {
       debug('Your db is up to date');

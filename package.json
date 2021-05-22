@@ -4,11 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "jest ./src/",
     "test:watch": "jest --watchAll ./src",
     "lint": "npm run lint:eslint -- ./src",
-    "lint:eslint": "eslint -c .eslintrc.prod.json --ignore-path .gitignore",
-    "lint:staged": "lint-staged"
+    "lint:eslint": "NODE_ENV=production eslint --ext js --ext ts --ignore-path .gitignore",
+    "lint:staged": "lint-staged",
+    "dev": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch:ts\" \"npm run dev:server\"",
+    "dev:server": "node node_modules/.bin/nodemon --delay 0.05 ./dist/run.js server",
+    "dev:worker:torrents": "node node_modules/.bin/nodemon --delay 0.05 ./dist/run.js torrentsWorker",
+    "dev:worker:files": "node node_modules/.bin/nodemon --delay 0.05 ./dist/run.js filesWorker",
+    "dev:worker:metadata": "node node_modules/.bin/nodemon --delay 0.05 ./dist/run.js metadataWorker",
+    "dev:worker:hosts": "node node_modules/.bin/nodemon --delay 0.05 ./dist/run.js hostsMonitorWorker",
+    "watch:ts": "tsc -w"
   },
   "lint-staged": {
     "*.js": "npm run-script lint:eslint"
@@ -23,7 +31,18 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/jest": "^26.0.23",
+    "@types/koa": "^2.13.1",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa__cors": "^3.0.2",
+    "@types/node": "^15.6.0",
+    "@types/redis": "^2.8.28",
+    "@types/umzug": "^2.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
     "axios-mock-adapter": "^1.18.1",
+    "concurrently": "^6.1.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.5.0",
@@ -38,7 +57,10 @@
     "redis-mock": "^0.56.3",
     "sequelize-auto": "^0.8.2",
     "sequelize-fixtures": "^1.1.1",
-    "sqlite3": "^4.1.0"
+    "sqlite3": "^4.1.0",
+    "ts-jest": "^26.5.6",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.7",
