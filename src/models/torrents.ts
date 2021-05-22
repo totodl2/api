@@ -1,12 +1,104 @@
-/* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
+import {
+  Sequelize,
+  DataTypes,
+  Optional,
+  HasOneGetAssociationMixin,
+  HasOneSetAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManyHasAssociationMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyRemoveAssociationMixin,
+  InstanceUpdateOptions,
+} from 'sequelize';
+import { Model, ModelAssociateType, Nullable } from './types';
+import { HostInstance } from './hosts';
+import { FileInstance } from './files';
+
 const queue = require('../queues/sse');
 const { normalize } = require('../services/normalizers/torrents');
 
 const hasRedis = !!process.env.REDIS_HOST;
 const { TORRENTS } = queue.NAMES;
 
-module.exports = (sequelize, DataTypes) => {
-  const Torrent = sequelize.define(
+export enum TorrentStatus {
+  STOPPED = 0,
+  CHECK_WAIT = 1,
+  CHECK = 2,
+  DOWNLOAD_WAIT = 3,
+  DOWNLOAD = 4,
+  SEED_WAIT = 5,
+  SEED = 6,
+}
+
+export type TrackerType = {
+  announce: string | null;
+  id: number;
+  scrape: string | null;
+  tier: number;
+};
+
+export type TorrentAttributes = {
+  hash: string;
+  name: Nullable<string>;
+  eta: Nullable<number>;
+  status: TorrentStatus;
+  error: Nullable<number>;
+  errorString: Nullable<string>;
+  downloadDir: Nullable<string>;
+  isFinished: boolean;
+  isStalled: boolean;
+  desiredAvailable: Nullable<string>; // bigint treated as string
+  leftUntilDone: Nullable<string>; // bigint treated as string
+  sizeWhenDone: Nullable<string>; // bigint treated as string
+  totalSize: Nullable<string>; // bigint treated as string
+  magnetLink: Nullable<string>;
+  uploadedEver: Nullable<string>; // bigint treated as string
+  seedRatioLimit: Nullable<number>;
+  seedRatioMode: Nullable<number>;
+  uploadRatio: Nullable<number>;
+  peersConnected: Nullable<number>;
+  peersSendingToUs: Nullable<number>;
+  peersGettingFromUs: Nullable<number>;
+  rateDownload: Nullable<number>;
+  rateUpload: Nullable<number>;
+  activityDate: Nullable<number>;
+  trackers: Nullable<TrackerType>;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: Nullable<number>;
+  hostId: number;
+};
+
+export type CreateTorrentAttributes = Optional<
+  TorrentAttributes,
+  'status' | 'isFinished' | 'isStalled' | 'createdAt' | 'updatedAt'
+>;
+
+export type TorrentAssociations = {
+  getHost: HasOneGetAssociationMixin<HostInstance>;
+  setHost: HasOneSetAssociationMixin<HostInstance, number>;
+
+  getFiles: HasManyGetAssociationsMixin<FileInstance>;
+  addFile: HasManyAddAssociationMixin<FileInstance, string>;
+  hasFile: HasManyHasAssociationMixin<FileInstance, string>;
+  countFiles: HasManyCountAssociationsMixin;
+  createFile: HasManyCreateAssociationMixin<FileInstance>;
+  removeFile: HasManyRemoveAssociationMixin<FileInstance, string>;
+
+  getUser: HasOneGetAssociationMixin<any>; // @todo
+  setUser: HasOneSetAssociationMixin<any, number>; // @todo
+};
+
+export type TorrentInstance = Model<
+  TorrentAttributes,
+  CreateTorrentAttributes,
+  TorrentAssociations
+>;
+
+const createTorrentRepository = (sequelize: Sequelize) => {
+  const TorrentRepository = sequelize.define<TorrentInstance>(
     'Torrent',
     {
       hash: {
@@ -82,7 +174,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(10240),
         field: 'magnetLink',
         allowNull: true,
-        set(value) {
+        set(value: TorrentAttributes['magnetLink']) {
           if (typeof value === 'string' && value.length >= 10240) {
             this.setDataValue('magnetLink', value.substr(0, 10239));
           } else {
@@ -185,8 +277,11 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       hooks: {
         // dispatch events to bullmq
-        afterUpdate: async (instance, { fields }) => {
-          if (!hasRedis) {
+        afterUpdate: async (
+          instance: TorrentInstance,
+          { fields }: InstanceUpdateOptions<TorrentAttributes>,
+        ) => {
+          if (!hasRedis || !fields) {
             return;
           }
 
@@ -195,11 +290,16 @@ module.exports = (sequelize, DataTypes) => {
             fields
               .filter(field => field !== 'trackers')
               .reduce(
-                (prev, fieldName) => {
-                  // eslint-disable-next-line no-param-reassign
-                  prev.changes[fieldName] = instance.dataValues[fieldName];
-                  return prev;
-                },
+                (
+                  prev: {
+                    hash: string;
+                    changes: Partial<TorrentAttributes>;
+                  },
+                  fieldName,
+                ) => ({
+                  ...prev,
+                  [fieldName]: instance.dataValues[fieldName],
+                }),
                 {
                   hash: instance.hash,
                   changes: {},
@@ -207,7 +307,7 @@ module.exports = (sequelize, DataTypes) => {
               ),
           );
         },
-        afterCreate: async instance => {
+        afterCreate: async (instance: TorrentInstance) => {
           if (!hasRedis) {
             return;
           }
@@ -221,7 +321,7 @@ module.exports = (sequelize, DataTypes) => {
             }),
           );
         },
-        afterDestroy(instance, options) {
+        afterDestroy(instance: TorrentInstance, options) {
           if (!hasRedis) {
             return;
           }
@@ -232,42 +332,32 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Torrent.associate = models => {
-    delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
-
-    const { File } = models;
-    const { Host } = models;
-    const { User } = models;
-
-    Torrent.hasMany(File, {
-      as: 'Files',
-      foreignKey: 'torrentHash',
-    });
-
-    Torrent.belongsTo(Host, {
-      as: 'Host',
-      foreignKey: 'hostId',
-      onDelete: 'CASCADE',
-      onUpdate: 'NO ACTION',
-    });
-
-    Torrent.belongsTo(User, {
-      as: 'user',
-      foreignKey: 'userId',
-      onDelete: 'SET NULL',
-      onUpdate: 'NO ACTION',
-    });
-  };
-
-  Torrent.STATUS = {
-    STOPPED: 0,
-    CHECK_WAIT: 1,
-    CHECK: 2,
-    DOWNLOAD_WAIT: 3,
-    DOWNLOAD: 4,
-    SEED_WAIT: 5,
-    SEED: 6,
-  };
-
-  return Torrent;
+  return TorrentRepository;
 };
+
+export type TorrentRepository = ReturnType<typeof createTorrentRepository>;
+
+export const associate: ModelAssociateType = repositories => {
+  const { File, Host, User, Torrent } = repositories;
+
+  Torrent.hasMany(File, {
+    as: 'Files',
+    foreignKey: 'torrentHash',
+  });
+
+  Torrent.belongsTo(Host, {
+    as: 'Host',
+    foreignKey: 'hostId',
+    onDelete: 'CASCADE',
+    onUpdate: 'NO ACTION',
+  });
+
+  Torrent.belongsTo(User, {
+    as: 'user',
+    foreignKey: 'userId',
+    onDelete: 'SET NULL',
+    onUpdate: 'NO ACTION',
+  });
+};
+
+export default createTorrentRepository;

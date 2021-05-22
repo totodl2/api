@@ -1,16 +1,29 @@
 import { Sequelize, DataTypes, Dialect } from 'sequelize';
-import createFile from './files';
-import createGenre from './genres';
-import createHost from './hosts';
-import createMovieGenre from './movie-genres';
-import createMovie from './movies';
-import createRefreshToken from './refresh-tokens';
-import createTorrent from './torrents';
-import createTv from './tv';
-import createTvGenre from './tv-genres';
-import createUser from './users';
-import createWatchStatus from './watch-status';
-import ModelStaticType from './modelStaticType';
+import createFileRepository, {
+  associate as associateFileRepository,
+} from './files';
+import createGenreRepository, {
+  associate as associateGenreRepository,
+} from './genres';
+import createHostRepository, {
+  associate as associateHostRepository,
+} from './hosts';
+import createMovieGenreRepository from './movie-genres';
+import createMovieRepository, {
+  associate as associateMovieRepository,
+} from './movies';
+import createRefreshTokenRepository, {
+  associate as associateRefreshToken,
+} from './refresh-tokens';
+import createTorrentRepository, {
+  associate as associateTorrent,
+} from './torrents';
+import createTvRepository, { associate as associateTv } from './tv';
+import createTvGenreRepository from './tv-genres';
+import createUserRepository, { associate as associateUser } from './users';
+import createWatchStatusRepository, {
+  associate as associateWatchStatus,
+} from './watch-status';
 
 const db = new Sequelize(
   process.env.DATABASE_NAME!,
@@ -31,33 +44,37 @@ const db = new Sequelize(
   },
 );
 
-const models = {
-  File: createFile(db, DataTypes),
-  Genre: createGenre(db),
-  Host: createHost(db),
-  MovieGenre: createMovieGenre(db, DataTypes),
-  Movie: createMovie(db, DataTypes),
-  RefreshToken: createRefreshToken(db, DataTypes),
-  Torrent: createTorrent(db, DataTypes),
-  Tv: createTv(db, DataTypes),
-  TvGenre: createTvGenre(db, DataTypes),
-  User: createUser(db, DataTypes),
-  WatchStatus: createWatchStatus(db, DataTypes),
+const repositories = {
+  File: createFileRepository(db),
+  Genre: createGenreRepository(db),
+  Host: createHostRepository(db),
+  MovieGenre: createMovieGenreRepository(db),
+  Movie: createMovieRepository(db),
+  RefreshToken: createRefreshTokenRepository(db),
+  Torrent: createTorrentRepository(db),
+  Tv: createTvRepository(db),
+  TvGenre: createTvGenreRepository(db),
+  User: createUserRepository(db),
+  WatchStatus: createWatchStatusRepository(db),
 };
 
-export type ModelsTypes = typeof models;
+export type RepositoriesTypes = typeof repositories;
+
+associateFileRepository(repositories);
+associateGenreRepository(repositories);
+associateHostRepository(repositories);
+associateMovieRepository(repositories);
+associateRefreshToken(repositories);
+associateTorrent(repositories);
+associateTv(repositories);
+associateUser(repositories);
+associateWatchStatus(repositories);
 
 const out = {
-  ...models,
+  ...repositories,
   db,
   sequelize: db,
   Sequelize,
 };
-
-Object.values(models).forEach(model => {
-  if (model.associate) {
-    model.associate(models);
-  }
-});
 
 module.exports = out;

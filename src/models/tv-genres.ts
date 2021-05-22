@@ -1,5 +1,7 @@
-module.exports = (sequelize, DataTypes) => {
-  const TvGenre = sequelize.define(
+import { Sequelize, DataTypes } from 'sequelize';
+
+const createTvGenreRepository = (sequelize: Sequelize) =>
+  sequelize.define(
     'TvGenre',
     {
       tvId: DataTypes.INTEGER,
@@ -11,5 +13,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     },
   );
-  return TvGenre;
-};
+
+export default createTvGenreRepository;

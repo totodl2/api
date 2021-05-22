@@ -1,7 +1,7 @@
-import { Model, Sequelize, DataTypes } from 'sequelize';
-import { ModelStaticType, Nullable } from './types';
+import { Optional, Sequelize, DataTypes } from 'sequelize';
+import { ModelAssociateType, Nullable, Model } from './types';
 
-export type GenreAttributes = {
+export type HostAttributes = {
   id: number;
   name: Nullable<string>;
   transmissionServiceUrl: Nullable<string>;
@@ -13,13 +13,12 @@ export type GenreAttributes = {
   lastUploadAt: Nullable<Date>;
 };
 
-export interface HostModel extends Model<GenreAttributes>, GenreAttributes {}
-export class Host extends Model<HostModel, GenreAttributes> {}
+export type CreateHostAttributes = Optional<HostAttributes, 'id'>;
 
-export type HostStatic = ModelStaticType<HostModel>;
+export type HostInstance = Model<HostAttributes, CreateHostAttributes>;
 
-const createHost = (sequelize: Sequelize): HostStatic => {
-  const HostStaticInstance = <HostStatic>sequelize.define(
+const createHostRepository = (sequelize: Sequelize) =>
+  sequelize.define<HostInstance>(
     'Host',
     {
       id: {
@@ -79,25 +78,24 @@ const createHost = (sequelize: Sequelize): HostStatic => {
     },
   );
 
-  HostStaticInstance.associate = models => {
-    const { File } = models;
+export type HostRepository = ReturnType<typeof createHostRepository>;
 
-    HostStaticInstance.hasMany(models.Torrent, {
-      as: 'TorrentsHostidFkeys',
-      foreignKey: 'hostId',
-      onDelete: 'CASCADE',
-      onUpdate: 'NO ACTION',
-    });
+export const associate: ModelAssociateType = repositories => {
+  const { File, Host, Torrent } = repositories;
 
-    HostStaticInstance.hasMany(File, {
-      as: 'FilesHostidFkeys',
-      foreignKey: 'hostId',
-      onDelete: 'CASCADE',
-      onUpdate: 'NO ACTION',
-    });
-  };
+  Host.hasMany(Torrent, {
+    as: 'TorrentsHostidFkeys',
+    foreignKey: 'hostId',
+    onDelete: 'CASCADE',
+    onUpdate: 'NO ACTION',
+  });
 
-  return HostStaticInstance;
+  Host.hasMany(File, {
+    as: 'FilesHostidFkeys',
+    foreignKey: 'hostId',
+    onDelete: 'CASCADE',
+    onUpdate: 'NO ACTION',
+  });
 };
 
-export default createHost;
+export default createHostRepository;

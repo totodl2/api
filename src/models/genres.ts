@@ -1,18 +1,44 @@
-import { Model, Sequelize, DataTypes } from 'sequelize';
-import { ModelStaticType } from './types';
+import {
+  Sequelize,
+  DataTypes,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManyHasAssociationMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyRemoveAssociationMixin,
+} from 'sequelize';
+import { Model, ModelAssociateType } from './types';
 
 export type GenreAttributes = {
   id: number;
   name: string;
 };
 
-export interface GenreModel extends Model<GenreAttributes>, GenreAttributes {}
-export class Genre extends Model<GenreModel, GenreAttributes> {}
+export type GenreAssociations = {
+  getMovies: HasManyGetAssociationsMixin<any>; // @todo
+  addMovie: HasManyAddAssociationMixin<any, number>; // @todo
+  hasMovie: HasManyHasAssociationMixin<any, number>; // @todo
+  countMovies: HasManyCountAssociationsMixin;
+  createMovie: HasManyCreateAssociationMixin<any>; // @todo
+  removeMovie: HasManyRemoveAssociationMixin<any, number>; // @todo
 
-export type GenreStatic = ModelStaticType<GenreModel>;
+  getTv: HasManyGetAssociationsMixin<any>; // @todo
+  addTv: HasManyAddAssociationMixin<any, number>; // @todo
+  hasTv: HasManyHasAssociationMixin<any, number>; // @todo
+  countTv: HasManyCountAssociationsMixin;
+  createTv: HasManyCreateAssociationMixin<any>; // @todo
+  removeTv: HasManyRemoveAssociationMixin<any, number>; // @todo
+};
 
-const createGenre = (sequelize: Sequelize): GenreStatic => {
-  const GenreStaticInstance = <GenreStatic>sequelize.define(
+export type GenreInstance = Model<
+  GenreAttributes,
+  GenreAttributes,
+  GenreAssociations
+>;
+
+const createGenreRepository = (sequelize: Sequelize) =>
+  sequelize.define<GenreInstance>(
     'Genre',
     {
       id: {
@@ -34,30 +60,28 @@ const createGenre = (sequelize: Sequelize): GenreStatic => {
     },
   );
 
-  GenreStaticInstance.associate = models => {
-    delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
+export type GenreRepository = ReturnType<typeof createGenreRepository>;
 
-    // associations can be defined here
-    Genre.belongsToMany(models.Movie, {
-      through: {
-        model: models.MovieGenre,
-      },
-      foreignKey: 'genreId',
-      otherKey: 'movieId',
-      as: 'movies',
-    });
+export const associate: ModelAssociateType = repositories => {
+  const { Genre, Movie, Tv, MovieGenre, TvGenre } = repositories;
 
-    Genre.belongsToMany(models.Tv, {
-      through: {
-        model: models.TvGenre,
-      },
-      foreignKey: 'genreId',
-      otherKey: 'tvId',
-      as: 'tv',
-    });
-  };
+  Genre.belongsToMany(Movie, {
+    through: {
+      model: MovieGenre,
+    },
+    foreignKey: 'genreId',
+    otherKey: 'movieId',
+    as: 'movies',
+  });
 
-  return GenreStaticInstance;
+  Genre.belongsToMany(Tv, {
+    through: {
+      model: TvGenre,
+    },
+    foreignKey: 'genreId',
+    otherKey: 'tvId',
+    as: 'tv',
+  });
 };
 
-export default createGenre;
+export default createGenreRepository;

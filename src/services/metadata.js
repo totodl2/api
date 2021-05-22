@@ -98,11 +98,13 @@ class Metadata {
    */
   async remove(file) {
     const { movieId, tvId } = file;
+
     if (movieId) {
       await file.update({ movieId: null });
       await queue.add(queue.NAMES.VERIFY_MOVIE, { movieId });
       return true;
     }
+
     if (tvId) {
       await file.update({
         tvId: null,
@@ -112,6 +114,7 @@ class Metadata {
       await queue.add(queue.NAMES.VERIFY_TV, { tvId });
       return true;
     }
+
     return false;
   }
 

@@ -1,5 +1,7 @@
-module.exports = (sequelize, DataTypes) => {
-  const MovieGenre = sequelize.define(
+import { Sequelize, DataTypes } from 'sequelize';
+
+const createMovieGenresRepository = (sequelize: Sequelize) =>
+  sequelize.define(
     'MovieGenre',
     {
       movieId: DataTypes.INTEGER,
@@ -11,5 +13,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     },
   );
-  return MovieGenre;
-};
+
+export default createMovieGenresRepository;

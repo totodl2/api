@@ -1,8 +1,16 @@
-import { Sequelize, Model, DataTypes } from 'sequelize';
-import { ModelStaticType, Nullable } from './types';
+import {
+  Sequelize,
+  DataTypes,
+  Optional,
+  HasOneGetAssociationMixin,
+  HasOneSetAssociationMixin,
+} from 'sequelize';
+import { ModelAssociateType, Nullable, Model } from './types';
 import TranscodedElementType from '../types/TranscodedElementType';
 import TranscodingStatusType from '../types/TranscodingStatusType';
-import { GenreModel } from './genres';
+import { HostInstance } from './hosts';
+import { MovieInstance } from './movies';
+import { TorrentInstance } from './torrents';
 
 const queue = require('../queues/sse');
 const { normalize } = require('../services/normalizers/files');
@@ -36,24 +44,37 @@ export type FileAttributes = {
   episodeNumber: Nullable<number>;
 };
 
-export type CreateFileAttributes = FileAttributes & {
-  id: Nullable<string>;
-  priority: Nullable<number>;
-  bytesCompleted: Nullable<string>;
-  position: Nullable<string>;
-  wanted: Nullable<boolean>;
-  hostId: Nullable<number>;
-  createdAt: Nullable<Date>;
-  updatedAt: Nullable<Date>;
+export type FileAssociations = {
+  getTorrent: HasOneGetAssociationMixin<TorrentInstance>; // @todo: type this
+  setTorrent: HasOneSetAssociationMixin<TorrentInstance, string>; // @todo: type this
+  getHost: HasOneGetAssociationMixin<HostInstance>;
+  setHost: HasOneSetAssociationMixin<HostInstance, number>;
+  getTv: HasOneGetAssociationMixin<any | null>; // @todo: type this
+  setTv: HasOneSetAssociationMixin<any | null, number | null>;
+  getMovie: HasOneGetAssociationMixin<MovieInstance | null>;
+  setMovie: HasOneSetAssociationMixin<MovieInstance | null, number | null>;
 };
 
-export interface FileModel extends Model<FileAttributes>, FileAttributes {}
-export class File extends Model<FileModel, FileAttributes> {}
+export type CreateFileAttributes = Optional<
+  FileAttributes,
+  | 'id'
+  | 'priority'
+  | 'bytesCompleted'
+  | 'position'
+  | 'wanted'
+  | 'hostId'
+  | 'createdAt'
+  | 'updatedAt'
+>;
 
-export type FileStatic = ModelStaticType<GenreModel>;
+export type FileInstance = Model<
+  FileAttributes,
+  CreateFileAttributes,
+  FileAssociations
+>;
 
-const createFile = (sequelize: Sequelize): FileStatic => {
-  const FileStaticInstance = <FileStatic>sequelize.define(
+const createFileRepository = (sequelize: Sequelize) => {
+  const FileRepository = sequelize.define<FileInstance>(
     'File',
     {
       id: {
@@ -206,7 +227,7 @@ const createFile = (sequelize: Sequelize): FileStatic => {
       timestamps: true,
       hooks: {
         // dispatch events to bullmq
-        afterCreate: async (instance: FileModel) => {
+        afterCreate: async (instance: FileInstance) => {
           if (!hasRedis) {
             return;
           }
@@ -216,7 +237,7 @@ const createFile = (sequelize: Sequelize): FileStatic => {
             ...normalize(instance.dataValues, host),
           });
         },
-        afterUpdate: async (instance: FileModel, { fields }) => {
+        afterUpdate: async (instance: FileInstance, { fields }) => {
           if (!hasRedis) {
             return;
           }
@@ -231,45 +252,45 @@ const createFile = (sequelize: Sequelize): FileStatic => {
     },
   );
 
-  FileStaticInstance.associate = models => {
-    delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
-
-    const { Torrent, Host, Movie, Tv } = models;
-
-    FileStaticInstance.belongsTo(Torrent, {
-      as: 'torrent',
-      foreignKey: 'torrentHash',
-      onDelete: 'SET NULL', // file suppression is handled by message broker
-      onUpdate: 'NO ACTION',
-    });
-
-    FileStaticInstance.belongsTo(Host, {
-      as: 'host',
-      foreignKey: 'hostId',
-      onDelete: 'CASCADE',
-      onUpdate: 'NO ACTION',
-    });
-
-    FileStaticInstance.belongsTo(Movie, {
-      as: 'movie',
-      foreignKey: 'movieId',
-      onDelete: 'SET NULL',
-      onUpdate: 'NO ACTION',
-    });
-
-    FileStaticInstance.belongsTo(Tv, {
-      as: 'tv',
-      foreignKey: 'tvId',
-      onDelete: 'SET NULL',
-      onUpdate: 'NO ACTION',
-    });
-  };
-
-  FileStaticInstance.prototype.isComplete = function isComplete() {
+  FileRepository.prototype.isComplete = function isComplete() {
     return this.bytesCompleted >= this.length;
   };
 
-  return FileStaticInstance;
+  return FileRepository;
 };
 
-export default createFile;
+export type FileRepository = ReturnType<typeof createFileRepository>;
+
+export const associate: ModelAssociateType = repositories => {
+  const { File, Torrent, Host, Movie, Tv } = repositories;
+
+  File.belongsTo(Torrent, {
+    as: 'torrent',
+    foreignKey: 'torrentHash',
+    onDelete: 'SET NULL', // file suppression is handled by message broker
+    onUpdate: 'NO ACTION',
+  });
+
+  File.belongsTo(Host, {
+    as: 'host',
+    foreignKey: 'hostId',
+    onDelete: 'CASCADE',
+    onUpdate: 'NO ACTION',
+  });
+
+  File.belongsTo(Movie, {
+    as: 'movie',
+    foreignKey: 'movieId',
+    onDelete: 'SET NULL',
+    onUpdate: 'NO ACTION',
+  });
+
+  File.belongsTo(Tv, {
+    as: 'tv',
+    foreignKey: 'tvId',
+    onDelete: 'SET NULL',
+    onUpdate: 'NO ACTION',
+  });
+};
+
+export default createFileRepository;

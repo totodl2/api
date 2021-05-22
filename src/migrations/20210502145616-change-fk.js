@@ -6,7 +6,8 @@ module.exports = {
       allowNull: true,
     });
     await queryInterface.removeConstraint('Files', 'Files_torrentHash_fkey');
-    await queryInterface.addConstraint('Files', ['torrentHash'], {
+    await queryInterface.addConstraint('Files', {
+      fields: ['torrentHash'],
       type: 'foreign key',
       name: 'Files_torrentHash_fkey',
       references: {
@@ -19,7 +20,8 @@ module.exports = {
   },
   down: async (queryInterface, DataTypes) => {
     await queryInterface.removeConstraint('Files', 'Files_torrentHash_fkey');
-    await queryInterface.addConstraint('Files', ['torrentHash'], {
+    await queryInterface.addConstraint('Files', {
+      fields: ['torrentHash'],
       type: 'foreign key',
       name: 'Files_torrentHash_fkey',
       references: {
