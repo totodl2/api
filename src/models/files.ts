@@ -1,12 +1,59 @@
-/* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
+import { Sequelize, Model, DataTypes } from 'sequelize';
+import { ModelStaticType, Nullable } from './types';
+import TranscodedElementType from '../types/TranscodedElementType';
+import TranscodingStatusType from '../types/TranscodingStatusType';
+import { GenreModel } from './genres';
+
 const queue = require('../queues/sse');
 const { normalize } = require('../services/normalizers/files');
 
 const hasRedis = !!process.env.REDIS_HOST;
 const { FILES } = queue.NAMES;
 
-module.exports = (sequelize, DataTypes) => {
-  const File = sequelize.define(
+export type FileAttributes = {
+  id: string;
+  torrentHash: string;
+  name: string;
+  basename: Nullable<string>;
+  directory: Nullable<string>;
+  extension: Nullable<string>;
+  bytesCompleted: string; // big int treated as string
+  length: string; // big int treated as string
+  priority: number;
+  position: number;
+  wanted: boolean;
+  hostId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  transcoded: Nullable<TranscodedElementType>;
+  transcodingStatus: Nullable<TranscodingStatusType>;
+  transcodingQueuedAt: Nullable<Date>;
+  transcodingFailedAt: Nullable<Date>;
+  transcodedAt: Nullable<Date>;
+  movieId: Nullable<number>;
+  tvId: Nullable<number>;
+  seasonNumber: Nullable<number>;
+  episodeNumber: Nullable<number>;
+};
+
+export type CreateFileAttributes = FileAttributes & {
+  id: Nullable<string>;
+  priority: Nullable<number>;
+  bytesCompleted: Nullable<string>;
+  position: Nullable<string>;
+  wanted: Nullable<boolean>;
+  hostId: Nullable<number>;
+  createdAt: Nullable<Date>;
+  updatedAt: Nullable<Date>;
+};
+
+export interface FileModel extends Model<FileAttributes>, FileAttributes {}
+export class File extends Model<FileModel, FileAttributes> {}
+
+export type FileStatic = ModelStaticType<GenreModel>;
+
+const createFile = (sequelize: Sequelize): FileStatic => {
+  const FileStaticInstance = <FileStatic>sequelize.define(
     'File',
     {
       id: {
@@ -159,7 +206,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       hooks: {
         // dispatch events to bullmq
-        afterCreate: async instance => {
+        afterCreate: async (instance: FileModel) => {
           if (!hasRedis) {
             return;
           }
@@ -169,7 +216,7 @@ module.exports = (sequelize, DataTypes) => {
             ...normalize(instance.dataValues, host),
           });
         },
-        afterUpdate: async (instance, { fields }) => {
+        afterUpdate: async (instance: FileModel, { fields }) => {
           if (!hasRedis) {
             return;
           }
@@ -184,33 +231,33 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  File.associate = models => {
+  FileStaticInstance.associate = models => {
     delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
 
     const { Torrent, Host, Movie, Tv } = models;
 
-    File.belongsTo(Torrent, {
+    FileStaticInstance.belongsTo(Torrent, {
       as: 'torrent',
       foreignKey: 'torrentHash',
       onDelete: 'SET NULL', // file suppression is handled by message broker
       onUpdate: 'NO ACTION',
     });
 
-    File.belongsTo(Host, {
+    FileStaticInstance.belongsTo(Host, {
       as: 'host',
       foreignKey: 'hostId',
       onDelete: 'CASCADE',
       onUpdate: 'NO ACTION',
     });
 
-    File.belongsTo(Movie, {
+    FileStaticInstance.belongsTo(Movie, {
       as: 'movie',
       foreignKey: 'movieId',
       onDelete: 'SET NULL',
       onUpdate: 'NO ACTION',
     });
 
-    File.belongsTo(Tv, {
+    FileStaticInstance.belongsTo(Tv, {
       as: 'tv',
       foreignKey: 'tvId',
       onDelete: 'SET NULL',
@@ -218,9 +265,11 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  File.prototype.isComplete = function() {
+  FileStaticInstance.prototype.isComplete = function isComplete() {
     return this.bytesCompleted >= this.length;
   };
 
-  return File;
+  return FileStaticInstance;
 };
+
+export default createFile;

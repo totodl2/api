@@ -3,3 +3,4 @@ Dockerfile
 .pgen
 .directory
 tmdb_data_sample
+dist

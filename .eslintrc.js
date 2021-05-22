@@ -12,7 +12,6 @@ const defaultRules = {
   'no-console': [isProd ? 'error' : 'warn', { allow: ['warn', 'error'] }],
   'no-debugger': isProd ? 'error' : 'warn',
   'no-plusplus': 0,
-  'no-unused-vars': isProd ? 'error' : 'warn',
   'no-use-before-define': 0,
   'prefer-template': 2,
   'prettier/prettier': 'error',
@@ -35,6 +34,8 @@ module.exports = {
       ],
       rules: {
         ...defaultRules,
+        'no-shadow': 0,
+        'no-unused-vars': 0,
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/explicit-member-accessibility': 0,
         '@typescript-eslint/member-delimiter-style': 0,
@@ -71,7 +72,10 @@ module.exports = {
         es6: true,
       },
       plugins: ['prettier'],
-      rules: defaultRules,
+      rules: {
+        ...defaultRules,
+        'no-unused-vars': isProd ? 'error' : 'warn',
+      },
       settings: {
         'import/resolver': {
           node: {

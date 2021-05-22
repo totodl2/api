@@ -1,5 +1,5 @@
 const createApi = require('./createApi');
-const defaultEndpoints = require('./transcoder.json');
+const defaultEndpoints = require('./transcoderEndpoints');
 
 module.exports = (apiKey, baseURL) =>
   createApi({

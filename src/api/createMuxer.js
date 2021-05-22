@@ -1,5 +1,5 @@
 const createApi = require('./createApi');
-const defaultEndpoints = require('./muxer.json');
+const defaultEndpoints = require('./muxerEndpoints');
 
 module.exports = (apiKey, baseURL) =>
   createApi({

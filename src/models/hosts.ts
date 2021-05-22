@@ -1,7 +1,25 @@
-/* eslint new-cap: "off", global-require: "off", no-unused-vars: "off" */
+import { Model, Sequelize, DataTypes } from 'sequelize';
+import { ModelStaticType, Nullable } from './types';
 
-module.exports = (sequelize, DataTypes) => {
-  const Host = sequelize.define(
+export type GenreAttributes = {
+  id: number;
+  name: Nullable<string>;
+  transmissionServiceUrl: Nullable<string>;
+  cdnUrl: Nullable<string>;
+  cdnSecret: Nullable<string>;
+  spaceAvailable: Nullable<string>; // big int treated as string
+  spaceReserved: Nullable<string>; // big int treated as string
+  unavailabilityDetectedAt: Nullable<Date>;
+  lastUploadAt: Nullable<Date>;
+};
+
+export interface HostModel extends Model<GenreAttributes>, GenreAttributes {}
+export class Host extends Model<HostModel, GenreAttributes> {}
+
+export type HostStatic = ModelStaticType<HostModel>;
+
+const createHost = (sequelize: Sequelize): HostStatic => {
+  const HostStaticInstance = <HostStatic>sequelize.define(
     'Host',
     {
       id: {
@@ -61,20 +79,17 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Host.associate = models => {
-    delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
-
-    const { Torrent } = models;
+  HostStaticInstance.associate = models => {
     const { File } = models;
 
-    Host.hasMany(Torrent, {
+    HostStaticInstance.hasMany(models.Torrent, {
       as: 'TorrentsHostidFkeys',
       foreignKey: 'hostId',
       onDelete: 'CASCADE',
       onUpdate: 'NO ACTION',
     });
 
-    Host.hasMany(File, {
+    HostStaticInstance.hasMany(File, {
       as: 'FilesHostidFkeys',
       foreignKey: 'hostId',
       onDelete: 'CASCADE',
@@ -82,5 +97,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  return Host;
+  return HostStaticInstance;
 };
+
+export default createHost;

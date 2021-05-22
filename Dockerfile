@@ -1,4 +1,17 @@
-FROM node:10.11
+FROM node:10.11 as build-stage
+
+ARG VERSION
+ENV NODE_ENV development
+ENV VERSION=$VERSION
+ENV PORT 3000
+
+COPY --chown=node:node "." "/home/node/server"
+
+USER node
+WORKDIR /home/node/server
+RUN npm i && npm run build && ls -lah
+
+FROM node:10.11 as prod-stage
 
 ARG VERSION
 ENV NODE_ENV production
@@ -12,14 +25,15 @@ RUN apt-get update && \
     apt-get install -y --force-yes python3-pip && \
     pip3 install guessit locales
 
-COPY --chown=node:node "." "/home/node/server"
-
+RUN mkdir -p "/home/node/server" && chown -R node. "/home/node/server"
 USER node
 WORKDIR /home/node/server
 
-RUN touch .env && \
-    npm i
+COPY --chown=node:node --from=build-stage "/home/node/server/dist" "./dist"
+COPY --chown=node:node --from=build-stage "/home/node/server/package*" "./"
 
-ENTRYPOINT [ "node", "./run.js" ]
+RUN ls -lah && touch .env && npm i
+
+ENTRYPOINT [ "node", "./dist/run.js" ]
 
 CMD [ "server" ]

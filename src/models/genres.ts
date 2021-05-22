@@ -1,5 +1,18 @@
-module.exports = (sequelize, DataTypes) => {
-  const Genre = sequelize.define(
+import { Model, Sequelize, DataTypes } from 'sequelize';
+import { ModelStaticType } from './types';
+
+export type GenreAttributes = {
+  id: number;
+  name: string;
+};
+
+export interface GenreModel extends Model<GenreAttributes>, GenreAttributes {}
+export class Genre extends Model<GenreModel, GenreAttributes> {}
+
+export type GenreStatic = ModelStaticType<GenreModel>;
+
+const createGenre = (sequelize: Sequelize): GenreStatic => {
+  const GenreStaticInstance = <GenreStatic>sequelize.define(
     'Genre',
     {
       id: {
@@ -18,11 +31,10 @@ module.exports = (sequelize, DataTypes) => {
       schema: process.env.DATABASE_DIALECT === 'postgres' ? 'public' : '',
       tableName: 'Genres',
       timestamps: false,
-      classMethods: {},
     },
   );
 
-  Genre.associate = models => {
+  GenreStaticInstance.associate = models => {
     delete module.exports.initRelations; // Destroy itself to prevent repeated calls.
 
     // associations can be defined here
@@ -45,5 +57,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  return Genre;
+  return GenreStaticInstance;
 };
+
+export default createGenre;

@@ -1,6 +1,6 @@
 import util from 'util';
 import redis from 'redis';
-import Sentry from '@sentry/node';
+import { captureException } from '@sentry/node';
 
 const client = redis.createClient({
   host: process.env.REDIS_HOST,
@@ -12,7 +12,7 @@ const client = redis.createClient({
 
 client.on('error', err => {
   console.log('Error ', err); // eslint-disable-line
-  Sentry.captureException(err);
+  captureException(err);
   process.exit(1);
 });
 
