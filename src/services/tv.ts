@@ -163,5 +163,4 @@ const TvService = {
   },
 };
 
-module.exports = TvService; // @todo : remove me
 export default TvService;

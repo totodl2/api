@@ -18,4 +18,3 @@ const hostsMonitorWorker = async () => {
 };
 
 export default hostsMonitorWorker;
-module.exports = hostsMonitorWorker; // @todo remove me

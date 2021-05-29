@@ -12,12 +12,11 @@ import { HostInstance } from './hosts';
 import { MovieInstance } from './movies';
 import { TorrentInstance } from './torrents';
 import { TvInstance } from './tv';
-
-const queue = require('../queues/sse');
-const { normalize } = require('../services/normalizers/files');
+import queue, { Types } from '../queues/sse';
+import { normalize } from '../services/normalizers/files';
 
 const hasRedis = !!process.env.REDIS_HOST;
-const { FILES } = queue.NAMES;
+const { FILES } = Types;
 
 export type FileAttributes = {
   id: string;

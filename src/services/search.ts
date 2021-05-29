@@ -280,15 +280,6 @@ const SearchService = {
   deleteTvShow,
   deleteMovie,
   search,
-  /**
-   * @deprecated use import { ResultTypes }
-   */
-  TYPES: ResultTypes,
-  /**
-   * @todo: remove me once module.exports is removed
-   */
-  ResultTypes,
 };
 
-module.exports = SearchService; // @todo: remove me
 export default SearchService;

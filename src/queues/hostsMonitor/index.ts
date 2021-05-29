@@ -1,18 +1,11 @@
 import Queue from 'bull';
+import redisConf from '../../redis.conf';
 
 const queueInstance = new Queue('hostsMonitor', {
-  redis: {
-    host: process.env.REDIS_HOST!,
-    port: parseInt(process.env.REDIS_PORT!, 10),
-    password: process.env.REDIS_PASSWORD,
-  },
+  redis: redisConf,
   defaultJobOptions: {
     removeOnComplete: 500,
   },
 });
 
-/**
- * @todo : remove me
- */
-module.exports = queueInstance;
 export default queueInstance;

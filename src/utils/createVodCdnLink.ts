@@ -66,4 +66,3 @@ const createVodCdnLink = {
 };
 
 export default createVodCdnLink;
-module.exports = createVodCdnLink; // @todo remove me

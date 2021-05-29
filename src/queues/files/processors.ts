@@ -139,8 +139,4 @@ const processor = async (job: Job<BaseFileMessage>) => {
   }
 };
 
-/**
- * @todo: remove me
- */
-module.exports = processor;
 export default processor;

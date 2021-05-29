@@ -35,4 +35,3 @@ const JwtService = {
 };
 
 export default JwtService;
-module.exports = JwtService; // @todo: remove me

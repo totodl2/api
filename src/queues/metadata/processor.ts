@@ -55,8 +55,4 @@ const processor = async (job: Job) => {
   return 'Unknown command';
 };
 
-/**
- * @todo: remove me
- */
-module.exports = processor;
 export default processor;

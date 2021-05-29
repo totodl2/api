@@ -109,4 +109,3 @@ const FilesService = {
 };
 
 export default FilesService;
-module.exports = FilesService; // @todo : remove me

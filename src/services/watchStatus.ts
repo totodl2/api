@@ -87,5 +87,4 @@ const WatchStatusService = {
   },
 };
 
-module.exports = WatchStatusService; // @todo : remove me
 export default WatchStatusService;

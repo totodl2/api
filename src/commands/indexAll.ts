@@ -40,4 +40,3 @@ const indexAll = async () => {
 };
 
 export default indexAll;
-module.exports = indexAll; // @todo remove me

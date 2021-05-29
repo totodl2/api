@@ -57,4 +57,3 @@ const UserService = {
 };
 
 export default UserService;
-module.exports = UserService; // @todo : remove me

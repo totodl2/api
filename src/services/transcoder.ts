@@ -226,7 +226,4 @@ const TranscoderServiceInstance = new Transcoder(
     : null,
 );
 
-module.exports = TranscoderServiceInstance;
-module.exports.Transcoder = Transcoder;
-
 export default TranscoderServiceInstance;

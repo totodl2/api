@@ -32,5 +32,4 @@ const assignMovie = async (file: FileInstance, movieId: number) => {
   return `Movie "${movie.title}" assigned to "${file.basename}"`;
 };
 
-module.exports = assignMovie; // @todo: remove me
 export default assignMovie;

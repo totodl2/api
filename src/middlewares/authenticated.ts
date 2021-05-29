@@ -40,5 +40,4 @@ const createAuthenticatedMiddleware = ({
   return next();
 };
 
-module.exports = createAuthenticatedMiddleware; // @todo : remove me
 export default createAuthenticatedMiddleware;

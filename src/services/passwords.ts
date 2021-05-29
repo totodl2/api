@@ -6,5 +6,4 @@ const PasswordsService = {
     bcrypt.compare(password, hashedPassword),
 };
 
-module.exports = PasswordsService; // @todo: remove me
 export default PasswordsService;

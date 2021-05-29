@@ -55,6 +55,3 @@ export const normalizeShort = (movies: MovieAttributes | MovieAttributes[]) => {
   }
   return normalizeOneShort(movies);
 };
-
-module.exports = { normalize, normalizeShort }; // @todo remove me
-export default { normalize, normalizeShort };

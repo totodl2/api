@@ -25,5 +25,4 @@ const joi = (schema: Schema, dataPath = 'request.body') => async (
   );
 };
 
-module.exports = joi; // @todo remove me
 export default joi;

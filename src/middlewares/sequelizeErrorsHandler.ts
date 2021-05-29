@@ -23,5 +23,4 @@ const sequelizeErrorsHandler = async (ctx: Context, next: Next) => {
   }
 };
 
-module.exports = sequelizeErrorsHandler; // @todo : remove me
 export default sequelizeErrorsHandler;

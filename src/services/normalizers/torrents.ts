@@ -46,6 +46,3 @@ export const normalizeShort = (
   }
   return torrents.map(torrent => normalizeOneShort(torrent));
 };
-
-module.exports = { normalize, normalizeShort }; // @todo remove me
-export default { normalize, normalizeShort };

@@ -178,5 +178,4 @@ const createApi = <GivenEndpointsConfType extends EndpointsConfigurationType>({
   axiosDefault?: AxiosRequestConfig;
 }) => createTree(createFetcher(axiosDefault), endpoints);
 
-module.exports = createApi; // @todo remove me
 export default createApi;

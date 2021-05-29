@@ -19,4 +19,3 @@ const verifyMovie = async (movieId: number) => {
 };
 
 export default verifyMovie;
-module.exports = verifyMovie; // @todo: remove me

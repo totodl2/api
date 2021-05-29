@@ -45,4 +45,3 @@ const queueMetadata = async () => {
 };
 
 export default queueMetadata;
-module.exports = queueMetadata; // @todo remove me

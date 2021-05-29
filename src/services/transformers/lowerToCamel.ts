@@ -37,5 +37,4 @@ const lowerToCamel = <T = any>(data: T): AnyToCamelCase<T> => {
   return data as AnyToCamelCase<T>;
 };
 
-module.exports = lowerToCamel; // @todo: remove me
 export default lowerToCamel;

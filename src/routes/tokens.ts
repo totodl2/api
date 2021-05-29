@@ -33,5 +33,4 @@ router.post(
   },
 );
 
-module.exports = router; // @todo remove me
 export default router;

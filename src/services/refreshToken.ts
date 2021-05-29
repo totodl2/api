@@ -44,5 +44,4 @@ const RefreshTokenService = {
     }),
 };
 
-module.exports = RefreshTokenService; // @todo: remove me
 export default RefreshTokenService;

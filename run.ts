@@ -32,8 +32,9 @@ if (!fs.existsSync(commandFile)) {
 }
 
 /* eslint-disable-next-line */
-const command = require(commandFile);
-command().catch((e: any) => {
+const exported = require(commandFile);
+
+exported.default().catch((e: any) => {
   console.log(e); // eslint-disable-line
   process.exit(1);
 });

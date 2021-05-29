@@ -100,4 +100,3 @@ const TransmissionService = {
 };
 
 export default TransmissionService;
-module.exports = TransmissionService; // @todo remove me

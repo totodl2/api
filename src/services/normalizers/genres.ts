@@ -13,6 +13,3 @@ export const normalize = (genre: GenreAttributes | GenreAttributes[]) => {
   }
   return normalizeOne(genre);
 };
-
-module.exports = { normalize }; // @todo remove me
-export default { normalize };

@@ -43,5 +43,4 @@ const errorHandlerMiddleware = async (ctx: Context, next: Next) => {
   }
 };
 
-module.exports = errorHandlerMiddleware; // @todo: remove me
 export default errorHandlerMiddleware;

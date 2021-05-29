@@ -1,4 +1,5 @@
 import Queue from 'bull';
+import redisConf from '../../redis.conf';
 
 export const Types = {
   TORRENTS: {
@@ -19,11 +20,7 @@ export const Types = {
 };
 
 const queueInstance = new Queue('sse', {
-  redis: {
-    host: process.env.REDIS_HOST!,
-    port: parseInt(process.env.REDIS_PORT!, 10),
-    password: process.env.REDIS_PASSWORD,
-  },
+  redis: redisConf,
   defaultJobOptions: {
     attempts: 0,
     timeout: 100,
@@ -31,8 +28,5 @@ const queueInstance = new Queue('sse', {
     removeOnFail: 100,
   },
 });
-
-module.exports = queueInstance;
-module.exports.NAMES = Types; // @deprecated use import { Types }
 
 export default queueInstance;

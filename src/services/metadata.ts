@@ -13,9 +13,9 @@ import guessit from 'guessit-exec';
 import metadataQueue from '../queues/metadata/index';
 import { Types as MetadataQueueTypes } from '../queues/metadata/types';
 
-import redis from '../redis';
+import { get as redisGet, setex as redisSetex } from '../redis';
 import lowerToCamel from './transformers/lowerToCamel';
-import { FileAttributes, FileInstance } from '../models/files';
+import { FileInstance } from '../models/files';
 import {
   ConfigurationType,
   MovieType,
@@ -211,12 +211,14 @@ export class Metadata {
    * Get configuration
    */
   async getConfiguration() {
-    const values = await redis.get(CONFIGURATION_CACHE_KEY);
+    const values = ((await redisGet(CONFIGURATION_CACHE_KEY)) as unknown) as
+      | string
+      | null;
     if (!values) {
       const result = lowerToCamel(
         await this.tmdb.getConfiguration(),
       ) as ConfigurationType;
-      await redis.setex(
+      await redisSetex(
         CONFIGURATION_CACHE_KEY,
         CACHE_EXPIRATION,
         JSON.stringify(result),
@@ -227,18 +229,5 @@ export class Metadata {
   }
 }
 
-/**
- * @todo: remove me
- * @deprecated
- */
-Metadata.TYPES = {
-  MOVIE: 'movie',
-  EPISODE: 'episode',
-};
-
 const MetadataServiceInstance = new Metadata(!!process.env.TMDB_API_KEY);
-
-module.exports = MetadataServiceInstance; // @todo: remove me
-module.exports.Metadata = Metadata; // @todo: remove me
-module.exports.MetadataTypes = MetadataTypes; // @todo: remove me
 export default MetadataServiceInstance;

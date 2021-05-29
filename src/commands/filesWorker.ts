@@ -28,5 +28,4 @@ const filesWorker = () => {
   });
 };
 
-module.exports = filesWorker; // @todo remove me
 export default filesWorker;

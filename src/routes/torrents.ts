@@ -113,5 +113,4 @@ router.get('/', checkAuthenticated, async ctx => {
   );
 });
 
-module.exports = router; // @todo remove me
 export default router;

@@ -50,5 +50,4 @@ const analyzeFile = async ({ data: file }: AnalyzeFileMessage) => {
   return `Invalid media type ${mediaInfos.type}`;
 };
 
-module.exports = analyzeFile; // @todo: Remove me
 export default analyzeFile;

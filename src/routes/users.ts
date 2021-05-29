@@ -76,5 +76,4 @@ router.get('/me', authenticated({ fetchUser: true }), ctx => {
   ctx.body = normalizeUser(user.dataValues);
 });
 
-module.exports = router; // @todo remove me
 export default router;

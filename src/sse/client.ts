@@ -109,5 +109,4 @@ class Client extends stream.Transform {
   }
 }
 
-module.exports = Client; // @todo remove me
 export default Client;

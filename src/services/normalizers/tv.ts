@@ -104,5 +104,3 @@ export const normalizeShort = (tvList: TvAttributes | TvAttributes[]) => {
   return normalizeOneShort(tvList);
 };
 
-export default { normalize, normalizeShort };
-module.exports = { normalize, normalizeShort }; // @todo remove me

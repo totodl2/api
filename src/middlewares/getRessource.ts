@@ -15,5 +15,4 @@ const getRessource = (
   return next();
 };
 
-module.exports = getRessource; // @todo remove: me
 export default getRessource;

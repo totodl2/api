@@ -11,12 +11,3 @@ export const normalizeShort = ({ id, nickname }: UserAttributes) => ({
 });
 
 export const normalizeFull = ({ password, ...user }: UserAttributes) => user;
-
-const usersNormalizers = {
-  normalize,
-  normalizeShort,
-  normalizeFull,
-};
-
-module.exports = usersNormalizers; // @todo remove me
-export default usersNormalizers;

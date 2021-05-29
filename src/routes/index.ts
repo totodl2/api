@@ -37,5 +37,4 @@ router.use('/watch-status', watchStatus.routes());
 // search routes
 router.use('/search', search.routes());
 
-module.exports = router; // @todo : remove me
 export default router;

@@ -102,5 +102,4 @@ router.get('/', checkAuthenticated, getTorrentMiddleware, async ctx => {
   );
 });
 
-module.exports = router; // @todo remove me
 export default router;

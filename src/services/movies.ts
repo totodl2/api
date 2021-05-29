@@ -118,5 +118,4 @@ const MoviesService = {
   },
 };
 
-module.exports = MoviesService;
 export default MoviesService;

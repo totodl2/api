@@ -15,11 +15,10 @@ import { Model, ModelAssociateType } from './types';
 import { TorrentInstance } from './torrents';
 import { RefreshTokenInstance } from './refresh-tokens';
 import { WatchStatusInstance } from './watch-status';
-
-const queue = require('../queues/sse');
+import queue, { Types } from '../queues/sse';
 
 const hasRedis = !!process.env.REDIS_HOST;
-const { USERS } = queue.NAMES;
+const { USERS } = Types;
 const fieldsWatching = ['diskSpace', 'diskUsage'];
 
 export type UserAttributes = {
@@ -164,7 +163,7 @@ const createUserRepository = (sequelize: Sequelize) =>
           }
 
           queue.add(
-            USERS.UPDATED.replace('$id', instance.id),
+            USERS.UPDATED.replace('$id', instance.id.toString()),
             filteredFields.reduce(
               (prev, field) => ({
                 ...prev,

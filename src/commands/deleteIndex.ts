@@ -5,5 +5,4 @@ const deleteIndex = async () => {
   process.exit(0);
 };
 
-module.exports = deleteIndex; // @todo remove me
 export default deleteIndex;

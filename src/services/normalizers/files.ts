@@ -118,9 +118,3 @@ export const normalize = (
   }
   return files.map(file => normalizeOne(file, host));
 };
-
-module.exports = { normalize, createUrl }; // @todo remove me
-/**
- * @deprecated use import { normalize, createUrl } from 'xy';
- */
-export default { normalize, createUrl };

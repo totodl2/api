@@ -1,11 +1,7 @@
 import { Torrent } from '../models';
 import DuplicatedTorrent from '../errors/duplicatedTorrent';
 import { Roles, hasRole } from './roles';
-import {
-  CreateTorrentAttributes,
-  TorrentAttributes,
-  TorrentInstance,
-} from '../models/torrents';
+import { CreateTorrentAttributes, TorrentAttributes } from '../models/torrents';
 import { UserAttributes } from '../models/users';
 
 const TorrentsService = {
@@ -48,5 +44,4 @@ const TorrentsService = {
     (hasRole(user.roles, Roles.ROLE_ADMIN) || torrent.userId === user.id),
 };
 
-module.exports = TorrentsService; // @todo: remove me
 export default TorrentsService;

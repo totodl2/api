@@ -34,4 +34,3 @@ const createCdnLink = (
 };
 
 export default createCdnLink;
-module.exports = createCdnLink; // @todo: remove me

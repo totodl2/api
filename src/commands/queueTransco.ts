@@ -44,4 +44,3 @@ const queueTransco = async () => {
 };
 
 export default queueTransco;
-module.exports = queueTransco; // @todo remove me

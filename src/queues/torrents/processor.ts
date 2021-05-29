@@ -118,8 +118,4 @@ const processor = async (job: Job<BaseTorrentMessage>) => {
   }
 };
 
-/**
- * @todo: remove me
- */
-module.exports = processor;
 export default processor;

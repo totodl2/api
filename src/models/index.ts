@@ -91,4 +91,3 @@ const out = {
 };
 
 export default out;
-module.exports = out; // @todo: remove me

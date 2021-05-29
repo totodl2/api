@@ -61,4 +61,3 @@ const GenresService = {
 };
 
 export default GenresService;
-module.exports = GenresService; // @todo : remove me

@@ -5,5 +5,4 @@ const migrate = async () => {
   process.exit(0);
 };
 
-module.exports = migrate; // @todo remove me
 export default migrate;

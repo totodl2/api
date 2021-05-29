@@ -74,5 +74,4 @@ class HttpError extends Error {
   }
 }
 
-module.exports = HttpError; // @todo remove me
 export default HttpError;

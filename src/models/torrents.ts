@@ -16,12 +16,11 @@ import { Model, ModelAssociateType, Nullable } from './types';
 import { HostInstance } from './hosts';
 import { FileInstance } from './files';
 import { UserInstance } from './users';
-
-const queue = require('../queues/sse');
-const { normalize } = require('../services/normalizers/torrents');
+import queue, { Types } from '../queues/sse';
+import { normalize } from '../services/normalizers/torrents';
 
 const hasRedis = !!process.env.REDIS_HOST;
-const { TORRENTS } = queue.NAMES;
+const { TORRENTS } = Types;
 
 export enum TorrentStatus {
   STOPPED = 0,

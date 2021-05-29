@@ -28,5 +28,4 @@ const torrentsWorker = () => {
   });
 };
 
-module.exports = torrentsWorker; // @todo remove me
 export default torrentsWorker;

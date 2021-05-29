@@ -5,5 +5,4 @@ const createIndex = async () => {
   process.exit(0);
 };
 
-module.exports = createIndex; // @todo remove me
 export default createIndex;

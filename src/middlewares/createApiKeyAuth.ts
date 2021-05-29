@@ -19,5 +19,4 @@ const createApiKeyAuth = (keys: string[]) => (ctx: Context, next: Next) => {
   return next();
 };
 
-module.exports = createApiKeyAuth; // @todo : remove me
 export default createApiKeyAuth;

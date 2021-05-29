@@ -1,4 +1,4 @@
-import User from './users';
+import { normalize, normalizeShort, normalizeFull } from './users';
 import { UserAttributes } from '../../models/users';
 
 const testUser = {
@@ -15,11 +15,11 @@ const testUser = {
 describe('User normalizer', () => {
   it('Normalize should remove email and password field', () => {
     const { email, password, ...expectedUser } = testUser;
-    expect(User.normalize(testUser)).toEqual(expectedUser);
+    expect(normalize(testUser)).toEqual(expectedUser);
   });
 
   it('NormalizeShort should only retreive id and nickname', () => {
-    expect(User.normalizeShort(testUser)).toEqual({
+    expect(normalizeShort(testUser)).toEqual({
       id: testUser.id,
       nickname: testUser.nickname,
     });
@@ -27,6 +27,6 @@ describe('User normalizer', () => {
 
   it('NormalizeFull should remove password field only', () => {
     const { password, ...expectedUser } = testUser;
-    expect(User.normalizeFull(testUser)).toEqual(expectedUser);
+    expect(normalizeFull(testUser)).toEqual(expectedUser);
   });
 });

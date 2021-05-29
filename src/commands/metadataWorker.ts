@@ -29,4 +29,3 @@ const metadataWorker = () => {
 };
 
 export default metadataWorker;
-module.exports = metadataWorker; // @todo remove me

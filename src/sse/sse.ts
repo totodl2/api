@@ -24,5 +24,4 @@ const createSSE = ({ pingInterval = 5000 } = {}) => {
   };
 };
 
-module.exports = createSSE; // @todo remove me
 export default createSSE;

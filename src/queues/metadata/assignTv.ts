@@ -52,5 +52,4 @@ const assignTv = async (
   return `Tv "${tv.name}" assigned to "${file.basename}"`;
 };
 
-module.exports = assignTv; // @todo : remove me
 export default assignTv;

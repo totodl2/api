@@ -78,4 +78,3 @@ const HostsService = {
 };
 
 export default HostsService;
-module.exports = HostsService; // @todo: remove me

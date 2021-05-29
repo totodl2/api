@@ -18,4 +18,3 @@ const runServer = async () => {
 };
 
 export default runServer;
-module.exports = runServer; // @todo remove me

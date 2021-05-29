@@ -14,5 +14,3 @@ export const normalize = ({
   ...status
 }: WatchStatusAttributes): NormalizedWatchStatus => status;
 
-module.exports = { normalize }; // @todo remove me
-export default { normalize };

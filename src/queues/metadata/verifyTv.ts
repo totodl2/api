@@ -20,4 +20,3 @@ const verifyTv = async (tvId: number) => {
 };
 
 export default verifyTv;
-module.exports = verifyTv; // @todo : remove me
