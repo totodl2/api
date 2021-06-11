@@ -15,7 +15,6 @@ const defaultRules = {
   'no-use-before-define': 0,
   'prefer-template': 2,
   'prettier/prettier': 'error',
-  'react/destructuring-assignment': 0,
   'require-yield': 0,
   'no-await-in-loop': 0,
 };
@@ -36,8 +35,8 @@ module.exports = {
         ...defaultRules,
         'no-shadow': 0,
         'no-unused-vars': 0,
-        'require-atomic-updates': 0,
-        '@typescript-eslint/explicit-function-return-type': 0,
+        'import/prefer-default-export': 0,
+        '@typescript-eslint/explicit-module-boundary-types': 0,
         '@typescript-eslint/explicit-member-accessibility': 0,
         '@typescript-eslint/member-delimiter-style': 0,
         '@typescript-eslint/no-explicit-any': 0,
@@ -52,10 +51,6 @@ module.exports = {
         '@typescript-eslint/no-use-before-define': 0,
         '@typescript-eslint/no-non-null-assertion': 0,
       },
-      // parserOptions: {
-      //   ecmaVersion: 2018,
-      //   sourceType: 'module',
-      // },
       settings: {
         'import/resolver': {
           node: {

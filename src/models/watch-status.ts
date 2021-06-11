@@ -1,12 +1,10 @@
 import {
   Sequelize,
   DataTypes,
-  Optional,
   HasOneGetAssociationMixin,
   HasOneSetAssociationMixin,
 } from 'sequelize';
 import { Model, ModelAssociateType, Nullable } from './types';
-import { TorrentInstance } from './torrents';
 import { UserInstance } from './users';
 import { FileInstance } from './files';
 import { Defined } from '../types/TypesHelper';

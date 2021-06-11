@@ -13,7 +13,6 @@ import { Model, ModelAssociateType, Nullable } from './types';
 import { TvType } from '../types/MetadataTypes';
 import { GenreInstance } from './genres';
 import { FileInstance } from './files';
-import { MovieAttributes } from './movies';
 
 export type TvAttributes = {
   id: number;

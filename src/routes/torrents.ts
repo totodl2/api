@@ -1,3 +1,5 @@
+/* eslint require-atomic-updates: 0 */
+
 import Router from 'koa-router';
 import koaBody from 'koa-body';
 import Joi from '@hapi/joi';

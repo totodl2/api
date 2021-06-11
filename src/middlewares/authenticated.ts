@@ -34,6 +34,7 @@ const createAuthenticatedMiddleware = ({
   }
 
   if (fetchUser) {
+    // eslint-disable-next-line require-atomic-updates
     ctx.state.user = await User.getById(ctx.state.jwt.id);
   }
 

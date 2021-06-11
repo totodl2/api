@@ -1,5 +1,5 @@
-import HttpError from '../errors/httpError';
 import { Context, Next } from 'koa';
+import HttpError from '../errors/httpError';
 
 const sequelizeErrorsHandler = async (ctx: Context, next: Next) => {
   try {

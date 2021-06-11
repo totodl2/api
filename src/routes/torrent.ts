@@ -1,3 +1,5 @@
+/* eslint require-atomic-updates: 0 */
+
 import Router from 'koa-router';
 import { Context, Next } from 'koa';
 

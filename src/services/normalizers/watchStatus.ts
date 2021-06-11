@@ -13,4 +13,3 @@ export const normalize = ({
   fileId,
   ...status
 }: WatchStatusAttributes): NormalizedWatchStatus => status;
-

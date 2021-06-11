@@ -7,7 +7,6 @@ import {
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
   HasManyRemoveAssociationMixin,
-  Optional,
   HasManySetAssociationsMixin,
 } from 'sequelize';
 import { Model, ModelAssociateType, Nullable } from './types';

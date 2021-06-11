@@ -10,6 +10,8 @@ const getRessource = (
   if (!entity) {
     throw new HttpError(404, 'Entity not found');
   }
+
+  // eslint-disable-next-line require-atomic-updates
   ctx.state.entity = entity;
 
   return next();

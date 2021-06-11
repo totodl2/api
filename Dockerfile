@@ -28,7 +28,7 @@ USER node
 WORKDIR /home/node/server
 
 COPY --chown=node:node --from=build-stage "/home/node/server/dist" "./dist"
-COPY --chown=node:node --from=build-stage "/home/node/server/package*" "./"
+COPY --chown=node:node "." "/home/node/server"
 
 RUN touch .env && npm i --only=prod
 

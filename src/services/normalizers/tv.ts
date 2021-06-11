@@ -103,4 +103,3 @@ export const normalizeShort = (tvList: TvAttributes | TvAttributes[]) => {
   }
   return normalizeOneShort(tvList);
 };
-
