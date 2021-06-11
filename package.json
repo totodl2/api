@@ -92,7 +92,7 @@
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
     "meilisearch": "^0.18.2",
-    "pg": "^7.12.1",
+    "pg": "^8.6.0",
     "pg-hstore": "^2.3.3",
     "redis": "^2.8.0",
     "sequelize": "^6.6.2",
