@@ -1,5 +1,5 @@
-import { Torrent } from '../models';
 import { create as createXml } from 'xmlbuilder2';
+import { Torrent } from '../models';
 import DuplicatedTorrent from '../errors/duplicatedTorrent';
 import { Roles, hasRole } from './roles';
 import {
