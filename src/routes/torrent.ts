@@ -118,7 +118,7 @@ router.get('/metalink', checkAuthenticated, getTorrentMiddleware, async ctx => {
     ctx.res.setHeader(
       'content-disposition',
       `attachment; filename="${(torrent.name || '').replace(
-        /[^a-zA-Z-]/gim,
+        /[^a-zA-Z0-9-]/gim,
         '_',
       )}.meta4"`,
     );
