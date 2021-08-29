@@ -167,7 +167,10 @@ const createUserRepository = (sequelize: Sequelize) =>
             filteredFields.reduce(
               (prev, field) => ({
                 ...prev,
-                [field]: instance.dataValues[field],
+                changes: {
+                  ...prev.changes,
+                  [field]: instance.dataValues[field],
+                },
               }),
               {
                 id: instance.id,

@@ -299,7 +299,10 @@ const createTorrentRepository = (sequelize: Sequelize) =>
                   fieldName,
                 ) => ({
                   ...prev,
-                  [fieldName]: instance.dataValues[fieldName],
+                  changes: {
+                    ...prev.changes,
+                    [fieldName]: instance.dataValues[fieldName],
+                  },
                 }),
                 {
                   hash: instance.hash,
