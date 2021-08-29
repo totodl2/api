@@ -98,6 +98,7 @@
     "sequelize": "^6.6.2",
     "tmdb-graphql": "^2.0.0",
     "umzug": "^2.2.0",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "xmlbuilder2": "^3.0.2"
   }
 }

@@ -104,4 +104,28 @@ router.get('/', checkAuthenticated, getTorrentMiddleware, async ctx => {
   );
 });
 
+router.get('/metalink', checkAuthenticated, getTorrentMiddleware, async ctx => {
+  const { entity: torrent } = ctx.state as { entity: TorrentInstance };
+  if (
+    torrent.leftUntilDone === null ||
+    torrent.leftUntilDone === undefined ||
+    torrent.leftUntilDone > 0
+  ) {
+    throw new HttpError(404);
+  }
+  try {
+    ctx.res.setHeader('content-type', 'application/metalink4+xml');
+    ctx.res.setHeader(
+      'content-disposition',
+      `attachment; filename="${(torrent.name || '').replace(
+        /[^a-zA-Z-]/gim,
+        '_',
+      )}.meta4"`,
+    );
+    ctx.body = await TorrentsService.createMetaLink(torrent);
+  } catch (e) {
+    ctx.body = e;
+  }
+});
+
 export default router;
