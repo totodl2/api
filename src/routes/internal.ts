@@ -77,7 +77,7 @@ router.post(
     }
 
     if (status === 'progress') {
-      const transcodingStatus = file.transcodingStatus || {};
+      const transcodingStatus = { ...(file.transcodingStatus || {}) };
       set(transcodingStatus, [name, 'progress'], progress);
       set(transcodingStatus, [name, 'job'], job);
       await file.update({ transcodingStatus });
