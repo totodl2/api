@@ -3,6 +3,7 @@
 import Router from 'koa-router';
 import Joi from '@hapi/joi';
 import set from 'lodash.set';
+import cloneDeep from 'lodash.clonedeep';
 
 import createApiKeyAuth from '../middlewares/createApiKeyAuth';
 import joi from '../middlewares/joi';
@@ -77,7 +78,7 @@ router.post(
     }
 
     if (status === 'progress') {
-      const transcodingStatus = { ...(file.transcodingStatus || {}) };
+      const transcodingStatus = cloneDeep(file.transcodingStatus || {});
       set(transcodingStatus, [name, 'progress'], progress);
       set(transcodingStatus, [name, 'job'], job);
       await file.update({ transcodingStatus });
